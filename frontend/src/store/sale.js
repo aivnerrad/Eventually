@@ -68,6 +68,7 @@ export const create = (sale) => async (dispatch) => {
     }),
   });
   const data = await response.json();
+  console.log("data ----->", data)
   dispatch(createSale(data));
   return response;
 };
@@ -88,9 +89,12 @@ const salesReducer = (state = initialState, action) => {
     case GET_SALES:
       newState = action.payload;
       return newState;
+    case CREATE_SALE:
+      newState = action.payload;
+      return newState;
     case REMOVE_SALE:
       newState = Object.assign({}, state);
-      newState.user = null;
+      newState.sales[action.payload] = null;
       return newState;
     default:
       return state;

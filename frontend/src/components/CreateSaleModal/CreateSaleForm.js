@@ -27,8 +27,13 @@ function CreateSaleForm() {
 
   if (!sessionUser) return <Redirect to="/" />;
 
+  const validateCreateSale = [
+
+  ]
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors([]) // <--- idk why I would need this? default state is set to an empty array.
     setHostId(sessionUser.id)
     return dispatch(saleActions.create({
       hostId,
@@ -40,7 +45,7 @@ function CreateSaleForm() {
      }))
      .catch(
         async (res) => {
-        const data = await res.json();
+        const data = await res;
         console.log("data ----->", data)
         if (data && data.errors) setErrors(data.errors);
       })
@@ -64,13 +69,13 @@ function CreateSaleForm() {
       <label>
         Neighborhood
         <select value={neighborhoodId} onChange={(e) => setNeighborhoodId(e.target.value)}>
-          {allNeighborhoods.map(neighborhood => <option value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
+          {allNeighborhoods.map(neighborhood => <option key={neighborhood.id} value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
         </select>
       </label>
       <label>
         Category
         <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-          {allCategories.map(category => <option value={category.id}>{category.name}</option>)}
+          {allCategories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
         </select>
       </label>
       <label>
