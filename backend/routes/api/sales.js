@@ -1,8 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 
-const { Sale } = require('../../db/models');
-const { Neighborhood } = require('../../db/models')
+const { Sale, Neighborhood, Category } = require('../../db/models');
 
 const router = express.Router();
 
@@ -11,11 +10,13 @@ router.get(
   '/',
   asyncHandler(async (req, res) => {
     const allNeighborhoods =  await Neighborhood.findAll();
+    const allCategories = await Category.findAll();
     const sales = await Sale.findAll();
     if(sales)
       return res.json({
       sales,
-      allNeighborhoods
+      allNeighborhoods,
+      allCategories
       });
   }),
 );
