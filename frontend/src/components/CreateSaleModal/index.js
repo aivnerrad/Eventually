@@ -6,14 +6,14 @@ function CreateSaleModal() {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <>
+    <div id="why">
       <button onClick={() => setShowModal(true)}>Create a Sale!</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <CreateSaleForm />
         </Modal>
       )}
-    </>
+    </div>
   );
 }
 
