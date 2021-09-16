@@ -1,0 +1,12 @@
+#nav-link {
+  text-decoration: none;
+  color: green;
+}
+
+#navigation-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
