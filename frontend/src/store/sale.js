@@ -41,11 +41,9 @@ const removeSale = () => {
 };
 
 export const getAllSales = () => async dispatch => {
-  debugger;
   const response = await csrfFetch('/api/sales');
   const data = await response.json();
-  console.log("data-----> ", data)
-  debugger;
+  console.log("getAllSales data ------>", data)
   dispatch(getSales(data));
   return response;
 };
@@ -57,6 +55,7 @@ export const create = (sale) => async (dispatch) => {
     title,
     date,
     imageUrl  } = sale;
+
   const response = await csrfFetch("/api/sales", {
     method: "POST",
     body: JSON.stringify({
@@ -87,8 +86,7 @@ const salesReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case GET_SALES:
-      newState = Object.assign({}, state);
-      newState.sales = action.payload;
+      newState = action.payload;
       return newState;
     case REMOVE_SALE:
       newState = Object.assign({}, state);

@@ -2,6 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 
 const { Sale } = require('../../db/models');
+const { Neighborhood } = require('../../db/models')
 
 const router = express.Router();
 
@@ -9,10 +10,12 @@ const router = express.Router();
 router.get(
   '/',
   asyncHandler(async (req, res) => {
+    const allNeighborhoods =  await Neighborhood.findAll();
     const sales = await Sale.findAll();
     if(sales)
       return res.json({
       sales,
+      allNeighborhoods
       });
   }),
 );
@@ -23,7 +26,6 @@ router.get(
   asyncHandler(async (req, res) => {
     const id = req.params.id
     const sale = await Sale.findByPk(id);
-    console.log("Sale ---->" , sale)
     if(sale)
       return res.json({
       sale,
@@ -64,7 +66,7 @@ router.put(
       title,
       date,
       imageUrl } = req.body;
-    const sale = await Sale.save({ hostId,
+    const sale = await Sale.update({ hostId,
       categoryId,
       neighborhoodId,
       title,

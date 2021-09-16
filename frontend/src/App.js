@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import SignupFormPage from "./components/SignupFormPage/SignupFormPage";
 import * as sessionActions from "./store/session";
+import * as saleActions from "./store/sale"
 import Navigation from "./components/Navigation/Navigation";
 
 function App() {
@@ -11,6 +12,9 @@ function App() {
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(saleActions.getAllSales())
+  }, [dispatch])
 
   return (
     <>

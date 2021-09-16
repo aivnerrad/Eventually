@@ -7,5 +7,6 @@ module.exports = (sequelize, DataTypes) => {
   Neighborhood.associate = function(models) {
     // associations can be defined here
   };
+
   return Neighborhood;
 };
