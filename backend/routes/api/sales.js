@@ -27,6 +27,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const id = req.params.id
     const sale = await Sale.findByPk(id);
+    console.log("Sale Route Hit ----->", sale)
     if(sale)
       return res.json({
       sale,
