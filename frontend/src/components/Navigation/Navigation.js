@@ -7,6 +7,7 @@ import Logo from "../Logo/Logo"
 import './Navigation.css';
 import SignupFormModal from '../SignupFormPage';
 import CreateSaleModal from '../CreateSaleModal';
+import SearchBar from "./SearchBar"
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
@@ -33,6 +34,7 @@ function Navigation({ isLoaded }){
       <NavLink id="nav-link" exact to="/">
         <Logo />
       </NavLink>
+      <SearchBar />
       {isLoaded && sessionLinks}
     </div>
 

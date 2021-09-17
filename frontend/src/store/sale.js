@@ -23,14 +23,14 @@ const getOneSale = (sale) => {
 const createSale = (sale) => {
   return {
     type: CREATE_SALE,
-    payload: sale
+    sale
   };
 };
 
 const updateSale = (sale) => {
   return {
     type: UPDATE_SALE,
-    payload: sale,
+    payload: sale
   };
 };
 
@@ -78,8 +78,8 @@ export const create = (sale) => async (dispatch) => {
     }),
   });
   const data = await response.json();
-  console.log("data ----->", data)
-  dispatch(createSale(data));
+  console.log("data ----->", data.sale)
+  dispatch(createSale(data.sale));
   return response;
 };
 
@@ -104,10 +104,10 @@ const salesReducer = (state = initialState, action) => {
       console.log("GET_ONE_SALE newState ------>", newState)
       return newState;
     case CREATE_SALE:
-      const newSale = action.payload
+      const newSale = action.sale
       const sales = state.sales
-      console.log("sales ------>", sales)
       sales.push(newSale)
+      console.log("sales ------>", sales)
       newState = {
         ...state,
         sales

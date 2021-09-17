@@ -12,11 +12,11 @@ export default function SalesList(){
   const allSales = salesObject.sales;
 
   return (
-    <ul id="sales-list">
+    <div id="sales-list">
       {allSales.map(sale => (
         <NavLink to={`/api/sales/${sale.id}`}>
-          <li key={sale.id} id="sale">{sale.title}</li>
+          <div key={sale.id} id="sale">{sale.title}</div>
         </NavLink>))}
-    </ul>
+    </div>
   )
 }
