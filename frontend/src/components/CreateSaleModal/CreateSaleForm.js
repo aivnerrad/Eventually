@@ -5,18 +5,12 @@ import { Redirect } from "react-router";
 import Logo from "../Logo/Logo";
 import "./CreateSaleForm.css";
 
-function CreateSaleForm() {
+function CreateSaleForm({ setShowModal }) {
   const dispatch = useDispatch();
   const salesObject = useSelector((state) => state.sales);
   const sessionUser = useSelector((state) => state.session.user)
-  //const allSales = salesObject.sales;
   const allNeighborhoods = salesObject.allNeighborhoods;
   const allCategories = salesObject.allCategories;
-  // console.log("sessionUser ------>", sessionUser)
-  // console.log("salesObject ----->", salesObject)
-  // console.log("allSales ----->", allSales)
-  // console.log("allNeighborhoods ----->", allNeighborhoods)
-  // console.log("allCategories -----> ", allCategories)
   const [hostId, setHostId] = useState(sessionUser.id)
   const [categoryId, setCategoryId] = useState(1)
   const [neighborhoodId, setNeighborhoodId] = useState(1)
@@ -35,6 +29,7 @@ function CreateSaleForm() {
     e.preventDefault();
     setErrors([]) // <--- idk why I would need this? default state is set to an empty array.
     setHostId(sessionUser.id)
+    setShowModal(false)
     return dispatch(saleActions.create({
       hostId,
       categoryId,

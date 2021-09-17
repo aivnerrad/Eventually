@@ -15,7 +15,11 @@ export default function SalesList(){
     <div id="sales-list">
       {allSales.map(sale => (
         <NavLink to={`/api/sales/${sale.id}`}>
-          <div key={sale.id} id="sale">{sale.title}</div>
+          <div key={sale.id} id="sale">
+            <p>{sale.title}</p>
+            <p> {sale.date.split("T")[0]}</p>
+            <img id="sales-list-sale-image" src={sale.imageUrl} alt=""/>
+          </div>
         </NavLink>))}
     </div>
   )

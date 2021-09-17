@@ -10,7 +10,7 @@ function CreateSaleModal() {
       <button onClick={() => setShowModal(true)}>Create a Sale!</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <CreateSaleForm />
+          <CreateSaleForm setShowModal={setShowModal}/>
         </Modal>
       )}
     </>

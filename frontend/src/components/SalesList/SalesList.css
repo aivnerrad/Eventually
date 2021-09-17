@@ -3,6 +3,9 @@ a {
   color: green;
 
 }
+p {
+  font-size: 20px;
+}
 
 #sales-list {
   display: flex;
@@ -12,4 +15,12 @@ a {
 }
  #sale{
     margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+ }
+
+ #sales-list-sale-image {
+   height: 100px;
  }
