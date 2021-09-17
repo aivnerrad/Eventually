@@ -23,7 +23,7 @@ const getOneSale = (sale) => {
 const createSale = (sale) => {
   return {
     type: CREATE_SALE,
-    payload: sale,
+    payload: sale
   };
 };
 
@@ -45,6 +45,16 @@ export const getAllSales = () => async dispatch => {
   const data = await response.json();
   console.log("getAllSales data ------>", data)
   dispatch(getSales(data));
+  return response;
+};
+
+
+export const getCurrentSale = (sale) => async dispatch => {
+  console.log("getCurrentSale sale.id ----->", sale.id)
+  const response = await csrfFetch(`/api/sales/${sale.id}`);
+  const data = await response.json();
+  console.log("getCurrentSale data ------>", data)
+  dispatch(getOneSale(data));
   return response;
 };
 
@@ -88,6 +98,10 @@ const salesReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SALES:
       newState = action.payload;
+      return newState;
+    case GET_ONE_SALE:
+      newState = action.payload;
+      console.log("GET_ONE_SALE newState ------>", newState)
       return newState;
     case CREATE_SALE:
       const newSale = action.payload

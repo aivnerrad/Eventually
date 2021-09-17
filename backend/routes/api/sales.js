@@ -26,11 +26,16 @@ router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
     const id = req.params.id
-    const sale = await Sale.findByPk(id);
-    console.log("Sale Route Hit ----->", sale)
-    if(sale)
+    console.log("GET ONE SALE id ----->", id)
+    const allSales = await Sale.findAll({
+      where: {
+        id
+      }
+    })
+    const currentSale = allSales[0];
+    if(currentSale)
       return res.json({
-      sale,
+      currentSale,
       });
     return res.json({message:"Sale Not Found"})
   }),
@@ -87,6 +92,7 @@ router.delete(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
     const id = req.params.id;
+    console.log(id)
     const sale = await Sale.findByPk(id);
     const attendees = await Attendee.findAll({
       where: {
