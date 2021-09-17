@@ -5,19 +5,13 @@ import { Redirect } from "react-router";
 import Logo from "../Logo/Logo";
 import "./CreateSaleForm.css";
 
-function CreateSaleForm() {
+function CreateSaleForm({ setShowModal }) {
   const dispatch = useDispatch();
   const salesObject = useSelector((state) => state.sales);
   const sessionUser = useSelector((state) => state.session.user)
-  const allSales = salesObject.sales;
   const allNeighborhoods = salesObject.allNeighborhoods;
   const allCategories = salesObject.allCategories;
-  console.log("sessionUser ------>", sessionUser)
-  console.log("salesObject ----->", salesObject)
-  console.log("allSales ----->", allSales)
-  console.log("allNeighborhoods ----->", allNeighborhoods)
-  console.log("allCategories -----> ", allCategories)
-  const [hostId, setHostId] = useState(1)
+  const [hostId, setHostId] = useState(sessionUser.id)
   const [categoryId, setCategoryId] = useState(1)
   const [neighborhoodId, setNeighborhoodId] = useState(1)
   const [title, setTitle] = useState("")
@@ -27,9 +21,15 @@ function CreateSaleForm() {
 
   if (!sessionUser) return <Redirect to="/" />;
 
+  const validateCreateSale = [
+
+  ]
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors([]) // <--- idk why I would need this? default state is set to an empty array.
     setHostId(sessionUser.id)
+    setShowModal(false)
     return dispatch(saleActions.create({
       hostId,
       categoryId,
@@ -38,12 +38,7 @@ function CreateSaleForm() {
       date,
       imageUrl
      }))
-     .catch(
-        async (res) => {
-        const data = await res.json();
-        console.log("data ----->", data)
-        if (data && data.errors) setErrors(data.errors);
-      })
+
   };
 
   return (
@@ -64,13 +59,13 @@ function CreateSaleForm() {
       <label>
         Neighborhood
         <select value={neighborhoodId} onChange={(e) => setNeighborhoodId(e.target.value)}>
-          {allNeighborhoods.map(neighborhood => <option value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
+          {allNeighborhoods.map(neighborhood => <option key={neighborhood.id} value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
         </select>
       </label>
       <label>
         Category
         <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-          {allCategories.map(category => <option value={category.id}>{category.name}</option>)}
+          {allCategories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
         </select>
       </label>
       <label>

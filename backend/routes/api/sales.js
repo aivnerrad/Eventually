@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 
-const { Sale, Neighborhood, Category } = require('../../db/models');
+const { Sale, Neighborhood, Category, Attendee } = require('../../db/models');
 
 const router = express.Router();
 
@@ -26,10 +26,16 @@ router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
     const id = req.params.id
-    const sale = await Sale.findByPk(id);
-    if(sale)
+    console.log("GET ONE SALE id ----->", id)
+    const allSales = await Sale.findAll({
+      where: {
+        id
+      }
+    })
+    const currentSale = allSales[0];
+    if(currentSale)
       return res.json({
-      sale,
+      currentSale,
       });
     return res.json({message:"Sale Not Found"})
   }),
@@ -59,7 +65,7 @@ router.post(
 
 //Update a Sale in the DB
 router.put(
-  '/',
+  '/:id(\\d+)',
   asyncHandler(async (req, res) => {
     const { hostId,
       categoryId,
@@ -86,10 +92,20 @@ router.delete(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
     const id = req.params.id;
+    console.log(id)
     const sale = await Sale.findByPk(id);
+    const attendees = await Attendee.findAll({
+      where: {
+        saleId: sale.id
+      }
+    });
     if(sale)
+      await attendees.forEach(attendee => {
+        attendee.destroy();
+
+      });
       await sale.destroy();
-      return res.json({message: "Deleted Sale"})
+      return res.redirect("/")
   }),
 );
 module.exports = router;

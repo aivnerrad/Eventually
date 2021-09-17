@@ -23,14 +23,14 @@ const getOneSale = (sale) => {
 const createSale = (sale) => {
   return {
     type: CREATE_SALE,
-    payload: sale,
+    sale
   };
 };
 
 const updateSale = (sale) => {
   return {
     type: UPDATE_SALE,
-    payload: sale,
+    payload: sale
   };
 };
 
@@ -45,6 +45,16 @@ export const getAllSales = () => async dispatch => {
   const data = await response.json();
   console.log("getAllSales data ------>", data)
   dispatch(getSales(data));
+  return response;
+};
+
+
+export const getCurrentSale = (sale) => async dispatch => {
+  console.log("getCurrentSale sale.id ----->", sale.id)
+  const response = await csrfFetch(`/api/sales/${sale.id}`);
+  const data = await response.json();
+  console.log("getCurrentSale data ------>", data)
+  dispatch(getOneSale(data));
   return response;
 };
 
@@ -68,12 +78,13 @@ export const create = (sale) => async (dispatch) => {
     }),
   });
   const data = await response.json();
-  dispatch(createSale(data));
+  console.log("data ----->", data.sale)
+  dispatch(createSale(data.sale));
   return response;
 };
 
-export const deleteSale = () => async (dispatch) => {
-  const response = await csrfFetch('/api/sales', {
+export const deleteSale = (sale) => async (dispatch) => {
+  const response = await csrfFetch(`/api/sales/${sale.id}`, {
     method: 'DELETE',
   });
   dispatch(removeSale());
@@ -88,9 +99,24 @@ const salesReducer = (state = initialState, action) => {
     case GET_SALES:
       newState = action.payload;
       return newState;
+    case GET_ONE_SALE:
+      newState = action.payload;
+      console.log("GET_ONE_SALE newState ------>", newState)
+      return newState;
+    case CREATE_SALE:
+      const newSale = action.sale
+      const sales = state.sales
+      sales.push(newSale)
+      console.log("sales ------>", sales)
+      newState = {
+        ...state,
+        sales
+
+      }
+      return newState;
     case REMOVE_SALE:
       newState = Object.assign({}, state);
-      newState.user = null;
+      newState.sales[action.payload] = null;
       return newState;
     default:
       return state;
