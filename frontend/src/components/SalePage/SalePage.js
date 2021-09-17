@@ -15,7 +15,7 @@ export default function SalePage() {
   const allSales = salesObject.sales;
   console.log("allSales ----->", allSales)
   const currentSale = allSales.filter(object => object.id.toString() === id)[0];
-  //const currentDate = currentSale.date.split("T")[0];
+  const currentDate = currentSale.date.split("T")[0];
   console.log(typeof id)
   console.log("currentSale -------->", currentSale)
   const handleDelete = (e) => {
@@ -27,6 +27,7 @@ export default function SalePage() {
   <div id="sale-info">
     <h3>This is the {currentSale.title} Page!</h3>
     <img src={currentSale.imageUrl} alt=""/>
+    <p>{currentDate}</p>
     <form onSubmit={handleDelete}>
     <button type="submit">Delete Sale</button>
     </form>
