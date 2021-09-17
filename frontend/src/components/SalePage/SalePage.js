@@ -13,8 +13,7 @@ export default function SalePage() {
   const salesObject = useSelector((state) => state.sales);
   const allSales = salesObject.sales;
   const currentSale = allSales[id - 1]
-  const currentDate = currentSale.date;
-  console.log(currentSale)
+  const currentDate = currentSale.date.split("T")[0];
 
   return (
   <div id="sale-info">
