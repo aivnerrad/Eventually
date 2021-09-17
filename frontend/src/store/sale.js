@@ -73,8 +73,8 @@ export const create = (sale) => async (dispatch) => {
   return response;
 };
 
-export const deleteSale = () => async (dispatch) => {
-  const response = await csrfFetch('/api/sales', {
+export const deleteSale = (sale) => async (dispatch) => {
+  const response = await csrfFetch(`/api/sales/${sale.id}`, {
     method: 'DELETE',
   });
   dispatch(removeSale());

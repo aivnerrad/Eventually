@@ -14,12 +14,20 @@ export default function SalePage() {
   const allSales = salesObject.sales;
   const currentSale = allSales[id - 1]
   const currentDate = currentSale.date.split("T")[0];
+  console.log(currentSale)
+  const handleDelete = (e) => {
+    e.preventDefault()
+    return dispatch(saleActions.deleteSale(currentSale))
+  }
 
   return (
   <div id="sale-info">
     <h3>This is the {currentSale.title} Page!</h3>
     <img src={currentSale.imageUrl} alt=""/>
     <p>{currentDate}</p>
+    <form onSubmit={handleDelete}>
+    <button type="submit">Delete Sale</button>
+    </form>
   </div>
   )
 }
