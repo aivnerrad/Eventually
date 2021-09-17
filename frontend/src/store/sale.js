@@ -90,7 +90,15 @@ const salesReducer = (state = initialState, action) => {
       newState = action.payload;
       return newState;
     case CREATE_SALE:
-      newState = action.payload;
+      const newSale = action.payload
+      const sales = state.sales
+      console.log("sales ------>", sales)
+      sales.push(newSale)
+      newState = {
+        ...state,
+        sales
+
+      }
       return newState;
     case REMOVE_SALE:
       newState = Object.assign({}, state);

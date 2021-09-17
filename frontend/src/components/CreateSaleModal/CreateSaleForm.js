@@ -17,7 +17,7 @@ function CreateSaleForm() {
   console.log("allSales ----->", allSales)
   console.log("allNeighborhoods ----->", allNeighborhoods)
   console.log("allCategories -----> ", allCategories)
-  const [hostId, setHostId] = useState(1)
+  const [hostId, setHostId] = useState(sessionUser.id)
   const [categoryId, setCategoryId] = useState(1)
   const [neighborhoodId, setNeighborhoodId] = useState(1)
   const [title, setTitle] = useState("")
@@ -43,12 +43,6 @@ function CreateSaleForm() {
       date,
       imageUrl
      }))
-     .catch(
-        async (res) => {
-        const data = await res;
-        console.log("data ----->", data)
-        if (data && data.errors) setErrors(data.errors);
-      })
   };
 
   return (
