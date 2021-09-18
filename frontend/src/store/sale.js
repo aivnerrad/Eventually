@@ -1,3 +1,4 @@
+import { useParams } from 'react-router';
 import { csrfFetch } from './csrf';
 
 const GET_SALES = 'sale/getSales';
@@ -82,6 +83,38 @@ export const create = (sale) => async (dispatch) => {
   dispatch(createSale(data.sale));
   return response;
 };
+
+export const update = (sale) => async dispatch => {
+  const { id } = useParams();
+  console.log("id -------->", id)
+  const {  hostId,
+    categoryId,
+    neighborhoodId,
+    title,
+    date,
+    imageUrl  } = sale;
+  console.log("update sale.id ----->", sale.id)
+
+  const response = await csrfFetch(`/api/sales/${id}`,{
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+      hostId,
+      categoryId,
+      neighborhoodId,
+      title,
+      date,
+      imageUrl
+    }),
+  });
+  const data = await response.json();
+  console.log("update data ------>", data)
+  dispatch(updateSale(data));
+  return response;
+};
+
 
 export const deleteSale = (sale) => async (dispatch) => {
   const response = await csrfFetch(`/api/sales/${sale.id}`, {

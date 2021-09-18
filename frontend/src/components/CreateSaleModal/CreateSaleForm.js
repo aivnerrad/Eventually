@@ -21,10 +21,6 @@ function CreateSaleForm({ setShowModal }) {
 
   if (!sessionUser) return <Redirect to="/" />;
 
-  const validateCreateSale = [
-
-  ]
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]) // <--- idk why I would need this? default state is set to an empty array.

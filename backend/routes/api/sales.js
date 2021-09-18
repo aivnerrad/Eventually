@@ -26,7 +26,6 @@ router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
     const id = req.params.id
-    console.log("GET ONE SALE id ----->", id)
     const allSales = await Sale.findAll({
       where: {
         id
@@ -64,22 +63,16 @@ router.post(
 );
 
 //Update a Sale in the DB
-router.put(
+router.patch(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
-    const { hostId,
-      categoryId,
-      neighborhoodId,
-      title,
-      date,
-      imageUrl } = req.body;
-    const sale = await Sale.update({ hostId,
-      categoryId,
-      neighborhoodId,
-      title,
-      date,
-      imageUrl });
-
+    const id = req.params.id
+    const sale = await Sale.findAll({
+      where: {
+        id
+      }
+    })
+    await sale.update()
     return res.json({
       sale,
     });
@@ -92,7 +85,6 @@ router.delete(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
     const id = req.params.id;
-    console.log(id)
     const sale = await Sale.findByPk(id);
     const attendees = await Attendee.findAll({
       where: {
@@ -108,4 +100,50 @@ router.delete(
       return res.redirect("/")
   }),
 );
+
+router.get('/:id/attendees', asyncHandler(async(req, res) => {
+  const saleId = req.params.id
+  const attendees = await Attendee.findAll({
+    where: {
+      saleId
+    }
+  })
+
+  res.json(attendees.length)
+}))
+
+
+router.post('/:id/attendees', asyncHandler(async(req, res) => {
+  const saleId = req.params.id
+  const userId = req.session.auth.userId
+  await Attendee.create({
+    userId,
+    saleId
+  })
+  const attendees = await Attendee.findAll({
+    where: {
+      saleId
+    }
+  })
+  res.json(attendees.length)
+}))
+
+router.delete('/:id/attendees', asyncHandler(async(req, res) => {
+  const saleId = req.params.id
+  const userId = req.session.auth.userId
+  const like = await Attendee.findOne({
+    where: {
+      [Op.and]: [{ userId: userId }, { saleId: saleId }]
+    }
+  })
+  await like.destroy()
+
+  const attendees = await Attendee.findAll({
+    where: {
+      saleId
+    }
+  })
+
+  res.json(attendees.length)
+}))
 module.exports = router;
