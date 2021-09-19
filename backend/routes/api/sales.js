@@ -1,8 +1,6 @@
 const express = require('express');
-const asyncHandler = require('express-async-handler');
-
+const asyncHandler = require('express-async-handler')
 const { Sale, Neighborhood, Category, Attendee } = require('../../db/models');
-
 const router = express.Router();
 
 //Get sales from DB
@@ -67,15 +65,19 @@ router.patch(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
     const id = req.params.id
-    const sale = await Sale.findAll({
+    const {  hostId,
+      categoryId,
+      neighborhoodId,
+      title,
+      date,
+      imageUrl  } = req.body;
+    const salesArray = await Sale.findAll({
       where: {
         id
       }
     })
-    await sale.update()
-    return res.json({
-      sale,
-    });
+    const newSale = await salesArray[0].update({ hostId, categoryId, neighborhoodId, title, date, imageUrl})
+    return res.json(newSale);
   }),
 );
 
@@ -97,7 +99,9 @@ router.delete(
 
       });
       await sale.destroy();
-      return res.redirect("/")
+      return res.json({
+        "message": "delete successful"
+      })
   }),
 );
 

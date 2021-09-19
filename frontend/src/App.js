@@ -6,6 +6,7 @@ import * as saleActions from "./store/sale"
 import Navigation from "./components/Navigation/Navigation";
 import SalesList from "./components/SalesList/SalesList";
 import SalePage from "./components/SalePage/SalePage"
+import SplashImage from "./components/SplashPageDisplayImage";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function App() {
       <>
         <Switch>
           <Route exact path="/">
+            <SplashImage />
             <SalesList />
           </Route>
           <Route path="/api/sales/:id">

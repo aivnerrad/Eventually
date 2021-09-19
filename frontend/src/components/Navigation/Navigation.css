@@ -7,6 +7,24 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
 
 }
 
+#search-bar {
+  border: none;
+  box-shadow: 0px 3px 10px 3px green;
+  height: 30px;
+  width: 25%;
+}
+
+#search-bar:focus {
+  outline: none;
+  width: 35%;
+  box-shadow: 0px 5px 10px 5px green;
+}
+ #search-bar::placeholder {
+   font-family:'Josefin Sans', sans-serif; ;
+   font-size: 18px;
+ }

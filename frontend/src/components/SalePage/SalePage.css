@@ -8,3 +8,13 @@
 #sale-page-image {
   height: 250px;
 }
+
+#sale {
+  box-shadow: 0px 3px 10px 3px green;
+}
+
+#sale:hover {
+  transition-property: all;
+  transition-duration: .3s;
+  box-shadow: 0px 6px 10px 6px green;
+}

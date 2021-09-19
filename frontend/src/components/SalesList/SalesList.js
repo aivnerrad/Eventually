@@ -5,9 +5,9 @@ import * as saleActions from "../../store/sale"
 import { NavLink } from "react-router-dom";
 export default function SalesList(){
   const dispatch = useDispatch();
-  useEffect(() => {
-     return dispatch(saleActions.getAllSales())
-  }, [dispatch])
+  // useEffect(() => {
+  //    return dispatch(saleActions.getAllSales())
+  // }, [dispatch])
   const salesObject = useSelector((state) => state.sales);
   const allSales = salesObject.sales;
 
