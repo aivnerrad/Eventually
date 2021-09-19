@@ -1,5 +1,5 @@
 export default function SearchBar() {
   return (
-    <input type="search" placeholder="Search for a sale!"></input>
+    <input id="search-bar" type="search" placeholder="Search for a sale!"></input>
   )
 }

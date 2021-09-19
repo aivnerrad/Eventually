@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import * as saleActions from "../../store/sale";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router";
+import { Redirect, useParams, useHistory } from "react-router-dom";
 import Logo from "../Logo/Logo";
-import "./CreateSaleForm.css";
+import "./EditSaleModal.css";
 
-function CreateSaleForm({ setShowModal }) {
+function EditSaleForm({ setShowModal }) {
   const dispatch = useDispatch();
   const salesObject = useSelector((state) => state.sales);
   const sessionUser = useSelector((state) => state.session.user)
@@ -18,22 +18,33 @@ function CreateSaleForm({ setShowModal }) {
   const [date, setDate] = useState(new Date())
   const [imageUrl, setImageUrl] = useState("")
   const [errors, setErrors] = useState([])
+  const { id } = useParams();
+  const numberId = Number(id);
+  const numberCategoryId = Number(categoryId);
+  const numberNeighborhoodId = Number(neighborhoodId);
+
+  const history = useHistory();
 
   if (!sessionUser) return <Redirect to="/" />;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors([]) // <--- idk why I would need this? default state is set to an empty array.
-    setHostId(sessionUser.id)
+    setErrors([])
     setShowModal(false)
-    return dispatch(saleActions.create({
+
+
+    const sale = {
+      id: numberId,
       hostId,
-      categoryId,
-      neighborhoodId,
+      categoryId: numberCategoryId,
+      neighborhoodId: numberNeighborhoodId,
       title,
       date,
       imageUrl
-     }))
+     }
+     console.log("EDIT SALE sale ---->", sale)
+    dispatch(saleActions.update(sale))
+    return history.push("/")
 
   };
 
@@ -44,7 +55,7 @@ function CreateSaleForm({ setShowModal }) {
       </ul>
       <Logo />
       <label>
-        Title
+        New Title
         <input
           type="text"
           value={title}
@@ -53,27 +64,27 @@ function CreateSaleForm({ setShowModal }) {
         />
       </label>
       <label>
-        Neighborhood
-        <select value={neighborhoodId} onChange={(e) => setNeighborhoodId(e.target.value)}>
-          {allNeighborhoods.map(neighborhood => <option key={neighborhood.id} value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
+        New Neighborhood
+        <select value={Number(neighborhoodId)} onChange={(e) => setNeighborhoodId(e.target.value)}>
+          {allNeighborhoods.map(neighborhood => <option key={Number(neighborhood.id)} value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
         </select>
       </label>
       <label>
-        Category
-        <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+        New Category
+        <select value={Number(categoryId)} onChange={(e) => setCategoryId(e.target.value)}>
           {allCategories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
         </select>
       </label>
       <label>
-        Select a Date
+        New Date
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
       </label>
       <label>
-        Display Image
+        New Image
         <input type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
       </label>
-      <button type="submit">Create Sale</button>
+      <button type="submit">Edit Sale</button>
     </form>
   );
 }
-export default CreateSaleForm;
+export default EditSaleForm;

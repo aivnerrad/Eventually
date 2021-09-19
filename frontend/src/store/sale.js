@@ -1,3 +1,4 @@
+import { useParams } from 'react-router';
 import { csrfFetch } from './csrf';
 
 const GET_SALES = 'sale/getSales';
@@ -30,13 +31,14 @@ const createSale = (sale) => {
 const updateSale = (sale) => {
   return {
     type: UPDATE_SALE,
-    payload: sale
+    sale
   };
 };
 
-const removeSale = () => {
+const removeSale = (sale) => {
   return {
     type: REMOVE_SALE,
+    sale
   };
 };
 
@@ -78,16 +80,31 @@ export const create = (sale) => async (dispatch) => {
     }),
   });
   const data = await response.json();
-  console.log("data ----->", data.sale)
   dispatch(createSale(data.sale));
   return response;
 };
+
+export const update = (sale) => async dispatch => {
+  const { id } = sale;
+
+
+  const response = await csrfFetch(`/api/sales/${id}`,{
+    method: "PATCH",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(sale),
+    });
+    dispatch(updateSale(sale));
+  return response;
+};
+
 
 export const deleteSale = (sale) => async (dispatch) => {
   const response = await csrfFetch(`/api/sales/${sale.id}`, {
     method: 'DELETE',
   });
-  dispatch(removeSale());
+  dispatch(removeSale(sale));
   return response;
 };
 
@@ -95,28 +112,49 @@ const initialState = {};
 
 const salesReducer = (state = initialState, action) => {
   let newState;
+  let sales;
   switch (action.type) {
     case GET_SALES:
       newState = action.payload;
       return newState;
     case GET_ONE_SALE:
       newState = action.payload;
-      console.log("GET_ONE_SALE newState ------>", newState)
       return newState;
     case CREATE_SALE:
-      const newSale = action.sale
-      const sales = state.sales
+        const newSale = action.sale
+        sales = state.sales
+        console.log("sales CREATE_SALE", sales)
       sales.push(newSale)
-      console.log("sales ------>", sales)
       newState = {
         ...state,
         sales
 
       }
       return newState;
-    case REMOVE_SALE:
+      case UPDATE_SALE:
+        const updatedSale = action.sale
+        console.log("updatedSale ------>", updatedSale)
+        sales = state.sales
+      const currentSale = sales.filter(object => object.id === updatedSale.id)[0]
+      //sales.push(updatedSale)
+
+      // console.log("before UPDATE_SALE currentSale ------>", currentSale)
+      Object.assign(currentSale, updatedSale)
+      // console.log("after UPDATE_SALE currentSale ------>", currentSale)
+      newState = {
+        ...state,
+        sales
+
+      }
+      console.log("UPDATE_SALE newState ---->", newState)
+      return newState;
+      case REMOVE_SALE:
       newState = Object.assign({}, state);
-      newState.sales[action.payload] = null;
+      console.log("newState BEFORE REMOVE_SALE", newState);
+      console.log("action.sale", action.sale)
+      const deleteIndex = newState.sales.indexOf(action.sale)
+      newState.sales.splice(deleteIndex)
+      console.log("newState BEFORE REMOVE_SALE", newState);
       return newState;
     default:
       return state;
