@@ -42,7 +42,6 @@ function EditSaleForm({ setShowModal }) {
       date,
       imageUrl
      }
-     console.log("EDIT SALE sale ---->", sale)
     dispatch(saleActions.update(sale))
     return history.push("/")
 

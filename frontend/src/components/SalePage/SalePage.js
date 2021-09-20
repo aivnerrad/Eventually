@@ -9,7 +9,6 @@ export default function SalePage() {
   const { id } = useParams();
   const salesObject = useSelector((state) => state.sales);
   const allSales = salesObject.sales;
-  console.log("allSales ------>", allSales)
   const currentSale = allSales.filter(object => object.id.toString() === id)[0];
   const currentDate = currentSale.date.split("T")[0];
   const history = useHistory();
