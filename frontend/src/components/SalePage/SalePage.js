@@ -6,9 +6,10 @@ import EditSaleModal from "../EditFormModal";
 
 export default function SalePage() {
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.session.user);
+  console.log(currentUser)
   const { id } = useParams();
-  const salesObject = useSelector((state) => state.sales);
-  const allSales = salesObject.sales;
+  const allSales = useSelector((state) => state.saleData.currentSales);
   const currentSale = allSales.filter(object => object.id.toString() === id)[0];
   const currentDate = currentSale.date.split("T")[0];
   const history = useHistory();
@@ -19,6 +20,26 @@ export default function SalePage() {
   }
 
 
+  let sessionLinks;
+  if (currentUser.id === current) {
+    sessionLinks = (
+      <>
+      <EditSaleModal />
+      <form onSubmit={handleDelete}>
+      <button type="submit">Delete Sale</button>
+      </form>
+      </>
+    );
+  } else {
+    sessionLinks = (
+      <>
+       <form>
+         <button type="submit">I'm Going!</button>
+       </form>
+      </>
+    );
+  }
+
   return (
   <div id="sale-info">
     <h3>This is the {currentSale.title} Page!</h3>
@@ -26,10 +47,7 @@ export default function SalePage() {
     <p>{currentDate}</p>
     <p> There will be a {currentSale.title} on {currentDate}.</p>
     <div id="sale-buttons-div">
-      <EditSaleModal />
-      <form onSubmit={handleDelete}>
-      <button type="submit">Delete Sale</button>
-      </form>
+    {sessionLinks}
     </div>
   </div>
   )
