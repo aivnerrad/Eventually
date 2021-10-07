@@ -7,22 +7,30 @@ import EditSaleModal from "../EditFormModal";
 export default function SalePage() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
-  console.log(currentUser)
+  console.log("currentUser", currentUser)
   const { id } = useParams();
   const allSales = useSelector((state) => state.saleData.currentSales);
   const currentSale = allSales.filter(object => object.id.toString() === id)[0];
+  const allAttendees = useSelector((state) => state.saleData.allAttendees)
+  const saleAttendees = allAttendees.filter(object => object.saleId.toString() === id)
+
+  console.log("saleAttendees", saleAttendees)
   const currentDate = currentSale.date.split("T")[0];
   const history = useHistory();
+
   const handleDelete = (e) => {
     e.preventDefault()
     dispatch(saleActions.deleteSale(currentSale))
     return history.push("/")
   }
 
+  const handleAttend = (e) => {
+    e.preventDefault()
+  }
 
-  let sessionLinks;
-  if (currentUser.id === current) {
-    sessionLinks = (
+  let theRightButtons;
+  if (currentUser.id === currentSale.hostId) {
+    theRightButtons = (
       <>
       <EditSaleModal />
       <form onSubmit={handleDelete}>
@@ -31,9 +39,9 @@ export default function SalePage() {
       </>
     );
   } else {
-    sessionLinks = (
+    theRightButtons = (
       <>
-       <form>
+       <form onSubmit={handleAttend}>
          <button type="submit">I'm Going!</button>
        </form>
       </>
@@ -46,8 +54,9 @@ export default function SalePage() {
     <img id="sale-page-image" src={currentSale.imageUrl} alt=""/>
     <p>{currentDate}</p>
     <p> There will be a {currentSale.title} on {currentDate}.</p>
+    <p> There are currently {saleAttendees.length} people going to this sale!</p>
     <div id="sale-buttons-div">
-    {sessionLinks}
+    {theRightButtons}
     </div>
   </div>
   )

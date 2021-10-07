@@ -4,7 +4,8 @@ const GET_SALES = 'sale/getSales';
 const GET_ONE_SALE = 'sale/getOneSale'
 const CREATE_SALE = 'sale/createSale';
 const REMOVE_SALE = 'sale/removeSale';
-const UPDATE_SALE = 'sale/updateSale'
+const UPDATE_SALE = 'sale/updateSale';
+const GET_ATTENDEES = 'sale/getAttendees';
 
 const getSales = (sales) => {
   console.log("NO Im first")
@@ -14,12 +15,6 @@ const getSales = (sales) => {
   };
 };
 
-const getOneSale = (sale) => {
-  return {
-    type: GET_ONE_SALE,
-    payload: sale,
-  };
-};
 
 const createSale = (sale) => {
   return {
@@ -42,23 +37,30 @@ const removeSale = (sale) => {
   };
 };
 
+const getAttendees = (sale) => {
+  return {
+    type: GET_ATTENDEES,
+    attendees: sale.attendees
+  }
+}
 export function getAllSales() {
   return async dispatch => {
     const response = await csrfFetch('/api/sales');
     console.log("Im First")
     const data = await response.json();
-  dispatch(getSales(data));
-  return response;
+    dispatch(getSales(data));
+    return response;
+  }
 }
+export function getAllAttendees(sale){
+  return async dispatch => {
+    const { id } = sale
+    const response = await csrfFetch(`/api/sales/${id}`);
+    console.log("getAllAttendees response", response)
+    const data = await response.json();
+    dispatch(getAttendees(data))
+  }
 }
-
-
-export const getCurrentSale = (sale) => async dispatch => {
-  const response = await csrfFetch(`/api/sales/${sale.id}`);
-  const data = await response.json();
-  dispatch(getOneSale(data));
-  return response;
-};
 
 export const create = (sale) => async (dispatch) => {
   const {  hostId,
@@ -86,8 +88,6 @@ export const create = (sale) => async (dispatch) => {
 
 export const update = (sale) => async dispatch => {
   const { id } = sale;
-
-
   const response = await csrfFetch(`/api/sales/${id}`,{
     method: "PATCH",
       headers: {
@@ -115,6 +115,10 @@ const salesReducer = (state = initialState, action) => {
     case GET_SALES:
       state = action.sales
       console.log("state GET SALES", state)
+      return state
+    case GET_ATTENDEES:
+      state = action.attendees
+      console.log("state GET_ATTENDEES",state)
       return state
     // case GET_ONE_SALE:
     //   newState = action.payload;
