@@ -119,23 +119,35 @@ router.get('/:id/attendees', asyncHandler(async(req, res) => {
 }))
 
 router.post('/:id/attendees', asyncHandler(async(req, res) => {
-  const saleId = req.params.id
-  const userId = req.session.auth.userId
-  await Attendee.create({
-    userId,
-    saleId
-  })
-  const attendees = await Attendee.findAll({
+  console.log("REQBODY ============>>>>", req.params)
+  const { userId, saleId } = req.body
+  const currentlyAttending = await Attendee.findAll({
     where: {
+      userId,
       saleId
     }
   })
-  res.json(attendees.length)
+  if(!currentlyAttending.length){
+    await Attendee.create({
+      userId,
+      saleId
+    })
+    const attendees = await Attendee.findAll({
+      where: {
+        saleId
+      }
+    })
+    res.json(attendees.length)
+  }
+  else {
+    return res.json({
+      "message": "You're already said you're going!"
+    })
+  }
 }))
 
 router.delete('/:id/attendees', asyncHandler(async(req, res) => {
-  const saleId = req.params.id
-  const userId = req.session.auth.userId
+  const { userId, saleId } = req.body
   const like = await Attendee.findOne({
     where: {
       [Op.and]: [{ userId: userId }, { saleId: saleId }]

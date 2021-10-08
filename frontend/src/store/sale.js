@@ -5,6 +5,7 @@ const CREATE_SALE = 'sale/createSale';
 const REMOVE_SALE = 'sale/removeSale';
 const UPDATE_SALE = 'sale/updateSale';
 const GET_ATTENDEES = 'sale/getAttendees';
+const ATTEND_SALE = 'sale/attend';
 
 const getSales = (sales) => {
   return {
@@ -41,6 +42,17 @@ const getAttendees = (sale) => {
     attendees: sale.attendees
   }
 }
+
+const attendSale = (sale, user) => {
+  return {
+    type: ATTEND_SALE,
+    attendees : {
+      sale,
+      user
+
+    }
+  }
+}
 export function getAllSales() {
   return async dispatch => {
     const response = await csrfFetch('/api/sales');
@@ -52,8 +64,9 @@ export function getAllSales() {
 export function getAllAttendees(sale){
   return async dispatch => {
     const { id } = sale
-    const response = await csrfFetch(`/api/sales/${id}`);
+    const response = await csrfFetch(`/api/sales/${id}/attendees`);
     const data = await response.json();
+    console.log(data)
     dispatch(getAttendees(data))
   }
 }
@@ -104,6 +117,18 @@ export const deleteSale = (sale) => async (dispatch) => {
   return response;
 };
 
+export const goToSale = (sale, user) => async(dispatch) => {
+  console.log("SALE goToSale ==========>", typeof(sale))
+  const response = await csrfFetch(`/api/sales/${sale}/attendees`, {
+    method: 'POST',
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify(sale, user)
+  })
+  dispatch(attendSale(sale, user))
+  return response;
+}
 let initialState = {};
 
 const salesReducer = (state = initialState, action) => {

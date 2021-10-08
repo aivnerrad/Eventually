@@ -23,6 +23,13 @@ export default function SalePage() {
 
   const handleAttend = (e) => {
     e.preventDefault()
+    const currentlyAttending = saleAttendees.filter(object => object.userId.toString() === currentUser.id).length > 0
+    if(!currentlyAttending){
+      dispatch(saleActions.goToSale(currentSale.id, currentUser.id))
+    }
+    else {
+      console.log("No bro, you already said you were going.")
+    }
   }
 
   let theRightButtons;
