@@ -1,14 +1,12 @@
 import { csrfFetch } from './csrf';
 
 const GET_SALES = 'sale/getSales';
-const GET_ONE_SALE = 'sale/getOneSale'
 const CREATE_SALE = 'sale/createSale';
 const REMOVE_SALE = 'sale/removeSale';
 const UPDATE_SALE = 'sale/updateSale';
 const GET_ATTENDEES = 'sale/getAttendees';
 
 const getSales = (sales) => {
-  console.log("NO Im first")
   return {
     type: GET_SALES,
     sales
@@ -46,7 +44,6 @@ const getAttendees = (sale) => {
 export function getAllSales() {
   return async dispatch => {
     const response = await csrfFetch('/api/sales');
-    console.log("Im First")
     const data = await response.json();
     dispatch(getSales(data));
     return response;
@@ -56,7 +53,6 @@ export function getAllAttendees(sale){
   return async dispatch => {
     const { id } = sale
     const response = await csrfFetch(`/api/sales/${id}`);
-    console.log("getAllAttendees response", response)
     const data = await response.json();
     dispatch(getAttendees(data))
   }
@@ -114,11 +110,9 @@ const salesReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SALES:
       state = action.sales
-      console.log("state GET SALES", state)
       return state
     case GET_ATTENDEES:
       state = action.attendees
-      console.log("state GET_ATTENDEES",state)
       return state
     // case GET_ONE_SALE:
     //   newState = action.payload;

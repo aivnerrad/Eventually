@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const sessionRouter = require('./session.js');
-const usersRouter = require('./users.js');
-const salesRouter = require('./sales')
+const sessionRouter = require('./session');
+const usersRouter = require('./users');
+const salesRouter = require('./sales');
 
 router.use('/session', sessionRouter);
 

@@ -17,7 +17,6 @@ function App() {
   useEffect(() => {
     dispatch(saleActions.getAllSales()).then(() => setIsLoaded(true));
   }, [dispatch])
-  console.log()
   return (
     <>
       <Navigation isLoaded={isLoaded} />
