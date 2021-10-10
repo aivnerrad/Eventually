@@ -108,6 +108,7 @@ router.delete(
 );
 
 router.get('/:id/attendees', asyncHandler(async(req, res) => {
+  console.log("GET REQUEST REQBODY ======>>>", req.body)
   const saleId = req.params.id
   const attendees = await Attendee.findAll({
     where: {
@@ -119,7 +120,7 @@ router.get('/:id/attendees', asyncHandler(async(req, res) => {
 }))
 
 router.post('/:id/attendees', asyncHandler(async(req, res) => {
-  console.log("REQBODY ============>>>>", req.params)
+  console.log("REQBODY ============>>>>", req.body)
   const { userId, saleId } = req.body
   const currentlyAttending = await Attendee.findAll({
     where: {
@@ -137,7 +138,7 @@ router.post('/:id/attendees', asyncHandler(async(req, res) => {
         saleId
       }
     })
-    res.json(attendees.length)
+    res.json(attendees)
   }
   else {
     return res.json({

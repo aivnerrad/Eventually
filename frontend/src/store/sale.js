@@ -43,13 +43,11 @@ const getAttendees = (sale) => {
   }
 }
 
-const attendSale = (sale, user) => {
+const attendSale = (sale) => {
   return {
     type: ATTEND_SALE,
     attendees : {
-      sale,
-      user
-
+      sale
     }
   }
 }
@@ -66,6 +64,7 @@ export function getAllAttendees(sale){
     const { id } = sale
     const response = await csrfFetch(`/api/sales/${id}/attendees`);
     const data = await response.json();
+    console.log("WERE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     console.log(data)
     dispatch(getAttendees(data))
   }
@@ -117,16 +116,19 @@ export const deleteSale = (sale) => async (dispatch) => {
   return response;
 };
 
-export const goToSale = (sale, user) => async(dispatch) => {
-  console.log("SALE goToSale ==========>", typeof(sale))
-  const response = await csrfFetch(`/api/sales/${sale}/attendees`, {
+export const goToSale = (sale) => async(dispatch) => {
+  const body = JSON.stringify(sale)
+  console.log("BODY ==========>>>", body )
+  const response = await csrfFetch(`/api/sales/${sale.saleId}/attendees`, {
     method: 'POST',
-    headers: {
-      "Content-type": "application/json"
-    },
-    body: JSON.stringify(sale, user)
+    body: JSON.stringify(sale)
   })
-  dispatch(attendSale(sale, user))
+  const attending = await response.json()
+  console.log(typeof(attending) === 'object')
+  if(typeof(attending) === 'object'){
+    console.log("ATTENDING ==========>>>>",attending)
+    return dispatch(attendSale(attending[attending.length - 1]))
+  }
   return response;
 }
 let initialState = {};
@@ -138,6 +140,9 @@ const salesReducer = (state = initialState, action) => {
       return state
     case GET_ATTENDEES:
       state = action.attendees
+      return state
+    case ATTEND_SALE:
+      state.allAttendees.push(action.attendees.sale)
       return state
     // case GET_ONE_SALE:
     //   newState = action.payload;
