@@ -36,10 +36,11 @@ const removeSale = (sale) => {
   };
 };
 
-const getAttendees = (sale) => {
+const getAttendees = (attendees) => {
+  console.log("attendees in getAttendees ======>>>>", attendees)
   return {
     type: GET_ATTENDEES,
-    attendees: sale.attendees
+    attendees
   }
 }
 
@@ -62,11 +63,11 @@ export function getAllSales() {
 export function getAllAttendees(sale){
   return async dispatch => {
     const { id } = sale
-    const response = await csrfFetch(`/api/sales/${id}/attendees`);
-    const data = await response.json();
-    console.log("WERE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    console.log(data)
+    const saleId = Number(id)
+    const response = await csrfFetch(`/api/sales/${saleId}/attendees`);
+    const data = await response.json()
     dispatch(getAttendees(data))
+    return data
   }
 }
 
@@ -117,17 +118,17 @@ export const deleteSale = (sale) => async (dispatch) => {
 };
 
 export const goToSale = (sale) => async(dispatch) => {
-  const body = JSON.stringify(sale)
-  console.log("BODY ==========>>>", body )
   const response = await csrfFetch(`/api/sales/${sale.saleId}/attendees`, {
     method: 'POST',
     body: JSON.stringify(sale)
   })
   const attending = await response.json()
-  console.log(typeof(attending) === 'object')
   if(typeof(attending) === 'object'){
     console.log("ATTENDING ==========>>>>",attending)
-    return dispatch(attendSale(attending[attending.length - 1]))
+    return (
+      dispatch(attendSale(attending[attending.length - 1])),
+      console.log("attending =====>>>> after dispatch", attending)
+    )
   }
   return response;
 }
@@ -139,7 +140,8 @@ const salesReducer = (state = initialState, action) => {
       state = action.sales
       return state
     case GET_ATTENDEES:
-      state = action.attendees
+      console.log("STATE IN GET_ATTENDEES ====>>>", state)
+      //state.allAttendees[state.allAttendees.length -1] = action.attendees[action.attendees.length - 1]
       return state
     case ATTEND_SALE:
       state.allAttendees.push(action.attendees.sale)

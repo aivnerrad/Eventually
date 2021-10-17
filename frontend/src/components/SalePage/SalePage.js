@@ -8,19 +8,23 @@ import { useEffect, useState } from "react";
 export default function SalePage() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
+  const userId = currentUser.id
   const { id } = useParams();
   const saleId = Number(id)
   const allSales = useSelector((state) => state.saleData.currentSales);
-  const currentSale = allSales.filter(object => object.id.toString() === id)[0];
+  const currentSale = allSales?.filter(object => object.id.toString() === id)[0];
   const allAttendees = useSelector((state) => state.saleData.allAttendees)
-  const saleAttendees = allAttendees.filter(object => object.saleId.toString() === id)
-  const currentDate = currentSale.date.split("T")[0];
+  const saleAttendees = allAttendees?.filter(object => object.saleId.toString() === id)
+  const newDate = new Date();
+  const currentDate = newDate.toLocaleDateString("en-US");
   const history = useHistory();
   const[peopleGoing, setPeopleGoing] = useState(saleAttendees.length)
-  useEffect((dispatch) => {
+  useEffect(() => {
     console.log("USE EFFECT RAN", peopleGoing)
     console.log("USE EFFECT RAN SALES", saleAttendees.length)
-  }, [dispatch, peopleGoing])
+    const currentlyAttending = saleAttendees.filter(object => object.userId === currentUser.id)
+    console.log("currentlyAttending ======>>", currentlyAttending)
+  })
   const handleDelete = (e) => {
     e.preventDefault()
     dispatch(saleActions.deleteSale(currentSale))
@@ -29,15 +33,24 @@ export default function SalePage() {
 
   const handleAttend = (e) => {
     e.preventDefault()
-    const currentlyAttending = saleAttendees.filter(object => object.userId.toString() === currentUser.id).length > 0
-    if(!currentlyAttending){
-      const userId = currentUser.id
-      console.log("BEFORE DISPATCH", saleAttendees.length)
-      dispatch(saleActions.goToSale({saleId, userId}))
-      return setPeopleGoing(peopleGoing + 1)
-    }
-    else {
-      console.log("No bro, you already said you were going.")
+    const currentlyAttending = saleAttendees.filter(object => object.userId === currentUser.id)
+    console.log("saleAttendees =====>> ", saleAttendees)
+    console.log("allAttendees =====>> ", allAttendees)
+    console.log("currentlyAttending ======>>", currentlyAttending)
+    if(currentlyAttending.length === 0){
+      return (
+        setPeopleGoing(peopleGoing + 1),
+        dispatch(saleActions.goToSale({saleId, userId})),
+        dispatch(saleActions.getAllAttendees(currentSale)),
+        console.log("saleAttendees after dispatch", saleAttendees),
+        console.log("allAttendees after dispatch =====>> ", allAttendees),
+        console.log("currentlyAttending after dispatch ======>>", currentlyAttending)
+        )
+      }
+      else {
+        return (
+          console.log("No bro, you already said you were going.")
+          )
     }
   }
 
