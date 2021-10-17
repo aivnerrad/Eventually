@@ -146,33 +146,17 @@ const salesReducer = (state = initialState, action) => {
     case ATTEND_SALE:
       state.allAttendees.push(action.attendees.sale)
       return state
-    // case GET_ONE_SALE:
-    //   newState = action.payload;
-    //   return newState;
-    // case CREATE_SALE:
-    //   const newSale = action.sale
-    //   sales = state.sales
-    //   sales.push(newSale)
-    //   newState = {
-    //     ...state,
-    //     sales
-    //   }
-    //   return newState;
-    // case UPDATE_SALE:
-    //   const updatedSale = action.sale
-    //   sales = state.sales
-    //   const currentSale = sales.filter(object => object.id === updatedSale.id)[0]
-    //   Object.assign(currentSale, updatedSale)
-    //   newState = {
-    //   ...state,
-    //   sales
-    //   }
-    //   return newState;
-    // case REMOVE_SALE:
-    //   newState = Object.assign({}, state);
-    //   const deleteIndex = newState.sales.indexOf(action.sale)
-    //   newState.sales.splice(deleteIndex)
-    //   return newState;
+    case CREATE_SALE:
+      console.log("STATE IN CREATE_SALE =====>>>>", state)
+      state.currentSales.push(action.sale)
+      return state
+    case UPDATE_SALE:
+      state.currentSales[action.sale] = action.sale
+      return state
+    case REMOVE_SALE:
+      const deleteIndex = state.currentSales.indexOf(action.sale)
+      state.currentSales.splice(deleteIndex)
+      return state;
     default:
       return state;
 }
