@@ -18,6 +18,7 @@ export default function SalePage() {
   const newDate = new Date();
   const currentDate = newDate.toLocaleDateString("en-US");
   const history = useHistory();
+  const [attending, setAttending] = useState(false)
   const[peopleGoing, setPeopleGoing] = useState(saleAttendees.length)
   useEffect(() => {
     console.log("USE EFFECT RAN", peopleGoing)
@@ -33,24 +34,18 @@ export default function SalePage() {
 
   const handleAttend = (e) => {
     e.preventDefault()
-    const currentlyAttending = saleAttendees.filter(object => object.userId === currentUser.id)
-    console.log("saleAttendees =====>> ", saleAttendees)
-    console.log("allAttendees =====>> ", allAttendees)
-    console.log("currentlyAttending ======>>", currentlyAttending)
-    if(currentlyAttending.length === 0){
+    if(!attending){
       return (
         setPeopleGoing(peopleGoing + 1),
+        setAttending(true),
         dispatch(saleActions.goToSale({saleId, userId})),
-        dispatch(saleActions.getAllAttendees(currentSale)),
-        console.log("saleAttendees after dispatch", saleAttendees),
-        console.log("allAttendees after dispatch =====>> ", allAttendees),
-        console.log("currentlyAttending after dispatch ======>>", currentlyAttending)
-        )
-      }
-      else {
-        return (
-          console.log("No bro, you already said you were going.")
-          )
+        dispatch(saleActions.getAllAttendees(currentSale))
+      )
+    }
+    else {
+      return (
+        console.log("No bro, you already said you were going.")
+      )
     }
   }
 
