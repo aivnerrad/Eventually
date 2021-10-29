@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation/Navigation";
 import SalesList from "./components/SalesList/SalesList";
 import SalePage from "./components/SalePage/SalePage"
 import SplashImage from "./components/SplashPageDisplayImage";
+import Footer from "./components/AboutMeFooter";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,7 +18,6 @@ function App() {
   useEffect(() => {
     dispatch(saleActions.getAllSales()).then(() => setIsLoaded(true));
   }, [dispatch])
-
   return (
     <>
       <Navigation isLoaded={isLoaded} />
@@ -34,6 +34,7 @@ function App() {
         </Switch>
       </>
       )}
+      <Footer />
     </>
   );
 }

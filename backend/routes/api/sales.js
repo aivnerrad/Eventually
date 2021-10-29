@@ -3,18 +3,20 @@ const asyncHandler = require('express-async-handler')
 const { Sale, Neighborhood, Category, Attendee } = require('../../db/models');
 const router = express.Router();
 
-//Get sales from DB
+//Get all sales from DB
 router.get(
   '/',
   asyncHandler(async (req, res) => {
     const allNeighborhoods =  await Neighborhood.findAll();
     const allCategories = await Category.findAll();
-    const sales = await Sale.findAll();
-    if(sales)
+    const allAttendees = await Attendee.findAll();
+    const currentSales = await Sale.findAll();
+    if(currentSales)
       return res.json({
-      sales,
+      currentSales,
       allNeighborhoods,
-      allCategories
+      allCategories,
+      allAttendees
       });
   }),
 );
@@ -23,6 +25,7 @@ router.get(
 router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
+    console.log("ID =================>>>", id)
     const id = req.params.id
     const allSales = await Sale.findAll({
       where: {
@@ -37,6 +40,7 @@ router.get(
     return res.json({message:"Sale Not Found"})
   }),
 );
+
 // Create Sale and Post to DB
 router.post(
   '/',
@@ -81,7 +85,6 @@ router.patch(
   }),
 );
 
-
 //Delete Sale From DB
 router.delete(
   '/:id(\\d+)',
@@ -105,36 +108,48 @@ router.delete(
   }),
 );
 
-router.get('/:id/attendees', asyncHandler(async(req, res) => {
+router.get('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
   const saleId = req.params.id
+  console.log("WE GET HERE1")
   const attendees = await Attendee.findAll({
     where: {
       saleId
     }
   })
-
-  res.json(attendees.length)
+  console.log("WE GET HERE2")
+  return res.json(attendees)
 }))
 
-
-router.post('/:id/attendees', asyncHandler(async(req, res) => {
-  const saleId = req.params.id
-  const userId = req.session.auth.userId
-  await Attendee.create({
-    userId,
-    saleId
-  })
-  const attendees = await Attendee.findAll({
+router.post('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
+  console.log("REQBODY ============>>>>", req.body)
+  const { userId, saleId } = req.body
+  const currentlyAttending = await Attendee.findAll({
     where: {
+      userId,
       saleId
     }
   })
-  res.json(attendees.length)
+  if(currentlyAttending.length === 0){
+    await Attendee.create({
+      userId,
+      saleId
+    })
+    const attendees = await Attendee.findAll({
+      where: {
+        saleId
+      }
+    })
+    return res.json(attendees)
+  }
+  else {
+    return res.json({
+      "message": "You're already said you're going!"
+    })
+  }
 }))
 
-router.delete('/:id/attendees', asyncHandler(async(req, res) => {
-  const saleId = req.params.id
-  const userId = req.session.auth.userId
+router.delete('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
+  const { userId, saleId } = req.body
   const like = await Attendee.findOne({
     where: {
       [Op.and]: [{ userId: userId }, { saleId: saleId }]
@@ -150,4 +165,5 @@ router.delete('/:id/attendees', asyncHandler(async(req, res) => {
 
   res.json(attendees.length)
 }))
+
 module.exports = router;

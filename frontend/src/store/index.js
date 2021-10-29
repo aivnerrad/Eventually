@@ -6,7 +6,7 @@ import sessionReducer from './session';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  sales: salesReducer
+  saleData: salesReducer
 });
 
 let enhancer;

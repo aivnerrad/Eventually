@@ -1,25 +1,19 @@
-import { useParams } from 'react-router';
 import { csrfFetch } from './csrf';
 
 const GET_SALES = 'sale/getSales';
-const GET_ONE_SALE = 'sale/getOneSale'
 const CREATE_SALE = 'sale/createSale';
 const REMOVE_SALE = 'sale/removeSale';
-const UPDATE_SALE = 'sale/updateSale'
+const UPDATE_SALE = 'sale/updateSale';
+const GET_ATTENDEES = 'sale/getAttendees';
+const ATTEND_SALE = 'sale/attend';
 
 const getSales = (sales) => {
   return {
     type: GET_SALES,
-    payload: sales,
+    sales
   };
 };
 
-const getOneSale = (sale) => {
-  return {
-    type: GET_ONE_SALE,
-    payload: sale,
-  };
-};
 
 const createSale = (sale) => {
   return {
@@ -42,23 +36,40 @@ const removeSale = (sale) => {
   };
 };
 
-export const getAllSales = () => async dispatch => {
-  const response = await csrfFetch('/api/sales');
-  const data = await response.json();
-  console.log("getAllSales data ------>", data)
-  dispatch(getSales(data));
-  return response;
-};
+const getAttendees = (attendees) => {
+  console.log("attendees in getAttendees ======>>>>", attendees)
+  return {
+    type: GET_ATTENDEES,
+    attendees
+  }
+}
 
-
-export const getCurrentSale = (sale) => async dispatch => {
-  console.log("getCurrentSale sale.id ----->", sale.id)
-  const response = await csrfFetch(`/api/sales/${sale.id}`);
-  const data = await response.json();
-  console.log("getCurrentSale data ------>", data)
-  dispatch(getOneSale(data));
-  return response;
-};
+const attendSale = (sale) => {
+  return {
+    type: ATTEND_SALE,
+    attendees : {
+      sale
+    }
+  }
+}
+export function getAllSales() {
+  return async dispatch => {
+    const response = await csrfFetch('/api/sales');
+    const data = await response.json();
+    dispatch(getSales(data));
+    return response;
+  }
+}
+export function getAllAttendees(sale){
+  return async dispatch => {
+    const { id } = sale
+    const saleId = Number(id)
+    const response = await csrfFetch(`/api/sales/${saleId}/attendees`);
+    const data = await response.json()
+    dispatch(getAttendees(data))
+    return data
+  }
+}
 
 export const create = (sale) => async (dispatch) => {
   const {  hostId,
@@ -86,8 +97,6 @@ export const create = (sale) => async (dispatch) => {
 
 export const update = (sale) => async dispatch => {
   const { id } = sale;
-
-
   const response = await csrfFetch(`/api/sales/${id}`,{
     method: "PATCH",
       headers: {
@@ -108,57 +117,49 @@ export const deleteSale = (sale) => async (dispatch) => {
   return response;
 };
 
-const initialState = {};
+export const goToSale = (sale) => async(dispatch) => {
+  const response = await csrfFetch(`/api/sales/${sale.saleId}/attendees`, {
+    method: 'POST',
+    body: JSON.stringify(sale)
+  })
+  const attending = await response.json()
+  if(typeof(attending) === 'object'){
+    console.log("ATTENDING ==========>>>>",attending)
+    return (
+      dispatch(attendSale(attending[attending.length - 1])),
+      console.log("attending =====>>>> after dispatch", attending)
+    )
+  }
+  return response;
+}
+let initialState = {};
 
 const salesReducer = (state = initialState, action) => {
-  let newState;
-  let sales;
   switch (action.type) {
     case GET_SALES:
-      newState = action.payload;
-      return newState;
-    case GET_ONE_SALE:
-      newState = action.payload;
-      return newState;
+      state = action.sales
+      return state
+    case GET_ATTENDEES:
+      console.log("STATE IN GET_ATTENDEES ====>>>", state)
+      //state.allAttendees[state.allAttendees.length -1] = action.attendees[action.attendees.length - 1]
+      return state
+    case ATTEND_SALE:
+      state.allAttendees.push(action.attendees.sale)
+      return state
     case CREATE_SALE:
-        const newSale = action.sale
-        sales = state.sales
-        console.log("sales CREATE_SALE", sales)
-      sales.push(newSale)
-      newState = {
-        ...state,
-        sales
-
-      }
-      return newState;
-      case UPDATE_SALE:
-        const updatedSale = action.sale
-        console.log("updatedSale ------>", updatedSale)
-        sales = state.sales
-      const currentSale = sales.filter(object => object.id === updatedSale.id)[0]
-      //sales.push(updatedSale)
-
-      // console.log("before UPDATE_SALE currentSale ------>", currentSale)
-      Object.assign(currentSale, updatedSale)
-      // console.log("after UPDATE_SALE currentSale ------>", currentSale)
-      newState = {
-        ...state,
-        sales
-
-      }
-      console.log("UPDATE_SALE newState ---->", newState)
-      return newState;
-      case REMOVE_SALE:
-      newState = Object.assign({}, state);
-      console.log("newState BEFORE REMOVE_SALE", newState);
-      console.log("action.sale", action.sale)
-      const deleteIndex = newState.sales.indexOf(action.sale)
-      newState.sales.splice(deleteIndex)
-      console.log("newState BEFORE REMOVE_SALE", newState);
-      return newState;
+      console.log("STATE IN CREATE_SALE =====>>>>", state)
+      state.currentSales.push(action.sale)
+      return state
+    case UPDATE_SALE:
+      state.currentSales[action.sale] = action.sale
+      return state
+    case REMOVE_SALE:
+      const deleteIndex = state.currentSales.indexOf(action.sale)
+      state.currentSales.splice(deleteIndex)
+      return state;
     default:
       return state;
-  }
+}
 };
 
 export default salesReducer;

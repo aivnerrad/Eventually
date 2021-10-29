@@ -7,8 +7,10 @@ import "./CreateSaleForm.css";
 
 function CreateSaleForm({ setShowModal }) {
   const dispatch = useDispatch();
-  const salesObject = useSelector((state) => state.sales);
+  const salesObject = useSelector((state) => state.saleData);
   const sessionUser = useSelector((state) => state.session.user)
+  console.log(sessionUser)
+  console.log(salesObject)
   const allNeighborhoods = salesObject.allNeighborhoods;
   const allCategories = salesObject.allCategories;
   const [hostId, setHostId] = useState(sessionUser.id)
@@ -40,7 +42,7 @@ function CreateSaleForm({ setShowModal }) {
   return (
     <form onSubmit={handleSubmit}>
       <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+        {errors?.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
       <Logo />
       <label>
@@ -55,13 +57,13 @@ function CreateSaleForm({ setShowModal }) {
       <label>
         Neighborhood
         <select value={neighborhoodId} onChange={(e) => setNeighborhoodId(e.target.value)}>
-          {allNeighborhoods.map(neighborhood => <option key={neighborhood.id} value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
+          {allNeighborhoods?.map(neighborhood => <option key={neighborhood.id} value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
         </select>
       </label>
       <label>
         Category
         <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-          {allCategories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
+          {allCategories?.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
         </select>
       </label>
       <label>
