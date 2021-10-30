@@ -3,10 +3,9 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import * as saleActions from "./store/sale"
-import Navigation from "./components/Navigation/Navigation";
-import SalesList from "./components/SalesList/SalesList";
-import SalePage from "./components/SalePage/SalePage"
-import SplashImage from "./components/SplashPageDisplayImage";
+import Navigation from "./components/Navigation";
+import SplashPage from "./components/SplashPage"
+import SalePage from "./components/SalePage"
 import Footer from "./components/AboutMeFooter";
 
 function App() {
@@ -25,10 +24,9 @@ function App() {
       <>
         <Switch>
           <Route exact path="/">
-            <SplashImage />
-            <SalesList />
+            <SplashPage />
           </Route>
-          <Route path="/api/sales/:id">
+          <Route path="/sales/:id">
             <SalePage />
           </Route>
         </Switch>

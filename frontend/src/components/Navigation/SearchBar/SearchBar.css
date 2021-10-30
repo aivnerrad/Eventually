@@ -1,0 +1,23 @@
+#search-bar-div {
+  width: 500px;
+  background-color: #f6fafa;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#search-bar-div:focus-within{
+  border: 1px solid blue;
+}
+
+#search-bar {
+  width: 90%;
+  height: 90%;
+  border: none;
+  background-color: #f6fafa;
+}
+
+#search-bar:focus {
+  outline: none;
+}
