@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'userId',
       as: 'attendee'
     }
-    Sale.hasOne( models.User, { foreignKey: 'hostId'})
     Sale.hasMany( models.Attendee, { foreignKey: 'saleId' })
     Sale.belongsToMany( models.User, attendeesColumnMapping)
 
