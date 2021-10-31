@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Neighborhood.associate = function(models) {
     // associations can be defined here
+    Neighborhood.hasMany( models.Sale, { foreignKey: 'neighborhoodId' })
   };
 
   return Neighborhood;
