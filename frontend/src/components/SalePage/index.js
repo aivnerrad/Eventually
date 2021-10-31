@@ -1,54 +1,73 @@
 import "./SalePage.css"
-import { useSelector, useDispatch } from "react-redux";
-import * as saleActions from "../../store/sale"
+import { useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router";
 import EditSaleModal from "../EditFormModal";
 import { useEffect, useState } from "react";
+import { csrfFetch } from "../../store/csrf";
+import { getAllAttendees } from "../../store/sale";
 
-export default function SalePage() {
-  const dispatch = useDispatch();
+const SalePage = () => {
   const currentUser = useSelector((state) => state.session.user);
-  const userId = currentUser.id
+  const [currentSale, setCurrentSale] = useState({})
+  const [attendees, setAttendees] = useState([])
+  const [attending, setAttending] = useState(false)
   const { id } = useParams();
   const saleId = Number(id)
-  const allSales = useSelector((state) => state.saleData.currentSales);
-  const currentSale = allSales?.filter(object => object.id.toString() === id)[0];
-  const allAttendees = useSelector((state) => state.saleData.allAttendees)
-  const saleAttendees = allAttendees?.filter(object => object.saleId.toString() === id)
   const newDate = new Date();
   const currentDate = newDate.toLocaleDateString("en-US");
   const history = useHistory();
-  const [attending, setAttending] = useState(false)
-  const[peopleGoing, setPeopleGoing] = useState(saleAttendees.length)
+  async function getSale() {
+    const salesResponse = await fetch(`/api/sales/${saleId}`);
+    const salesData = await salesResponse.json();
+    console.log("SINGLE SALE DATA =======>>>", salesData.currentSale)
+    setCurrentSale(salesData.currentSale)
+  }
+  async function getAllAttendees() {
+      const response = await csrfFetch(`/api/sales/${saleId}/attendees`);
+      const data = await response.json()
+      console.log("SALE ATTENDEES DATA =====>>>", data)
+      setAttendees(data)
+      return data
+  }
   useEffect(() => {
-    console.log("USE EFFECT RAN", peopleGoing)
-    console.log("USE EFFECT RAN SALES", saleAttendees.length)
-    const currentlyAttending = saleAttendees.filter(object => object.userId === currentUser.id)
-    console.log("currentlyAttending ======>>", currentlyAttending)
-  })
+    getSale()
+    getAllAttendees()
+
+  }, [attending])
   const handleDelete = (e) => {
     e.preventDefault()
-    dispatch(saleActions.deleteSale(currentSale))
     return history.push("/")
   }
-
-  const handleAttend = (e) => {
+  const handleAttend = async(e) => {
     e.preventDefault()
-    if(!attending){
-      return (
-        setPeopleGoing(peopleGoing + 1),
-        setAttending(true),
-        dispatch(saleActions.goToSale({saleId, userId})),
-        dispatch(saleActions.getAllAttendees(currentSale))
-      )
+    const newAttendee = {
+      userId: currentUser.id,
+      saleId
     }
-    else {
-      return (
-        console.log("No bro, you already said you were going.")
-      )
-    }
+    const response = await csrfFetch(`/api/sales/${saleId}/attendees`, {
+      method: 'POST',
+      body: JSON.stringify({...newAttendee})
+    })
+    const attendeesList = await response.json()
+    setAttending(!attending)
+    console.log("ATTENDING ==========>>>>", attendeesList)
+    return response;
   }
 
+  const deleteAttend = async(e) => {
+    e.preventDefault()
+    const attendeeToDelete = {
+      userId: currentUser.id,
+      saleId
+    }
+    const response = await csrfFetch(`/api/sales/${saleId}/attendees`, {
+      method: 'DELETE',
+      body: JSON.stringify({...attendeeToDelete})
+    })
+    setAttending(!attending)
+  }
+  console.log("hello", typeof currentUser.id)
+  console.log("ATTENDEES.MAP ====>>>", attendees.map(attendee => attendee.userId === currentUser.id)[0])
   let theRightButtons;
   if (currentUser && currentUser.id === currentSale.hostId) {
     theRightButtons = (
@@ -59,7 +78,15 @@ export default function SalePage() {
       </form>
       </>
     );
-  } else {
+  } else if (currentUser  && attendees.map(attendee => attendee.userId === currentUser.id)[0]) {
+    theRightButtons = (
+      <>
+       <form onSubmit={deleteAttend}>
+         <button type="submit">Nevermind</button>
+       </form>
+      </>
+    );
+  } else if (currentUser) {
     theRightButtons = (
       <>
        <form onSubmit={handleAttend}>
@@ -67,18 +94,19 @@ export default function SalePage() {
        </form>
       </>
     );
-  }
-
+   }
   return (
   <div id="sale-info">
-    <h3>This is the {currentSale.title} Page!</h3>
+    <h3>This is the Single Sale Page!</h3>
     <img id="sale-page-image" src={currentSale.imageUrl} alt=""/>
     <p>{currentDate}</p>
     <p> There will be a {currentSale.title} on {currentDate}.</p>
-    <p> There are currently {peopleGoing} people going to this sale!</p>
+    <p> There are currently {attendees.length} people going to this sale!</p>
     <div id="sale-buttons-div">
     {theRightButtons}
     </div>
   </div>
   )
 }
+
+export default SalePage
