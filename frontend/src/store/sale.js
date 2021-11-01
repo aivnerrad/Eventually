@@ -71,30 +71,6 @@ export function getAllAttendees(sale){
   }
 }
 
-export const create = (sale) => async (dispatch) => {
-  const {  hostId,
-    categoryId,
-    neighborhoodId,
-    title,
-    date,
-    imageUrl  } = sale;
-
-  const response = await csrfFetch("/api/sales", {
-    method: "POST",
-    body: JSON.stringify({
-      hostId,
-      categoryId,
-      neighborhoodId,
-      title,
-      date,
-      imageUrl
-    }),
-  });
-  const data = await response.json();
-  dispatch(createSale(data.sale));
-  return response;
-};
-
 export const update = (sale) => async dispatch => {
   const { id } = sale;
   const response = await csrfFetch(`/api/sales/${id}`,{

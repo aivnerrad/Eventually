@@ -2,10 +2,10 @@ import "./index.css";
 
 export default function SplashImage() {
   return (
-    <div id="splash-div">
-      <p>Go to enough of these...</p>
-      <img src="https://www.visitcolumbiacountyga.com/wp-content/uploads/2019/03/yard-sale.jpg" alt="yard-sale"/>
-      <p>Eventually you will need one too!</p>
+    <div id="top-image-div">
+      <div id="splash-div">
+        <h1 id="intro-text">Today is a <u id="intro-underline">beautiful</u> day!</h1>
+      </div>
     </div>
   )
 }
