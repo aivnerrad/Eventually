@@ -37,6 +37,10 @@ input, button, a {
 
 }
 
+input:hover {
+  border: 1px solid #aaaaaa
+}
+
 input:focus{
   border: 2px solid rgb(91, 91, 255);
   border-radius: 5px;
@@ -45,6 +49,7 @@ input:focus{
 
 button:hover{
  cursor: pointer;
+ border: 1px solid #aaaaaa
 
 }
 
