@@ -3,6 +3,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import Logo from "../Logo/Logo";
 import "./LoginForm.css"
+import { NavLink } from "react-router-dom";
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -37,26 +38,31 @@ function LoginForm() {
           ))}
         </ul>
         <Logo />
-        <label>
-          Username or Email
+        <div id="login-header">
+          <h1>Log in</h1>
+        </div>
           <input
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
+            placeholder="Email address"
             required
           />
-        </label>
-        <label>
-          Password
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
             required
           />
-        </label>
-        <button type="submit">Log In</button>
-        <button type="submit" onClick={enterDemoUser}>Demo User</button>
+        <button id="login-button" type="submit">Log in</button>
+        <button id="demo-user-button" type="submit" onClick={enterDemoUser}>Demo User</button>
+        <div id="or-button">
+          or
+        </div>
+        <NavLink to="/signup" id="login-button">
+            <h6>Sign up</h6>
+        </NavLink>
       </form>
       <img src="http://www.organizinghomelife.com/wp-content/uploads/2012/06/Organize-your-yard-sale-1024x7681.jpg" alt="yard-sale"/>
     </div>

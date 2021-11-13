@@ -20,3 +20,37 @@ label {
   width: 50%;
 
 }
+
+#login-header {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #1e0a3c;
+}
+
+input, button, a {
+  width: 90%;
+  height: 55px;
+  border: 1px solid #dedede;
+  background-color: #f6fafa;
+  margin: 2px;
+
+}
+
+input:focus{
+  border: 2px solid rgb(91, 91, 255);
+  border-radius: 5px;
+  outline: none;
+}
+
+button:hover{
+ cursor: pointer;
+
+}
+
+#login-button{
+  background-color: #d1410c;
+  color: white;
+  font-weight: 800;
+  line-height: 2.5px;
+}
