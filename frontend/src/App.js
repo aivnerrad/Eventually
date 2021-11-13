@@ -7,34 +7,33 @@ import Navigation from "./components/Navigation";
 import SplashPage from "./components/SplashPage"
 import SalePage from "./components/SalePage"
 import Footer from "./components/AboutMeFooter";
+import LoginFormPage from "./components/LoginFormPage";
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
-    dispatch(sessionActions.restoreUser())
+    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
   }, [dispatch]);
-  useEffect(() => {
-    dispatch(saleActions.getAllSales()).then(() => setIsLoaded(true));
-  }, [dispatch])
+
   return (
-    <>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
-      <>
+        <>
         <Switch>
           <Route exact path="/">
+            <Navigation isLoaded={isLoaded} />
             <SplashPage />
           </Route>
+          <Route exact path="/signin">
+            <LoginFormPage />
+          </Route>
           <Route path="/sales/:id">
+            <Navigation isLoaded={isLoaded} />
             <SalePage />
           </Route>
         </Switch>
+        <Footer />
       </>
-      )}
-      <Footer />
-    </>
-  );
+      );
 }
 
 export default App;

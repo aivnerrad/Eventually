@@ -17,6 +17,7 @@
     align-items: center;
     width: 350px;
     height: 450px;
+    background-color: white;
  }
 
  #sale-image-div {
@@ -24,6 +25,7 @@
    width: 100%;
    background-size: 100% 100%;
    background-position: center top;
+   border: .25px solid #dedede;
  }
 
 #sale-title {

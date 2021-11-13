@@ -6,8 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  margin-bottom: 20px;
+  width: 95%;
 
 }
 
@@ -16,4 +15,32 @@
   justify-content: space-evenly;
   align-items: center;
   width: 25%;
+}
+
+
+#create-event-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(70, 70, 255);
+  font-weight: 700;
+  width: 175px;
+
+}
+
+#create-event-button:hover {
+  background-color: #f6f6f6;
+}
+
+#signin-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  width: 175px;
+  color: rgb(75, 75, 75);
+}
+
+#signin-button:hover {
+  background-color: #f6f6f6;
 }

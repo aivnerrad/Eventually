@@ -1,11 +1,10 @@
 #logo {
-  
-  color: #f05537
+  color: #f05537;
+  letter-spacing: -1px;
 }
 
 #logo-div {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 20px;
 }

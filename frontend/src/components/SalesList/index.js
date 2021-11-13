@@ -7,9 +7,11 @@ const SalesList = () => {
   const [creatingSale, setCreatingSale] = useState(false)
 
   const today = new Date(Date.UTC(2021, 10, 6))
+  const daysOfTheWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
   console.log("TODAY ==========>>>>", today)
   const format = today.toLocaleString('en-US')
   console.log("FORMAT =========>>>>", format)
+  console.log("DAY OF THE WEEK ====>>" , daysOfTheWeek[today.getDay()])
 useEffect(() => {
   (async function getAllSales() {
       const response = await fetch('/api/sales');
@@ -22,7 +24,7 @@ useEffect(() => {
 }, [creatingSale])
 
 
-  console.log("ALL SALES IN DATABASE =====>>>", allSales)
+  console.log("ALL SALES IN DATABASE =====>>>", allSales[0]?.createdAt)
   console.log("ALL NEIGHBORHOODS IN DATABASE =====>>>", allNeighborhoods)
 
   return (

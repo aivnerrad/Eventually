@@ -9,3 +9,14 @@ form {
 label {
   font-weight: bold;
 }
+
+#image-form-side-by-side {
+  display: flex;
+  width: 100%;
+}
+
+#login-form {
+  height: 100%;
+  width: 50%;
+
+}
