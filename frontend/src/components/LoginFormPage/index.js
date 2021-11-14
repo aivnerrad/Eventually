@@ -39,7 +39,7 @@ function LoginForm() {
         </ul>
         <Logo />
         <div id="login-header">
-          <h1>Log in</h1>
+          <h1 id="login-word">Log in</h1>
         </div>
           <input
             type="text"
@@ -57,14 +57,11 @@ function LoginForm() {
           />
         <button id="login-button" type="submit">Log in</button>
         <button id="demo-user-button" type="submit" onClick={enterDemoUser}>Demo User</button>
-        <div id="or-button">
-          or
-        </div>
-        <NavLink to="/signup" id="login-button">
-            <h6>Sign up</h6>
+        <NavLink to="/signup">
+            <h6 id="signup-button">Sign up for Eventually</h6>
         </NavLink>
       </form>
-      <img src="http://www.organizinghomelife.com/wp-content/uploads/2012/06/Organize-your-yard-sale-1024x7681.jpg" alt="yard-sale"/>
+      <img id="login-image" src="http://www.organizinghomelife.com/wp-content/uploads/2012/06/Organize-your-yard-sale-1024x7681.jpg" alt="yard-sale"/>
     </div>
   );
 }

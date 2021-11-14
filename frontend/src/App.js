@@ -6,7 +6,7 @@ import * as saleActions from "./store/sale"
 import Navigation from "./components/Navigation";
 import SplashPage from "./components/SplashPage"
 import SalePage from "./components/SalePage"
-import Footer from "./components/AboutMeFooter";
+import Footer from "./components/Footer";
 import LoginFormPage from "./components/LoginFormPage";
 
 function App() {
