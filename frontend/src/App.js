@@ -8,6 +8,7 @@ import SplashPage from "./components/SplashPage"
 import SalePage from "./components/SalePage"
 import Footer from "./components/Footer";
 import LoginFormPage from "./components/LoginFormPage";
+import SignupFormPage from "./components/SignupFormPage"
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +26,9 @@ function App() {
           </Route>
           <Route exact path="/signin">
             <LoginFormPage />
+          </Route>
+          <Route exact path="/signup">
+            <SignupFormPage />
           </Route>
           <Route path="/sales/:id">
             <Navigation isLoaded={isLoaded} />
