@@ -5,10 +5,10 @@ import "./SplashPage.css"
 
 function SplashPage() {
   return (
-    <>
+    <div id="splash-page">
       <SplashImage />
       <SalesList />
-    </>
+    </div>
   )
 }
 

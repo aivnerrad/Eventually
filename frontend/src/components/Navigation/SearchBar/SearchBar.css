@@ -1,14 +1,15 @@
 #search-bar-div {
   width: 500px;
   background-color: #f6fafa;
-  height: 45px;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 #search-bar-div:focus-within{
-  border: 1px solid blue;
+  border: 2px solid rgb(91, 91, 255);
+  border-radius: 5px;
 }
 
 #search-bar {

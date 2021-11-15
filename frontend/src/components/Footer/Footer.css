@@ -1,0 +1,22 @@
+#footer {
+  background-color: #1e0a3c;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  color: white;
+  width: 100%;
+  font-size: 12px;
+}
+#footer-link {
+  color: white;
+}
+
+#title-year {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#footer-title{
+  margin-left: 3px;
+}

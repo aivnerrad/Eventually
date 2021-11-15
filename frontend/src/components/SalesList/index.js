@@ -5,29 +5,23 @@ const SalesList = () => {
   const [allSales, setAllSales] = useState([])
   const [allNeighborhoods, setAllNeighborhoods] = useState([])
   const [creatingSale, setCreatingSale] = useState(false)
-
   const today = new Date(Date.UTC(2021, 10, 6))
-  console.log("TODAY ==========>>>>", today)
+  const daysOfTheWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
   const format = today.toLocaleString('en-US')
-  console.log("FORMAT =========>>>>", format)
-useEffect(() => {
+
+  useEffect(() => {
   (async function getAllSales() {
       const response = await fetch('/api/sales');
       const data = await response.json();
-      console.log("DATA =======>>>", data)
       setAllSales(data.currentSales)
       setAllNeighborhoods(data.allNeighborhoods)
       return response;
   })()
 }, [creatingSale])
 
-
-  console.log("ALL SALES IN DATABASE =====>>>", allSales)
-  console.log("ALL NEIGHBORHOODS IN DATABASE =====>>>", allNeighborhoods)
-
   return (
     <div>
-        <h2 id="sales-list-title">Sales near you</h2>
+      <h2 id="sales-list-title">Sales near you</h2>
       <div id="sales-list">
         {allSales.map(sale => (
           <NavLink key={sale.id} to={`/sales/${sale.id}`}>

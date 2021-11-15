@@ -1,0 +1,42 @@
+#signup-page {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+#signup-form {
+  width: 50%;
+  height: 100%;
+}
+
+#signup-page-image {
+  background-image: url("https://www.moneycrashers.com/wp-content/uploads/2011/08/garage-sale-tips.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 50%;
+  height: 100%;
+}
+
+#signup-button {
+  background-color: #d1410c;
+  color: white;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+#login-link {
+  color: #3659e3;
+  font-size: 14px;
+}
+
+#login-link:hover {
+  text-decoration: underline;
+}
+
+#signup-word {
+  font-size: 46px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: #1e0a3c;
+}

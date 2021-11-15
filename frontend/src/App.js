@@ -6,35 +6,38 @@ import * as saleActions from "./store/sale"
 import Navigation from "./components/Navigation";
 import SplashPage from "./components/SplashPage"
 import SalePage from "./components/SalePage"
-import Footer from "./components/AboutMeFooter";
+import Footer from "./components/Footer";
+import LoginFormPage from "./components/LoginFormPage";
+import SignupFormPage from "./components/SignupFormPage"
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
-    dispatch(sessionActions.restoreUser())
+    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
   }, [dispatch]);
-  useEffect(() => {
-    dispatch(saleActions.getAllSales()).then(() => setIsLoaded(true));
-  }, [dispatch])
+
   return (
-    <>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
-      <>
+        <>
         <Switch>
           <Route exact path="/">
+            <Navigation isLoaded={isLoaded} />
             <SplashPage />
           </Route>
+          <Route exact path="/signin">
+            <LoginFormPage />
+          </Route>
+          <Route exact path="/signup">
+            <SignupFormPage />
+          </Route>
           <Route path="/sales/:id">
+            <Navigation isLoaded={isLoaded} />
             <SalePage />
           </Route>
         </Switch>
+        <Footer />
       </>
-      )}
-      <Footer />
-    </>
-  );
+      );
 }
 
 export default App;
