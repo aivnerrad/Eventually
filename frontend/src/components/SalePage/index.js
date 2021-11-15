@@ -79,7 +79,7 @@ const SalePage = () => {
     theRightButtons = (
       <>
        <form onSubmit={deleteAttend}>
-         <button type="submit">Nevermind</button>
+         <button id="attending-button" type="submit">Nevermind</button>
        </form>
       </>
     );
@@ -87,7 +87,7 @@ const SalePage = () => {
     theRightButtons = (
       <>
        <form onSubmit={handleAttend}>
-         <button type="submit">I'm Going!</button>
+         <button id="attending-button" type="submit">I'm Going!</button>
        </form>
       </>
     );
@@ -97,7 +97,7 @@ const SalePage = () => {
     <div id="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
     <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
     <div id="sale-page-info">
-      <p>{currentDate}</p>
+      <p><strong>About this sale</strong></p>
       <p> There will be a {currentSale.title} on {currentDate}.</p>
       <p> There are currently {attendees.length} people going to this sale!</p>
       <div id="sale-buttons-div">
