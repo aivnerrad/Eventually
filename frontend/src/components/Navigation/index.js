@@ -14,7 +14,7 @@ function Navigation({ isLoaded }){
     sessionLinks = (
       <div id="user-info">
         <ProfileButton user={sessionUser} />
-        <p><strong>{sessionUser.email}</strong></p>
+        <p id="user-email">{sessionUser.email}</p>
       </div>
     );
   } else {

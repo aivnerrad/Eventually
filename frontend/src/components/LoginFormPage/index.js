@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import "./LoginForm.css"
-import { NavLink } from "react-router-dom";
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const sessionUser = useSelector(state => state.session.user);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
+  if(sessionUser){
+    history.push("/")
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
@@ -58,10 +63,11 @@ function LoginForm() {
         <button id="login-button" type="submit">Log in</button>
         <button id="demo-user-button" type="submit" onClick={enterDemoUser}>Demo User</button>
         <NavLink to="/signup">
-            <h6 id="signup-button">Sign up for Eventually</h6>
+            <h6 id="signup-link">Sign up for Eventually</h6>
         </NavLink>
       </form>
-      <img id="login-image" src="http://www.organizinghomelife.com/wp-content/uploads/2012/06/Organize-your-yard-sale-1024x7681.jpg" alt="yard-sale"/>
+      <div id="login-page-image">
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import Logo from "../Logo/Logo";
 
@@ -31,49 +31,49 @@ function SignupFormPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div id="signup-page">
+    <form id="signup-form" onSubmit={handleSubmit}>
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
       <Logo />
-      <label>
-        Email
-        <input
+      <h1 id="signup-word">Create an account</h1>
+        <input id="signup-input"
           type="text"
           value={email}
+          placeholder="Email Address"
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Username
-        <input
+        <input id="signup-input"
           type="text"
           value={username}
+          placeholder="User Name"
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Password
-        <input
+        <input id="signup-input"
           type="password"
           value={password}
+          placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Confirm Password
-        <input
+        <input id="signup-input"
           type="password"
           value={confirmPassword}
+          placeholder="Confirm Password"
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-      </label>
-      <button type="submit">Sign Up</button>
+      <button id="signup-button" type="submit">Sign Up</button>
+    <NavLink to="/signin">
+      <h6 id="login-link">Log In</h6>
+    </NavLink>
     </form>
+    <div id="signup-page-image">
+    </div>
+    </div>
   );
 }
 

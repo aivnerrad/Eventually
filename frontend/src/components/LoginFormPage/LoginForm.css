@@ -13,7 +13,7 @@ label {
 #image-form-side-by-side {
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 #login-form {
@@ -33,7 +33,7 @@ input, button {
   height: 55px;
   border: 1px solid #dedede;
   background-color: #f6fafa;
-  margin: 2px;
+  margin: 6px;
   border-radius: 5px;
 
 }
@@ -77,12 +77,21 @@ button:hover{
   transition-duration: .3s;
 }
 
-#signup-button {
+#signup-link {
   color: #3659e3;
   font-size: 14px;
   font-weight: 600;
 }
 
-#signup-button:hover {
+#signup-link:hover {
   text-decoration: underline;
+}
+
+#login-page-image {
+  background-image: url("https://img.tpt.cloud/nextavenue/uploads/2021/04/Hold-a-Yard-Sale-In-the-Pandemic.inside.1280x720.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 50%;
+  height: 100%;
 }
