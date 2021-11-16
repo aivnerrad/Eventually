@@ -9,6 +9,7 @@ import SalePage from "./components/SalePage"
 import Footer from "./components/Footer";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage"
+import CreateSalePage from "./components/CreateSalePage";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route exact path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route exact path="/create-event">
+            <CreateSalePage />
           </Route>
           <Route path="/sales/:id">
             <Navigation isLoaded={isLoaded} />
