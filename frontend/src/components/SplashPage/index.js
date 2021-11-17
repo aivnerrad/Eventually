@@ -1,5 +1,5 @@
 import React from "react";
-import SalesList from "../SalesList";
+import SalesList from "../SalesList/SalesList";
 import SplashImage from "../SplashPageDisplayImage";
 import "./SplashPage.css"
 
