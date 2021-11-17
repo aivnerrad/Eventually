@@ -45,3 +45,14 @@
   justify-content: flex-start;
 
 }
+
+#sale-location{
+  color: black;
+  font-weight: 700;
+}
+
+#sale:hover {
+  transition-property: all;
+  transition-duration: .3s;
+  box-shadow: 10px 10px 40px #dedede;
+}

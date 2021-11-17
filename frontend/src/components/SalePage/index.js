@@ -4,7 +4,6 @@ import { useParams, useHistory } from "react-router";
 import EditSaleModal from "../EditFormModal";
 import { useEffect, useState } from "react";
 import { csrfFetch } from "../../store/csrf";
-import { getAllAttendees } from "../../store/sale";
 
 const SalePage = () => {
   const currentUser = useSelector((state) => state.session.user);
@@ -16,16 +15,15 @@ const SalePage = () => {
   const newDate = new Date();
   const currentDate = newDate.toLocaleDateString("en-US");
   const history = useHistory();
+
   async function getSale() {
     const salesResponse = await fetch(`/api/sales/${saleId}`);
     const salesData = await salesResponse.json();
-    console.log("SINGLE SALE DATA =======>>>", salesData.currentSale)
     setCurrentSale(salesData.currentSale)
   }
   async function getAllAttendees() {
       const response = await csrfFetch(`/api/sales/${saleId}/attendees`);
       const data = await response.json()
-      console.log("SALE ATTENDEES DATA =====>>>", data)
       setAttendees(data)
       return data
   }
@@ -50,8 +48,7 @@ const SalePage = () => {
     })
     const attendeesList = await response.json()
     setAttending(!attending)
-    console.log("ATTENDING ==========>>>>", attendeesList)
-    return response;
+    return attendeesList;
   }
 
   const deleteAttend = async(e) => {
@@ -65,9 +62,9 @@ const SalePage = () => {
       body: JSON.stringify({...attendeeToDelete})
     })
     setAttending(!attending)
+    return response
   }
-  console.log("hello", typeof currentUser.id)
-  console.log("ATTENDEES.MAP ====>>>", attendees.map(attendee => attendee.userId === currentUser.id)[0])
+
   let theRightButtons;
   if (currentUser && currentUser.id === currentSale.hostId) {
     theRightButtons = (
@@ -78,11 +75,11 @@ const SalePage = () => {
       </form>
       </>
     );
-  } else if (currentUser  && attendees.map(attendee => attendee.userId === currentUser.id)[0]) {
+  } else if (currentUser  && attendees.filter(attendee => attendee.userId === currentUser.id).length > 0) {
     theRightButtons = (
       <>
        <form onSubmit={deleteAttend}>
-         <button type="submit">Nevermind</button>
+         <button id="attending-button" type="submit">Nevermind</button>
        </form>
       </>
     );
@@ -90,20 +87,22 @@ const SalePage = () => {
     theRightButtons = (
       <>
        <form onSubmit={handleAttend}>
-         <button type="submit">I'm Going!</button>
+         <button id="attending-button" type="submit">I'm Going!</button>
        </form>
       </>
     );
    }
   return (
-  <div id="sale-info">
-    <h3>This is the Single Sale Page!</h3>
-    <img id="sale-page-image" src={currentSale.imageUrl} alt=""/>
-    <p>{currentDate}</p>
-    <p> There will be a {currentSale.title} on {currentDate}.</p>
-    <p> There are currently {attendees.length} people going to this sale!</p>
-    <div id="sale-buttons-div">
-    {theRightButtons}
+  <div id="sale-page">
+    <div id="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
+    <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
+    <div id="sale-page-info">
+      <p><strong>About this sale</strong></p>
+      <p> There will be a {currentSale.title} on {currentDate}.</p>
+      <p> There are currently {attendees.length} people going to this sale!</p>
+      <div id="sale-buttons-div">
+      {theRightButtons}
+      </div>
     </div>
   </div>
   )
