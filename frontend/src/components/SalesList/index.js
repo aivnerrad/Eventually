@@ -4,9 +4,8 @@ import { NavLink } from "react-router-dom";
 const SalesList = () => {
   const [allSales, setAllSales] = useState([])
   const [allNeighborhoods, setAllNeighborhoods] = useState([])
-  const [creatingSale, setCreatingSale] = useState(false)
   const today = new Date(Date.UTC(2021, 10, 6))
-  const daysOfTheWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+  //const daysOfTheWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
   const format = today.toLocaleString('en-US')
 
   useEffect(() => {
@@ -17,7 +16,7 @@ const SalesList = () => {
       setAllNeighborhoods(data.allNeighborhoods)
       return response;
   })()
-}, [creatingSale])
+}, [])
 
   return (
     <div>
