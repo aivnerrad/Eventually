@@ -98,7 +98,7 @@ const SalePage = () => {
     <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
     <div id="sale-page-info">
       <p><strong>About this sale</strong></p>
-      <p> There will be a {currentSale.title} on {currentDate}.</p>
+      <p> {currentSale.title} is on {currentDate}.</p>
       <p> There are currently {attendees.length} people going to this sale!</p>
       <div id="sale-buttons-div">
       {theRightButtons}
