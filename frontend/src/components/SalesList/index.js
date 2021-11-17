@@ -23,7 +23,7 @@ const SalesList = () => {
     <div>
       <h2 id="sales-list-title">Sales near you</h2>
       <div id="sales-list">
-        {allSales.map(sale => (
+        {allSales && allSales.map(sale => (
           <NavLink key={sale.id} to={`/sales/${sale.id}`}>
             <div key={sale.id} id="sale">
               <div id="sale-image-div" style={{backgroundImage: "url(" + sale.imageUrl + ")"}}>
