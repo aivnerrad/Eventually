@@ -17,7 +17,7 @@ const SalesList = () => {
       return response;
   })()
 }, [])
-
+  console.log("allSales ---->", allSales)
   return (
     <div>
       <h2 id="sales-list-title">Sales near you</h2>
