@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { csrfFetch } from "../../store/csrf";
 import "./CreateSalePage.css";
@@ -7,12 +7,24 @@ import { NavLink } from "react-router-dom";
 
 function CreateSalePage() {
   const sessionUser = useSelector((state) => state.session.user)
-  const [categoryId, setCategoryId] = useState(1)
-  const [neighborhoodId, setNeighborhoodId] = useState(1)
+  const [categoryId, setCategoryId] = useState()
+  const [neighborhoodId, setNeighborhoodId] = useState()
+  const [allNeighborhoods, setAllNeighborhoods] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
   const [title, setTitle] = useState("")
   const [date, setDate] = useState(new Date())
   const [imageUrl, setImageUrl] = useState("")
   const [errors, setErrors] = useState([])
+
+  useEffect(() => {
+    (async function neighborhoodFetch() {
+      const response = await csrfFetch("/api/sales")
+      const data = await response.json();
+      setAllNeighborhoods(data.allNeighborhoods)
+      setAllCategories(data.allCategories)
+      return data
+    })()
+  }, [errors])
 
 
   const createSale = async(e) => {
@@ -29,8 +41,16 @@ function CreateSalePage() {
         imageUrl
       })
     })
-    const data = await response.json();
-    return data;
+    if(response.ok){
+      console.log("RESPONSE IS OK")
+      const data = await response.json();
+      return data;
+    } else {
+      console.log("RESPONSE IS NOT OK ---->", response)
+      setErrors(response.error)
+      return response.error
+    }
+
   };
 
   return (
@@ -58,12 +78,12 @@ function CreateSalePage() {
           onChange={(e) => setTitle(e.target.value)}
           required
         />
-        {/* <select value={neighborhoodId} onChange={(e) => setNeighborhoodId(e.target.value)}>
+        <select value={neighborhoodId} onChange={(e) => setNeighborhoodId(e.target.value)}>
           {allNeighborhoods?.map(neighborhood => <option key={neighborhood.id} value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
-        </select> */}
-        {/* <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+        </select>
+        <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
           {allCategories?.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
-        </select> */}
+        </select>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
         <input type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
       <button type="submit">Create Sale</button>

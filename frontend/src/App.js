@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
-import * as saleActions from "./store/sale"
 import Navigation from "./components/Navigation";
 import SplashPage from "./components/SplashPage"
 import SalePage from "./components/SalePage"

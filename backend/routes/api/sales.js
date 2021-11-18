@@ -44,25 +44,21 @@ router.get(
 // Create Sale and Post to DB
 router.post(
   '/',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     const { hostId,
       categoryId,
       neighborhoodId,
       title,
       date,
       imageUrl } = req.body;
+    console.log("req.body ----->>", req.body)
     const sale = await Sale.create({ hostId,
       categoryId,
       neighborhoodId,
       title,
       date,
-      imageUrl });
-
-    return res.json({
-      sale,
-    });
-  }),
-);
+      imageUrl })
+  }))
 
 //Update a Sale in the DB
 router.patch(

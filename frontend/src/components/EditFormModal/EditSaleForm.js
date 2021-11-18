@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import * as saleActions from "../../store/sale";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams, useHistory } from "react-router-dom";
 import Logo from "../Logo/Logo";
@@ -42,7 +41,6 @@ function EditSaleForm({ setShowModal }) {
       date,
       imageUrl
      }
-    dispatch(saleActions.update(sale))
     return history.push("/")
 
   };

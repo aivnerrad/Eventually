@@ -16,22 +16,22 @@ const SalePage = () => {
   const currentDate = newDate.toLocaleDateString("en-US");
   const history = useHistory();
 
-  async function getSale() {
-    const salesResponse = await fetch(`/api/sales/${saleId}`);
-    const salesData = await salesResponse.json();
-    setCurrentSale(salesData.currentSale)
-  }
-  async function getAllAttendees() {
-      const response = await csrfFetch(`/api/sales/${saleId}/attendees`);
-      const data = await response.json()
-      setAttendees(data)
-      return data
-  }
   useEffect(() => {
+    async function getSale() {
+      const salesResponse = await fetch(`/api/sales/${saleId}`);
+      const salesData = await salesResponse.json();
+      setCurrentSale(salesData.currentSale)
+    }
+    async function getAllAttendees() {
+        const response = await csrfFetch(`/api/sales/${saleId}/attendees`);
+        const data = await response.json()
+        setAttendees(data)
+        return data
+    }
     getSale()
     getAllAttendees()
 
-  }, [attending])
+  }, [attending, saleId])
   const handleDelete = (e) => {
     e.preventDefault()
     return history.push("/")
