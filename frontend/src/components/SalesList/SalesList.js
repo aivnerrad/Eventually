@@ -28,7 +28,6 @@ const SalesList = () => {
               <div id="sale-image-div" style={{backgroundImage: "url(" + sale.imageUrl + ")"}}>
               </div>
               <div id="sale-text">
-                <h2 id="sale-title">{sale?.title}</h2>
                 <p id="date-and-time"><strong> {format}</strong></p>
                 {allNeighborhoods.map(neighborhood => neighborhood.id === sale.neighborhoodId && <p id="sale-location">{neighborhood.name}</p>)}
               </div>
