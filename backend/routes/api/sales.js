@@ -26,7 +26,6 @@ router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
     const id = req.params.id
-    console.log("ID =================>>>", id)
     const allSales = await Sale.findAll({
       where: {
         id
@@ -106,18 +105,15 @@ router.delete(
 
 router.get('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
   const saleId = req.params.id
-  console.log("WE GET HERE1")
   const attendees = await Attendee.findAll({
     where: {
       saleId
     }
   })
-  console.log("WE GET HERE2")
   return res.json(attendees)
 }))
 
 router.post('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
-  console.log("REQBODY ============>>>>", req.body)
   const { userId, saleId } = req.body
   const currentlyAttending = await Attendee.findAll({
     where: {
@@ -146,7 +142,6 @@ router.post('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
 
 router.delete('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
   const { userId, saleId } = req.body
-  console.log("REQ.BODY =========>>>>", req.body)
   const like = await Attendee.findOne({
     where: {
       userId,

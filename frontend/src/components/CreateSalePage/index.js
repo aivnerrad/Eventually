@@ -42,11 +42,9 @@ function CreateSalePage() {
       })
     })
     if(response.ok){
-      console.log("RESPONSE IS OK")
       const data = await response.json();
       return data;
     } else {
-      console.log("RESPONSE IS NOT OK ---->", response)
       setErrors(response.error)
       return response.error
     }
