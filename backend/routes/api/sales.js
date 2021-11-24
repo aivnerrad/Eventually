@@ -57,8 +57,8 @@ router.post(
       title,
       date,
       imageUrl })
+    return res.json(sale);
   }))
-
 //Update a Sale in the DB
 router.patch(
   '/:id(\\d+)',

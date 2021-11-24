@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router";
+import { useHistory } from "react-router";
 import { csrfFetch } from "../../store/csrf";
 import "./CreateSalePage.css";
 import { NavLink } from "react-router-dom";
 
 function CreateSalePage() {
   const sessionUser = useSelector((state) => state.session.user)
-  const [categoryId, setCategoryId] = useState()
-  const [neighborhoodId, setNeighborhoodId] = useState()
+  const history = useHistory();
+  const [categoryId, setCategoryId] = useState(1)
+  const [neighborhoodId, setNeighborhoodId] = useState(1)
   const [allNeighborhoods, setAllNeighborhoods] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [title, setTitle] = useState("")
@@ -24,11 +25,12 @@ function CreateSalePage() {
       setAllCategories(data.allCategories)
       return data
     })()
-  }, [])
+  }, [errors])
 
 
   const createSale = async(e) => {
-    if (!sessionUser) return <Redirect to="/" />;
+    if (!sessionUser) history.push("/signin");
+    console.log("HOSTID:", sessionUser.id, "CATEGORY ID:", categoryId, "NEIGHBORHOODID:", neighborhoodId, "TITLE:", title, "DATE:", date, "IMAGEURL:", imageUrl)
     e.preventDefault();
     const response = await csrfFetch("/api/sales", {
       method: "POST",
@@ -42,11 +44,13 @@ function CreateSalePage() {
       })
     })
     if(response.ok){
-      const data = await response.json();
-      return data;
-    } else {
-      setErrors(response.error)
-      return response.error
+      console.log("RESPONSE ------>>>", response)
+      history.push("/")
+      window.alert("Sale Created Successfully")
+    }else {
+      console.log(response.errors)
+      window.alert("Sale Not Created")
+      setErrors(response.errors)
     }
 
   };

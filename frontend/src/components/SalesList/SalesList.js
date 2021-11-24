@@ -24,7 +24,7 @@ const SalesList = () => {
         {allSales.map(sale => (
           <NavLink key={sale.id} to={`/sales/${sale.id}`}>
             <div key={sale.id} id="sale">
-              <div id="sale-image-div" style={{backgroundImage: "url(" + sale.imageUrl + ")"}}>
+            <div id="sale-image-div" style={{backgroundImage: "url(" + sale.imageUrl + ")"}}>
               </div>
               <div id="sale-text">
                 <h2 id="sale-title">{sale.title}</h2>
