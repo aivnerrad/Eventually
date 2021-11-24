@@ -32,8 +32,11 @@ const SalePage = () => {
     getAllAttendees()
 
   }, [attending, saleId])
-  const handleDelete = (e) => {
+  const handleDelete = async(e) => {
     e.preventDefault()
+    await csrfFetch(`/api/sales/${saleId}`, {
+      method: 'DELETE'
+    })
     return history.push("/")
   }
   const handleAttend = async(e) => {
