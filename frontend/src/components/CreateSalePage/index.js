@@ -24,7 +24,7 @@ function CreateSalePage() {
       setAllCategories(data.allCategories)
       return data
     })()
-  }, [errors])
+  }, [])
 
 
   const createSale = async(e) => {
