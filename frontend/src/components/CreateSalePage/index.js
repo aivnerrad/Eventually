@@ -1,22 +1,36 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import { csrfFetch } from "../../store/csrf";
 import "./CreateSalePage.css";
 import { NavLink } from "react-router-dom";
 
 function CreateSalePage() {
   const sessionUser = useSelector((state) => state.session.user)
+  const history = useHistory();
   const [categoryId, setCategoryId] = useState(1)
   const [neighborhoodId, setNeighborhoodId] = useState(1)
+  const [allNeighborhoods, setAllNeighborhoods] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
   const [title, setTitle] = useState("")
   const [date, setDate] = useState(new Date())
   const [imageUrl, setImageUrl] = useState("")
   const [errors, setErrors] = useState([])
 
+  useEffect(() => {
+    (async function neighborhoodFetch() {
+      const response = await csrfFetch("/api/sales")
+      const data = await response.json();
+      setAllNeighborhoods(data.allNeighborhoods)
+      setAllCategories(data.allCategories)
+      return data
+    })()
+  }, [errors])
+
 
   const createSale = async(e) => {
-    if (!sessionUser) return <Redirect to="/" />;
+    if (!sessionUser) history.push("/signin");
+    console.log("HOSTID:", sessionUser.id, "CATEGORY ID:", categoryId, "NEIGHBORHOODID:", neighborhoodId, "TITLE:", title, "DATE:", date, "IMAGEURL:", imageUrl)
     e.preventDefault();
     const response = await csrfFetch("/api/sales", {
       method: "POST",
@@ -29,8 +43,16 @@ function CreateSalePage() {
         imageUrl
       })
     })
-    const data = await response.json();
-    return data;
+    if(response.ok){
+      console.log("RESPONSE ------>>>", response)
+      history.push("/")
+      window.alert("Sale Created Successfully")
+    }else {
+      console.log(response.errors)
+      window.alert("Sale Not Created")
+      setErrors(response.errors)
+    }
+
   };
 
   return (
@@ -58,12 +80,12 @@ function CreateSalePage() {
           onChange={(e) => setTitle(e.target.value)}
           required
         />
-        {/* <select value={neighborhoodId} onChange={(e) => setNeighborhoodId(e.target.value)}>
+        <select value={neighborhoodId} onChange={(e) => setNeighborhoodId(e.target.value)}>
           {allNeighborhoods?.map(neighborhood => <option key={neighborhood.id} value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
-        </select> */}
-        {/* <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+        </select>
+        <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
           {allCategories?.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
-        </select> */}
+        </select>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
         <input type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
       <button type="submit">Create Sale</button>

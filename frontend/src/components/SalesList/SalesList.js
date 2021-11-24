@@ -17,17 +17,17 @@ const SalesList = () => {
       return response;
   })()
 }, [])
-  console.log("allSales ---->", allSales)
   return (
     <div>
       <h2 id="sales-list-title">Sales near you</h2>
       <div id="sales-list">
-        {allSales.length > 0 && allSales.map(sale => (
+        {allSales.map(sale => (
           <NavLink key={sale.id} to={`/sales/${sale.id}`}>
             <div key={sale.id} id="sale">
-              <div id="sale-image-div" style={{backgroundImage: "url(" + sale.imageUrl + ")"}}>
+            <div id="sale-image-div" style={{backgroundImage: "url(" + sale.imageUrl + ")"}}>
               </div>
               <div id="sale-text">
+                <h2 id="sale-title">{sale.title}</h2>
                 <p id="date-and-time"><strong> {format}</strong></p>
                 {allNeighborhoods.map(neighborhood => neighborhood.id === sale.neighborhoodId && <p id="sale-location">{neighborhood.name}</p>)}
               </div>
