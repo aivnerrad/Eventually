@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/aivnerrad/Eventually/issues"
   },
-  "homepage": "https://github.com/aivnerrad/Eventually#readme"
+  "homepage": "https://github.com/aivnerrad/Eventually#readme",
+  "dependencies": {
+    "sequelize": "^6.12.0-alpha.1"
+  }
 }
