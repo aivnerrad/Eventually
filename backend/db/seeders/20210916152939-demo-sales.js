@@ -1,5 +1,5 @@
 'use strict';
-const date = new Date(Date.UTC(2021, 10, 6)).toLocaleString('en-US')
+const date = new Date(Date.UTC(2021, 11, 16))
 const today = date.toLocaleString('en-US')
 module.exports = {
   up: (queryInterface, Sequelize) => {
