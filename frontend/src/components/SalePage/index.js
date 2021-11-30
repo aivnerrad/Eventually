@@ -35,10 +35,16 @@ const SalePage = () => {
   }, [attending, saleId])
   const handleDelete = async(e) => {
     e.preventDefault()
-    await csrfFetch(`/api/sales/${saleId}`, {
-      method: 'DELETE'
-    })
-    return history.push("/")
+    let alert = window.prompt("Are you sure you want to delete this sale? If so, type yes in the box below.")
+    if(alert.toLowerCase() === 'yes'){
+      await csrfFetch(`/api/sales/${saleId}`, {
+        method: 'DELETE'
+      })
+      return history.push("/")
+    }
+    else{
+      return
+    }
   }
   const handleAttend = async(e) => {
     e.preventDefault()
@@ -102,9 +108,7 @@ const SalePage = () => {
       <p><strong>About this sale</strong></p>
       <p> {currentSale.title} is on {week[new Date(currentSale.date).getDay()]} {new Date(currentSale.date).toLocaleString('en-US')}.</p>
       <p> There are currently {attendees.length} people going to this sale!</p>
-      <div id="sale-buttons-div">
       {theRightButtons}
-      </div>
     </div>
   </div>
   )

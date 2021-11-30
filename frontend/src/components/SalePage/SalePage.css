@@ -60,4 +60,34 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+}
+
+#sale-owner-buttons-div > * {
+  margin: 5px;
+  padding: 5px;
+  border: .5px solid #dedede;
+  color: black;
+  text-decoration: none;
+  border-radius: 5px;
+  width: 40%;
+  height: 40px;
+  text-align: center;
+}
+
+#sale-owner-buttons-div > :first-child {
+  background-color: #179c55;
+}
+
+#sale-owner-buttons-div > :first-child:hover {
+  background-color: #18ad5d;
+}
+
+#sale-owner-buttons-div > :last-child {
+  background-color: rgb(199, 0, 0);
+}
+
+#sale-owner-buttons-div > :last-child:hover {
+  background-color: rgb(210, 0, 0);
+  cursor: not-allowed;
 }
