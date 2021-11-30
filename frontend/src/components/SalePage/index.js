@@ -1,7 +1,6 @@
 import "./SalePage.css"
 import { useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router";
-import EditSaleModal from "../EditSalePage";
 import { useEffect, useState } from "react";
 import { csrfFetch } from "../../store/csrf";
 import { NavLink } from "react-router-dom";
