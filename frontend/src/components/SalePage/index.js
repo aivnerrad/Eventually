@@ -1,9 +1,10 @@
 import "./SalePage.css"
 import { useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router";
-import EditSaleModal from "../EditFormModal";
+import EditSaleModal from "../EditSalePage";
 import { useEffect, useState } from "react";
 import { csrfFetch } from "../../store/csrf";
+import { NavLink } from "react-router-dom";
 
 const SalePage = () => {
   const currentUser = useSelector((state) => state.session.user);
@@ -71,12 +72,10 @@ const SalePage = () => {
   let theRightButtons;
   if (currentUser && currentUser.id === currentSale.hostId) {
     theRightButtons = (
-      <>
-      <EditSaleModal />
-      <form onSubmit={handleDelete}>
-      <button type="submit">Delete Sale</button>
-      </form>
-      </>
+      <div id="sale-owner-buttons-div">
+        <NavLink to={`/sales/${currentSale.id}/edit`}>Edit Sale</NavLink>
+        <div onClick={handleDelete}>Delete Sale</div>
+      </div>
     );
   } else if (currentUser  && attendees.filter(attendee => attendee.userId === currentUser.id).length > 0) {
     theRightButtons = (

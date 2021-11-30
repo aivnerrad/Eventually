@@ -26,7 +26,7 @@ function CreateSalePage() {
       return data
     })()
   }, [errors])
-  
+
   useEffect(()=> window.scrollTo(0,0), [])
 
 
@@ -45,11 +45,9 @@ function CreateSalePage() {
       })
     })
     if(response.ok){
-      console.log("RESPONSE ------>>>", response)
       history.push("/")
       window.alert("Sale Created Successfully")
     }else {
-      console.log(response.errors)
       window.alert("Sale Not Created")
       setErrors(response.errors)
     }
