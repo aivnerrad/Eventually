@@ -39,6 +39,7 @@ function App() {
             <SalePage />
           </Route>
           <Route path="/sales/:id/edit">
+            <Navigation isLoaded={isLoaded} />
             <EditSalePage />
           </Route>
         </Switch>

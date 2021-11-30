@@ -28,7 +28,7 @@ label {
   color: #1e0a3c;
 }
 
-input, button {
+#login-input, button {
   width: 50%;
   height: 55px;
   border: 1px solid #dedede;
@@ -38,7 +38,7 @@ input, button {
 
 }
 
-input:hover {
+#login-input:hover {
   border: 1px solid #aaaaaa;
   transition-duration: .3s;
 

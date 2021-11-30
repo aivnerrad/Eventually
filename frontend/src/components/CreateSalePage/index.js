@@ -72,6 +72,7 @@ function CreateSalePage() {
         <p>Give us some information about your sale. Input an interesting title, select the neighborhood that the sale will be held in, and what kind of sale it is (yard sale, garage sale, etc.).</p>
       </div>
         <input
+          id="login-input"
           type="text"
           value={title}
           placeholder="Sale Title"
@@ -84,8 +85,8 @@ function CreateSalePage() {
         <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
           {allCategories?.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
         </select>
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
-        <input placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
+        <input id="login-input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+        <input id="login-input" placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
       <button type="submit">Create Sale</button>
     </form>
   </div>
