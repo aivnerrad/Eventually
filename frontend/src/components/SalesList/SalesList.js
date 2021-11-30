@@ -11,6 +11,7 @@ const SalesList = () => {
       const data = await response.json();
       setAllSales(data.currentSales)
       setAllNeighborhoods(data.allNeighborhoods)
+      window.scrollTo(0,0)
       return response;
   })()
 }, [])

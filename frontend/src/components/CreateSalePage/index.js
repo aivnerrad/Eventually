@@ -26,6 +26,8 @@ function CreateSalePage() {
       return data
     })()
   }, [errors])
+  
+  useEffect(()=> window.scrollTo(0,0), [])
 
 
   const createSale = async(e) => {

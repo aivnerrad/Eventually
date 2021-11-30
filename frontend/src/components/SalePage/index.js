@@ -27,6 +27,7 @@ const SalePage = () => {
         setAttendees(data)
         return data
     }
+    window.scrollTo(0,0)
     getSale()
     getAllAttendees()
 
