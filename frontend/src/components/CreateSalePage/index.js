@@ -30,7 +30,6 @@ function CreateSalePage() {
 
   const createSale = async(e) => {
     if (!sessionUser) history.push("/signin");
-    console.log("HOSTID:", sessionUser.id, "CATEGORY ID:", categoryId, "NEIGHBORHOODID:", neighborhoodId, "TITLE:", title, "DATE:", date, "IMAGEURL:", imageUrl)
     e.preventDefault();
     const response = await csrfFetch("/api/sales", {
       method: "POST",
@@ -54,7 +53,6 @@ function CreateSalePage() {
     }
 
   };
-
   return (
   <div id="create-event-page">
     <div id="create-event-navbar">
@@ -87,7 +85,7 @@ function CreateSalePage() {
           {allCategories?.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
         </select>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
-        <input type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
+        <input placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
       <button type="submit">Create Sale</button>
     </form>
   </div>

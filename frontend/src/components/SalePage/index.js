@@ -12,9 +12,8 @@ const SalePage = () => {
   const [attending, setAttending] = useState(false)
   const { id } = useParams();
   const saleId = Number(id)
-  const newDate = new Date();
-  const currentDate = newDate.toLocaleDateString("en-US");
   const history = useHistory();
+  const week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
   useEffect(() => {
     async function getSale() {
@@ -101,7 +100,7 @@ const SalePage = () => {
     <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
     <div id="sale-page-info">
       <p><strong>About this sale</strong></p>
-      <p> {currentSale.title} is on {currentDate}.</p>
+      <p> {currentSale.title} is on {week[new Date(currentSale.date).getDay()]} {new Date(currentSale.date).toLocaleString('en-US')}.</p>
       <p> There are currently {attendees.length} people going to this sale!</p>
       <div id="sale-buttons-div">
       {theRightButtons}
