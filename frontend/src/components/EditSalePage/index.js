@@ -7,10 +7,8 @@ import "./EditSalePage.css";
 
 function EditSaleForm() {
   const sessionUser = useSelector((state) => state.session.user)
-  const [allNeighborhoods, setAllNeighborhoods] = useState([]);
   const [allCategories, setAllCategories] = useState([])
   const [categoryId, setCategoryId] = useState(1)
-  const [neighborhoodId, setNeighborhoodId] = useState(1)
   const [title, setTitle] = useState("")
   const [date, setDate] = useState(new Date())
   const [imageUrl, setImageUrl] = useState("")
@@ -20,10 +18,9 @@ function EditSaleForm() {
   const history = useHistory();
 
   useEffect(() => {
-    async function neighborhoodFetch() {
+    async function categoriesFetch() {
       const response = await csrfFetch("/api/sales")
       const data = await response.json();
-      setAllNeighborhoods(data.allNeighborhoods)
       setAllCategories(data.allCategories)
       return data
     }
@@ -33,7 +30,7 @@ function EditSaleForm() {
       setTitle(data.title)
       setImageUrl(data.imageUrl)
     }
-    neighborhoodFetch()
+    categoriesFetch()
     saleFetch()
   }, [numberId])
 
@@ -45,7 +42,6 @@ function EditSaleForm() {
       body: JSON.stringify({
         hostId: sessionUser.id,
         categoryId,
-        neighborhoodId,
         title,
         date,
         imageUrl
@@ -77,12 +73,6 @@ function EditSaleForm() {
           onChange={(e) => setTitle(e.target.value)}
           required
         />
-      </label>
-      <label>
-        Edit Neighborhood
-        <select value={Number(neighborhoodId)} onChange={(e) => setNeighborhoodId(e.target.value)}>
-          {allNeighborhoods.map(neighborhood => <option key={Number(neighborhood.id)} value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
-        </select>
       </label>
       <label>
         Edit Category

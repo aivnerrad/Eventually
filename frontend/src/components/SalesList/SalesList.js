@@ -3,14 +3,12 @@ import "./SalesList.css"
 import { NavLink } from "react-router-dom";
 const SalesList = () => {
   const [allSales, setAllSales] = useState([])
-  const [allNeighborhoods, setAllNeighborhoods] = useState([])
 
   useEffect(() => {
   (async function getAllSales() {
       const response = await fetch('/api/sales');
       const data = await response.json();
       setAllSales(data.currentSales)
-      setAllNeighborhoods(data.allNeighborhoods)
       window.scrollTo(0,0)
       return response;
   })()
@@ -28,7 +26,6 @@ const SalesList = () => {
               <div id="sale-text">
                 <h2 id="sale-title">{sale.title}</h2>
                 <p id="date-and-time"><strong> {new Date(sale.date).toLocaleString('en-US')}</strong></p>
-                {allNeighborhoods.map(neighborhood => neighborhood.id === sale.neighborhoodId && <p id="sale-location">{neighborhood.name}</p>)}
               </div>
             </div>
           </NavLink>))}

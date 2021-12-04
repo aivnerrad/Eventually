@@ -1,20 +1,18 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler')
-const { Sale, Neighborhood, Category, Attendee } = require('../../db/models');
+const { Sale, Category, Attendee } = require('../../db/models');
 const router = express.Router();
 
 //Get all sales from DB
 router.get(
   '/',
   asyncHandler(async (req, res) => {
-    const allNeighborhoods =  await Neighborhood.findAll();
     const allCategories = await Category.findAll();
     const allAttendees = await Attendee.findAll();
     const currentSales = await Sale.findAll();
     if(currentSales)
       return res.json({
       currentSales,
-      allNeighborhoods,
       allCategories,
       allAttendees
       });
@@ -46,14 +44,12 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const { hostId,
       categoryId,
-      neighborhoodId,
       title,
       date,
       imageUrl } = req.body;
     console.log("req.body ----->>", req.body)
     const sale = await Sale.create({ hostId,
       categoryId,
-      neighborhoodId,
       title,
       date,
       imageUrl })
@@ -66,7 +62,6 @@ router.patch(
     const id = req.params.id
     const {  hostId,
       categoryId,
-      neighborhoodId,
       title,
       date,
       imageUrl  } = req.body;
@@ -75,7 +70,7 @@ router.patch(
         id
       }
     })
-    const newSale = await salesArray[0].update({ hostId, categoryId, neighborhoodId, title, date, imageUrl})
+    const newSale = await salesArray[0].update({ hostId, category, title, date, imageUrl})
     return res.json(newSale);
   }),
 );

@@ -22,12 +22,9 @@ module.exports = {
           model: 'Categories'
         }
       },
-      neighborhoodId: {
+      streetAddress: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'Neighborhoods'
-        }
       },
       title: {
         allowNull: false,

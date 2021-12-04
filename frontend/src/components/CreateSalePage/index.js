@@ -4,14 +4,12 @@ import { useHistory } from "react-router";
 import { csrfFetch } from "../../store/csrf";
 import "./CreateSalePage.css";
 import { NavLink } from "react-router-dom";
-import MyMapComponent from "../MapComponent";
+import GMap from "../Map";
 
 function CreateSalePage() {
   const sessionUser = useSelector((state) => state.session.user)
   const history = useHistory();
   const [categoryId, setCategoryId] = useState(1)
-  const [neighborhoodId, setNeighborhoodId] = useState(1)
-  const [allNeighborhoods, setAllNeighborhoods] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [title, setTitle] = useState("")
   const [date, setDate] = useState(new Date())
@@ -19,10 +17,9 @@ function CreateSalePage() {
   const [errors, setErrors] = useState([])
 
   useEffect(() => {
-    (async function neighborhoodFetch() {
+    (async function categoriesFetch() {
       const response = await csrfFetch("/api/sales")
       const data = await response.json();
-      setAllNeighborhoods(data.allNeighborhoods)
       setAllCategories(data.allCategories)
       return data
     })()
@@ -39,7 +36,6 @@ function CreateSalePage() {
       body: JSON.stringify({
         hostId: sessionUser.id,
         categoryId,
-        neighborhoodId,
         title,
         date,
         imageUrl
@@ -70,7 +66,7 @@ function CreateSalePage() {
       </ul>
       <div id="create-event-form-header">
         <h2>Basic Info</h2>
-        <p>Give us some information about your sale. Input an interesting title, select the neighborhood that the sale will be held in, and what kind of sale it is (yard sale, garage sale, etc.).</p>
+        <p>Give us some information about your sale. Input an interesting title, provide an address for that the sale, and tell us what kind of sale it is (yard sale, garage sale, etc.).</p>
       </div>
         <input
           id="login-input"
@@ -80,9 +76,7 @@ function CreateSalePage() {
           onChange={(e) => setTitle(e.target.value)}
           required
         />
-        <select value={neighborhoodId} onChange={(e) => setNeighborhoodId(e.target.value)}>
-          {allNeighborhoods?.map(neighborhood => <option key={neighborhood.id} value={Number(neighborhood.id)}>{neighborhood.name}</option>)}
-        </select>
+        <input id="street-address" placeholder="Street Address"/>
         <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
           {allCategories?.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
         </select>
@@ -90,7 +84,7 @@ function CreateSalePage() {
         <input id="login-input" placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
       <button type="submit">Create Sale</button>
     </form>
-    <MyMapComponent
+    <GMap
     googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
     loadingElement={<div style={{ height: `100%` }} />}
     containerElement={<div style={{ height: `400px` }} />}
