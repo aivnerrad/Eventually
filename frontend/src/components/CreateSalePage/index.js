@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import { csrfFetch } from "../../store/csrf";
 import "./CreateSalePage.css";
 import { NavLink } from "react-router-dom";
+import MyMapComponent from "../MapComponent";
 
 function CreateSalePage() {
   const sessionUser = useSelector((state) => state.session.user)
@@ -89,6 +90,11 @@ function CreateSalePage() {
         <input id="login-input" placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
       <button type="submit">Create Sale</button>
     </form>
+    <MyMapComponent
+    googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
+    loadingElement={<div style={{ height: `100%` }} />}
+    containerElement={<div style={{ height: `400px` }} />}
+    mapElement={<div style={{ height: `100%` }} />} />
   </div>
   );
 }

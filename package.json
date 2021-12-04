@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/aivnerrad/Eventually#readme",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "sequelize": "^6.12.0-alpha.1"
   }
 }

@@ -6,8 +6,9 @@
   color: white;
   width: 100%;
   font-size: 12px;
-  position: relative;
+  position: fixed;
   bottom: 0;
+  z-index: 10;
 }
 #footer-link {
   color: white;

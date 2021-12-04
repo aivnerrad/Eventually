@@ -43,7 +43,7 @@ function App() {
             <EditSalePage />
           </Route>
         </Switch>
-        <Footer />
+          <Footer />
       </>
       );
 }
