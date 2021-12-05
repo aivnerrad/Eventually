@@ -1,9 +1,10 @@
-form {
+#create-event-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  width: 50%;
 }
 
 label {
@@ -47,6 +48,12 @@ label {
   color: white;
   font-weight: bold;
   font-size: 14px;
+}
+
+#main-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 select {

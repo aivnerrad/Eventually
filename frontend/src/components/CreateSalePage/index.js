@@ -33,9 +33,14 @@ function CreateSalePage() {
 
   useEffect(() => {
     (async function geocodeFetch() {
-      const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`)
-      const data = await response.json()
-      setPosition(data.results[0].geometry.location)
+      if(address.length > 1){ // Don't fetch if there isn't an address
+        const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`)
+        const data = await response.json()
+        console.log("data", data)
+        if(data.results.length > 0){ //Don't set position if the results come back empty
+          setPosition(data.results[0].geometry.location)
+        }
+      }
     })()
   },[address])
 
@@ -73,47 +78,52 @@ function CreateSalePage() {
   console.log("Map Markers", markers)
   return (
     <div id="create-event-page">
-    <div id="create-event-navbar">
-      <NavLink id="create-event-navbar-logo" to="/">
-        <h3 id="create-event-navbar-logo-text">eventually...</h3>
-      </NavLink>
-      <div id="create-event-profile-circle">
-        <p id="create-event-profile-circle-text">{sessionUser?.email[0].toUpperCase() + sessionUser?.email[1].toUpperCase()}</p>
+      <div id="create-event-navbar">
+        <NavLink id="create-event-navbar-logo" to="/">
+          <h3 id="create-event-navbar-logo-text">eventually...</h3>
+        </NavLink>
+        <div id="create-event-profile-circle">
+          <p id="create-event-profile-circle-text">{sessionUser?.email[0].toUpperCase() + sessionUser?.email[1].toUpperCase()}</p>
+        </div>
       </div>
+    <div id="main-content">
+      <form id="create-event-form" onSubmit={createSale}>
+        <ul>
+          {errors?.map((error, idx) => <li key={idx}>{error}</li>)}
+        </ul>
+        <div id="create-event-form-header">
+          <h2>Sale Info</h2>
+          <p>Give us some information about your sale. Put an interesting title, provide an address for the sale, and tell us what kind of sale it is (yard sale, garage sale, etc.).</p>
+        </div>
+        <label for="title">Sale Title</label>
+          <input
+            id="login-input"
+            type="text"
+            value={title}
+            placeholder="Sale Title"
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+          <div id="address-finder">
+            <label for="street-address">Street Address</label>
+            <input id="street-address" placeholder="Street Address" onChange={(e) => setAddress(e.target.value)}/>
+            <button id="change-address" onClick={(e) => createMarker(e)} >Find me on the map!</button>
+            </div>
+          <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+            {allCategories?.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
+          </select>
+          <input id="login-input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+          <input id="login-input" placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
+        <button type="submit">Create Sale</button>
+      </form>
+      <GMap
+      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
+      markers={markers}
+      loadingElement={<div style={{ height: `100%`, width: '50%' }} />}
+      containerElement={<div style={{ height: `400px`, width: '50%'}} />}
+      mapElement={<div style={{ height: `70vh`}} />} />
+
     </div>
-    <form onSubmit={createSale}>
-      <ul>
-        {errors?.map((error, idx) => <li key={idx}>{error}</li>)}
-      </ul>
-      <div id="create-event-form-header">
-        <h2>Basic Info</h2>
-        <p>Give us some information about your sale. Input an interesting title, provide an address for that the sale, and tell us what kind of sale it is (yard sale, garage sale, etc.).</p>
-      </div>
-        <input
-          id="login-input"
-          type="text"
-          value={title}
-          placeholder="Sale Title"
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <div id="address-finder">
-          <input id="street-address" placeholder="Street Address" onChange={(e) => setAddress(e.target.value)}/>
-          <button id="change-address" onClick={(e) => createMarker(e)} >Find me on the map!</button>
-          </div>
-        <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-          {allCategories?.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
-        </select>
-        <input id="login-input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
-        <input id="login-input" placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
-      <button type="submit">Create Sale</button>
-    </form>
-    <GMap
-    googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
-    markers={markers}
-    loadingElement={<div style={{ height: `100%` }} />}
-    containerElement={<div style={{ height: `400px` }} />}
-    mapElement={<div style={{ height: `100%` }} />} />
   </div>
   );
 }
