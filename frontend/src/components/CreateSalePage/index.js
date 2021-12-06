@@ -14,7 +14,6 @@ function CreateSalePage() {
   const [date, setDate] = useState(new Date())
   const [imageUrl, setImageUrl] = useState("")
   const [errors, setErrors] = useState([])
-  const [markers, setMarkers] = useState([])
   const [address, setAddress] = useState("")
   const [streetAddress, setStreetAddress] = useState("")
   const [USState, setUSState] = useState("")
@@ -22,6 +21,7 @@ function CreateSalePage() {
   const [position, setPosition] = useState({})
   const [markerCreated, setMarkerCreated] = useState(false)
   const apiKey = "AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
+  const markers = []
   const allCategories = ["Yard Sale", "Garage Sale", "Estate Sale", "Moving Sale", "Flea Market"]
 
   useEffect(()=> window.scrollTo(0,0), []) // Scroll to the top of the page on load
@@ -36,7 +36,7 @@ function CreateSalePage() {
         const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`)
         const data = await response.json()
         console.log("data", data)
-        if(data.results.length > 0){ //Don't set position if the results come back empty
+        if(data.status === 'OK'){ //Don't set position if the results come back empty
           setPosition(data.results[0].geometry.location)
         }
       }
