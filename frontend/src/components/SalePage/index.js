@@ -132,29 +132,19 @@ console.log("SALE PAGE MARKERS ARRAY",markers)
       )
     }
   return (
-  <>
-    <div id="sale-page">
-      <div id="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
-      <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
-      <div id="sale-page-info">
-        <p><strong>About this sale</strong></p>
-        <p> {currentSale.title} is on {week[new Date(currentSale.date).getDay()]} {new Date(currentSale.date).toLocaleString('en-US')}.</p>
-        <p>{currentSale.streetAddress}</p>
-        {attendees.length > 1 && <p> There are currently {attendees.length} people going to this sale!</p>}
-        {attendees.length === 1 && <p> Only {attendees.length} person has said they are going to this sale so far!</p>}
-        {attendees.length < 1 && <p>Nobody is going to this sale yet. You should go!</p>}
-        {theRightButtons}
-      </div>
-    <GMap
-    googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
-    markers={markers}
-    position={markerPosition}
-    zoom={13}
-    loadingElement={<div style={{ height: `100%`, width: '50%' }} />}
-    containerElement={<div style={{ height: `400px`, width: '50%'}} />}
-    mapElement={<div id="map" style={{ height: `40vh`}} />} />
+  <div id="sale-page">
+    <div id="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
+    <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
+    <div id="sale-page-info">
+      <p><strong>About this sale</strong></p>
+      <p> {currentSale.title} is on {week[new Date(currentSale.date).getDay()]} {new Date(currentSale.date).toLocaleString('en-US')}.</p>
+      <p>{currentSale.streetAddress}</p>
+      {attendees.length > 1 && <p> There are currently {attendees.length} people going to this sale!</p>}
+      {attendees.length === 1 && <p> Only {attendees.length} person has said they are going to this sale so far!</p>}
+      {attendees.length < 1 && <p>Nobody is going to this sale yet. You should go!</p>}
+      {theRightButtons}
     </div>
-  </>
+  </div>
   )
 }
 

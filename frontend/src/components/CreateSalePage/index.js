@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 import { csrfFetch } from "../../store/csrf";
 import "./CreateSalePage.css";
 import { NavLink } from "react-router-dom";
-import GMap from "../Map";
+import GoogleMapComponent from "../Map"
 
 function CreateSalePage() {
   const sessionUser = useSelector((state) => state.session.user)
@@ -175,14 +175,9 @@ function CreateSalePage() {
           <input className="input" placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
         <button type="submit">Create Sale</button>
       </form>
-      <GMap
-      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
-      markers={markers}
-      position={position}
-      zoom={13}
-      loadingElement={<div style={{ height: `100%`, width: '50%' }} />}
-      containerElement={<div style={{ height: `400px`, width: '50%'}} />}
-      mapElement={<div id="map" style={{ height: `60vh`}} />} />
+      <div id="map-div">
+        <GoogleMapComponent />
+      </div>
     </div>
   </div>
   );
