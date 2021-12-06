@@ -5,6 +5,8 @@
   align-items: center;
   text-align: center;
   width: 50%;
+  height: 100%;
+  padding: 50px 0px;
 }
 
 label {
@@ -16,7 +18,7 @@ label {
 }
 
 #create-event-page {
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 
@@ -28,6 +30,7 @@ label {
   background-color: #39364f;
   position: sticky;
   top: 0;
+  z-index: 10;
 }
 
 #create-event-navbar-logo{
@@ -63,4 +66,8 @@ select {
    margin: 5px;
    padding: 5px;
    border-radius: 5px;
+}
+
+#address-finder {
+  width: 100%;
 }

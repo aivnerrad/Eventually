@@ -67,7 +67,7 @@ function EditSaleForm() {
       <label>
         Edit Title
         <input
-          id="login-input"
+          className="input"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -82,11 +82,11 @@ function EditSaleForm() {
       </label>
       <label>
         Edit Date
-        <input id="login-input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+        <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
       </label>
       <label>
         Edit Image
-        <input id="login-input" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
+        <input className="input" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
       </label>
       <button type="submit">Edit Sale</button>
     </form>
