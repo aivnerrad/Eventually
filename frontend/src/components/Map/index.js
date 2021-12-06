@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
-import { GoogleMap, withScriptjs, withGoogleMap, Marker } from "@react-google-maps/api"
+import { GoogleMap, Marker } from "@react-google-maps/api"
+import { withGoogleMap, withScriptjs } from "react-google-maps"
 import "./Map.css"
 import { useState } from "react";
 const GMap = withScriptjs(withGoogleMap((props) => {
