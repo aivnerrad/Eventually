@@ -20,7 +20,7 @@ function CreateSalePage() {
   const [zipcode, setZipcode] = useState("")
   const [position, setPosition] = useState({})
   const [markerCreated, setMarkerCreated] = useState(false)
-  const apiKey = "AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
+  const apiKey = "AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
   const markers = []
   const allCategories = ["Yard Sale", "Garage Sale", "Estate Sale", "Moving Sale", "Flea Market"]
 
@@ -33,21 +33,23 @@ function CreateSalePage() {
   useEffect(() => {
     (async function geocodeFetch() {
       if(address.length > 1){ // Don't fetch if there isn't an address
-        const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`)
-        const data = await response.json()
-        console.log("data", data)
-        if(data.status === 'OK'){ //Don't set position if the results come back empty
-          setPosition(data.results[0].geometry.location)
-        }
+        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`)
+        console.log(response)
+        // //const data = await response.json()
+        // console.log("data", data)
+        // //if(data.status === 'OK'){ //Don't set position if the results come back empty
+        //   setPosition(data.results[0].geometry.location)
+        // }
       }
     })()
-  },[address])
+  },[address, markerCreated])
 
   const createMarker = (e) => {
     e.preventDefault()
     const newMarker = { position: position }
     setMarkerCreated(!markerCreated)
-    return markers.push(newMarker)
+    markers.push(newMarker)
+    return markers
   }
 
   const createSale = async(e) => {
@@ -94,7 +96,7 @@ function CreateSalePage() {
           <h2>Sale Info</h2>
           <p>Give us some information about your sale. Put an interesting title, provide an address for the sale, and tell us what kind of sale it is (yard sale, garage sale, etc.).</p>
         </div>
-        <label for="title">Sale Title</label>
+        <label htmlFor="title">Sale Title</label>
           <input
             className="input"
             type="text"
@@ -103,9 +105,9 @@ function CreateSalePage() {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-          <label for="street-address">Street Address</label>
+          <label htmlFor="street-address">Street Address</label>
           <input className="input" id="street-address" placeholder="Street Address" onChange={(e) => setStreetAddress(e.target.value)}/>
-          <label for="state">State</label>
+          <label htmlFor="state">State</label>
           <select id="state" placeholder="State" onChange={(e) => setUSState(e.target.value)}>
             <option disabled selected>Select a state</option>
             <option value="AL">Alabama</option>
@@ -160,21 +162,21 @@ function CreateSalePage() {
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
           </select>
-          <label for="zipcode">Zip Code</label>
+          <label htmlFor="zipcode">Zip Code</label>
           <input className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
           <button id="change-address" onClick={(e) => createMarker(e)} >Find me on the map!</button>
-          <label for="type-of-sale">Type of Sale</label>
+          <label htmlFor="type-of-sale">Type of Sale</label>
           <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
             {allCategories?.map(category => <option key={category} value={allCategories.indexOf(category) + 1}>{category}</option>)}
           </select>
-          <label for="date">Pick a Date</label>
+          <label htmlFor="date">Pick a Date</label>
           <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
-          <label for="image-upload">Upload an Image</label>
+          <label htmlFor="image-upload">Upload an Image</label>
           <input className="input" placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
         <button type="submit">Create Sale</button>
       </form>
       <GMap
-      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
+      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
       markers={markers}
       position={position}
       zoom={13}

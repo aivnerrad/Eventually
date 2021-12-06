@@ -14,16 +14,17 @@ const SalePage = () => {
   const { id } = useParams();
   const saleId = Number(id)
   const history = useHistory();
-  const [position, setPosition] = useState({})
-  const apiKey = "AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
+  const [markerPosition, setMarkerPosition] = useState({})
+  const apiKey = "AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
   const week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   const markers = [];
 
   useEffect(() => {
     async function getSale() {
-      const salesResponse = await fetch(`/api/sales/${saleId}`);
+      const salesResponse = await fetch(`/api/sales/${id}`);
       const salesData = await salesResponse.json();
       setCurrentSale(salesData.currentSale)
+      return salesData
     }
     async function getAllAttendees() {
         const response = await csrfFetch(`/api/sales/${saleId}/attendees`);
@@ -40,14 +41,19 @@ const SalePage = () => {
     (async function geocodeFetch() {
       if(currentSale?.streetAddress?.length > 1){ // Don't fetch if there isn't an address
           const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${currentSale.streetAddress}&key=${apiKey}`)
+          console.log("response ------>>", response)
           const data = await response.json()
           console.log("data", data)
           if(data.status === 'OK'){ //Don't set position if the results come back empty
-            setPosition(data.results[0].geometry.location)
+            setMarkerPosition(data.results[0].geometry.location)
           }
         }
     })()
   },[currentSale])
+  useEffect(() => {
+    console.log("markerPosition", markerPosition)
+    if(Object.keys(markerPosition).length === 2) markers.push({position: markerPosition})
+  }, [markerPosition, currentSale, attending])
 console.log("SALE PAGE MARKERS ARRAY",markers)
   const handleDelete = async(e) => {
     e.preventDefault()
@@ -126,27 +132,29 @@ console.log("SALE PAGE MARKERS ARRAY",markers)
       )
     }
   return (
-  <div id="sale-page">
-    <div id="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
-    <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
-    <div id="sale-page-info">
-      <p><strong>About this sale</strong></p>
-      <p> {currentSale.title} is on {week[new Date(currentSale.date).getDay()]} {new Date(currentSale.date).toLocaleString('en-US')}.</p>
-      <p>{currentSale.streetAddress}</p>
-      {attendees.length > 1 && <p> There are currently {attendees.length} people going to this sale!</p>}
-      {attendees.length === 1 && <p> Only {attendees.length} person has said they are going to this sale so far!</p>}
-      {attendees.length < 1 && <p>Nobody is going to this sale yet. You should go!</p>}
-      {theRightButtons}
+  <>
+    <div id="sale-page">
+      <div id="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
+      <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
+      <div id="sale-page-info">
+        <p><strong>About this sale</strong></p>
+        <p> {currentSale.title} is on {week[new Date(currentSale.date).getDay()]} {new Date(currentSale.date).toLocaleString('en-US')}.</p>
+        <p>{currentSale.streetAddress}</p>
+        {attendees.length > 1 && <p> There are currently {attendees.length} people going to this sale!</p>}
+        {attendees.length === 1 && <p> Only {attendees.length} person has said they are going to this sale so far!</p>}
+        {attendees.length < 1 && <p>Nobody is going to this sale yet. You should go!</p>}
+        {theRightButtons}
+      </div>
+    <GMap
+    googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
+    markers={markers}
+    position={markerPosition}
+    zoom={13}
+    loadingElement={<div style={{ height: `100%`, width: '50%' }} />}
+    containerElement={<div style={{ height: `400px`, width: '50%'}} />}
+    mapElement={<div id="map" style={{ height: `40vh`}} />} />
     </div>
-  <GMap
-  googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
-  markers={markers}
-  position={position}
-  zoom={13}
-  loadingElement={<div style={{ height: `100%`, width: '50%' }} />}
-  containerElement={<div style={{ height: `400px`, width: '50%'}} />}
-  mapElement={<div id="map" style={{ height: `40vh`}} />} />
-  </div>
+  </>
   )
 }
 

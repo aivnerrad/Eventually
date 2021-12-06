@@ -22,7 +22,7 @@ function EditSaleForm() {
   const { id } = useParams();
   const numberId = Number(id);
   const history = useHistory();
-  const apiKey = "AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
+  const apiKey = "AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
   const markers = []
   const allCategories = ["Yard Sale", "Garage Sale", "Estate Sale", "Moving Sale", "Flea Market"]
 
@@ -98,9 +98,9 @@ function EditSaleForm() {
             required
           />
         </label>
-        <label for="street-address">Street Address</label>
+        <label htmlFor="street-address">Street Address</label>
           <input className="input" id="street-address" placeholder="Street Address" onChange={(e) => setStreetAddress(e.target.value)}/>
-          <label for="state">State</label>
+          <label htmlFor="state">State</label>
           <select id="state" placeholder="State" onChange={(e) => setUSState(e.target.value)}>
             <option disabled selected>Select a state</option>
             <option value="AL">Alabama</option>
@@ -155,7 +155,7 @@ function EditSaleForm() {
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
           </select>
-          <label for="zipcode">Zip Code</label>
+          <label htmlFor="zipcode">Zip Code</label>
           <input className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
           <button id="change-address" onClick={(e) => createMarker(e)} >Find me on the map!</button>
         <label>
@@ -175,7 +175,7 @@ function EditSaleForm() {
         <button type="submit">Edit Sale</button>
       </form>
       <GMap
-      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
+      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
       markers={markers}
       position={position}
       zoom={13}
