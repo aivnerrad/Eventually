@@ -1,9 +1,12 @@
-form {
+#create-event-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  width: 50%;
+  height: 100%;
+  padding: 50px 0px;
 }
 
 label {
@@ -15,7 +18,7 @@ label {
 }
 
 #create-event-page {
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 
@@ -27,6 +30,7 @@ label {
   background-color: #39364f;
   position: sticky;
   top: 0;
+  z-index: 10;
 }
 
 #create-event-navbar-logo{
@@ -49,6 +53,12 @@ label {
   font-size: 14px;
 }
 
+#main-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 select {
    width: 50%;
    height: 50px;
@@ -56,4 +66,8 @@ select {
    margin: 5px;
    padding: 5px;
    border-radius: 5px;
+}
+
+#address-finder {
+  width: 100%;
 }

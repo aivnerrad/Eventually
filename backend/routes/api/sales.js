@@ -44,12 +44,14 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const { hostId,
       categoryId,
+      streetAddress,
       title,
       date,
       imageUrl } = req.body;
     console.log("req.body ----->>", req.body)
     const sale = await Sale.create({ hostId,
       categoryId,
+      streetAddress,
       title,
       date,
       imageUrl })
@@ -62,6 +64,7 @@ router.patch(
     const id = req.params.id
     const {  hostId,
       categoryId,
+      streetAddress,
       title,
       date,
       imageUrl  } = req.body;

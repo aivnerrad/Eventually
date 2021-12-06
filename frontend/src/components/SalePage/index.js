@@ -98,7 +98,16 @@ const SalePage = () => {
        </form>
       </>
     );
-   }
+  }
+    else if(!currentUser) {
+      theRightButtons = (
+        <>
+          <NavLink to="/signin">
+            <button id="attending-button">I'm Going</button>
+          </NavLink>
+        </>
+      )
+    }
   return (
   <div id="sale-page">
     <div id="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
@@ -106,7 +115,9 @@ const SalePage = () => {
     <div id="sale-page-info">
       <p><strong>About this sale</strong></p>
       <p> {currentSale.title} is on {week[new Date(currentSale.date).getDay()]} {new Date(currentSale.date).toLocaleString('en-US')}.</p>
-      <p> There are currently {attendees.length} people going to this sale!</p>
+      {attendees.length > 1 && <p> There are currently {attendees.length} people going to this sale!</p>}
+      {attendees.length === 1 && <p> Only {attendees.length} person has said they are going to this sale so far!</p>}
+      {attendees.length < 1 && <p>Nobody is going to this sale yet. You should go!</p>}
       {theRightButtons}
     </div>
   </div>

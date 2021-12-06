@@ -23,7 +23,7 @@ module.exports = {
         }
       },
       streetAddress: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       title: {

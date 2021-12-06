@@ -47,7 +47,7 @@ function LoginForm() {
           <h1 id="login-word">Log in</h1>
         </div>
           <input
-            id="login-input"
+            className="input"
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
@@ -55,7 +55,7 @@ function LoginForm() {
             required
           />
           <input
-            id="login-input"
+            className="input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
