@@ -27,11 +27,11 @@ const SalePage = () => {
         setAttendees(data)
         return data
     }
-    window.scrollTo(0,0)
     getSale()
     getAllAttendees()
 
   }, [attending, saleId])
+  useEffect(() => window.scrollTo(0,0), [])
   const handleDelete = async(e) => {
     e.preventDefault()
     let alert = window.prompt("Are you sure you want to delete this sale? If so, type yes in the box below.")

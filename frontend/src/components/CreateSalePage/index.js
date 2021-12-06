@@ -10,7 +10,6 @@ function CreateSalePage() {
   const sessionUser = useSelector((state) => state.session.user)
   const history = useHistory();
   const [categoryId, setCategoryId] = useState(1)
-  const [allCategories, setAllCategories] = useState([]);
   const [title, setTitle] = useState("")
   const [date, setDate] = useState(new Date())
   const [imageUrl, setImageUrl] = useState("")
@@ -23,18 +22,14 @@ function CreateSalePage() {
   const [position, setPosition] = useState({})
   const [markerCreated, setMarkerCreated] = useState(false)
   const apiKey = "AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
-  useEffect(() => {
-    (async function categoriesFetch() {
-      const response = await csrfFetch("/api/sales")
-      const data = await response.json();
-      setAllCategories(data.allCategories)
-      return data
-    })()
-  }, [errors])
+  const allCategories = ["Yard Sale", "Garage Sale", "Estate Sale", "Moving Sale", "Flea Market"]
 
-  useEffect(()=> window.scrollTo(0,0), [])
+  useEffect(()=> window.scrollTo(0,0), []) // Scroll to the top of the page on load
+
+  // Set the address for the geocodeFetch function
   useEffect(() => setAddress(streetAddress + USState + zipcode), [streetAddress, USState, zipcode])
 
+  //geocodeFetch function finds Lat Lng of input address and sets the positiion state to the results
   useEffect(() => {
     (async function geocodeFetch() {
       if(address.length > 1){ // Don't fetch if there isn't an address
@@ -48,11 +43,8 @@ function CreateSalePage() {
     })()
   },[address])
 
-
-
   const createMarker = (e) => {
     e.preventDefault()
-    console.log("address in create marker", address)
     const newMarker = { position: position }
     setMarkerCreated(!markerCreated)
     return markers.push(newMarker)
@@ -173,7 +165,7 @@ function CreateSalePage() {
           <button id="change-address" onClick={(e) => createMarker(e)} >Find me on the map!</button>
           <label for="type-of-sale">Type of Sale</label>
           <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-            {allCategories?.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
+            {allCategories?.map(category => <option key={category} value={allCategories.indexOf(category) + 1}>{category}</option>)}
           </select>
           <label for="date">Pick a Date</label>
           <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
@@ -188,7 +180,7 @@ function CreateSalePage() {
       zoom={13}
       loadingElement={<div style={{ height: `100%`, width: '50%' }} />}
       containerElement={<div style={{ height: `400px`, width: '50%'}} />}
-      mapElement={<div id="map" style={{ height: `90vh`}} />} />
+      mapElement={<div id="map" style={{ height: `60vh`}} />} />
     </div>
   </div>
   );
