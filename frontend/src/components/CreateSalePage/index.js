@@ -23,8 +23,6 @@ function CreateSalePage() {
   const [position, setPosition] = useState({})
   const [markerCreated, setMarkerCreated] = useState(false)
   const apiKey = "AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
-  const map = document.getElementById('map')
-  console.log("map ----->", map)
   useEffect(() => {
     (async function categoriesFetch() {
       const response = await csrfFetch("/api/sales")
@@ -67,6 +65,7 @@ function CreateSalePage() {
       method: "POST",
       body: JSON.stringify({
         hostId: sessionUser.id,
+        streetAddress: address,
         categoryId,
         title,
         date,
@@ -185,8 +184,8 @@ function CreateSalePage() {
       <GMap
       googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
       markers={markers}
+      position={position}
       zoom={13}
-      center={position}
       loadingElement={<div style={{ height: `100%`, width: '50%' }} />}
       containerElement={<div style={{ height: `400px`, width: '50%'}} />}
       mapElement={<div id="map" style={{ height: `90vh`}} />} />
