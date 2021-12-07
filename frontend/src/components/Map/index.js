@@ -1,17 +1,28 @@
-import React, { useEffect } from "react"
-import { GoogleMap, withScriptjs, withGoogleMap, Marker } from "react-google-maps"
-import "./Map.css"
-import { useState } from "react";
-const GMap = withScriptjs(withGoogleMap((props) => {
-  const [markers, setMarkers] = useState(props.markers)
-  const icon = "https://i.ibb.co/k1s3SQF/home.png"
-  //GoogleMap component center is set to props.position if a position is given, otherwise it's set to a default spot. NOTE: DO NOT USE defaultZoom or defaultCenter for dynamic maps.....
-  return (
-  <GoogleMap zoom={props.zoom} center={Object.keys(props.position).length === 2 ? props.position :{ lat: 39.4562, lng: -77.9639 }}>
-    {markers && markers.map((marker) => {
-      return <Marker icon={icon} position={marker.position}/>
-    })}
-  </GoogleMap>
-)}));
+import React from "react";
+import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 
-export default GMap;
+const GoogleMapComponent = ({google, locations = []}) => {
+  return (
+  <Map
+    google={google}
+    containerStyle={{
+      width: '100%',
+      height: '100%'
+    }}
+    style={{
+      width: '100%',
+      height: '100%'
+    }}
+    center={locations[0]}
+    zoom={13}
+    disableDefaultUI={true}>
+       {locations.map(
+                coords => <Marker position={coords} />
+            )}
+    </Map>
+  );
+}
+
+export default GoogleApiWrapper({
+  apiKey: "AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
+})(GoogleMapComponent);

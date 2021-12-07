@@ -4,58 +4,52 @@ import { useHistory } from "react-router";
 import { csrfFetch } from "../../store/csrf";
 import "./CreateSalePage.css";
 import { NavLink } from "react-router-dom";
-import GMap from "../Map";
+import GoogleMapComponent from "../Map"
 
 function CreateSalePage() {
   const sessionUser = useSelector((state) => state.session.user)
   const history = useHistory();
   const [categoryId, setCategoryId] = useState(1)
-  const [allCategories, setAllCategories] = useState([]);
   const [title, setTitle] = useState("")
   const [date, setDate] = useState(new Date())
   const [imageUrl, setImageUrl] = useState("")
   const [errors, setErrors] = useState([])
-  const [markers, setMarkers] = useState([])
   const [address, setAddress] = useState("")
   const [streetAddress, setStreetAddress] = useState("")
   const [USState, setUSState] = useState("")
   const [zipcode, setZipcode] = useState("")
   const [position, setPosition] = useState({})
   const [markerCreated, setMarkerCreated] = useState(false)
-  const apiKey = "AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
-  useEffect(() => {
-    (async function categoriesFetch() {
-      const response = await csrfFetch("/api/sales")
-      const data = await response.json();
-      setAllCategories(data.allCategories)
-      return data
-    })()
-  }, [errors])
+  const apiKey = "AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
+  const markers = []
+  const allCategories = ["Yard Sale", "Garage Sale", "Estate Sale", "Moving Sale", "Flea Market"]
 
-  useEffect(()=> window.scrollTo(0,0), [])
+  useEffect(()=> window.scrollTo(0,0), []) // Scroll to the top of the page on load
+
+  // Set the address for the geocodeFetch function
   useEffect(() => setAddress(streetAddress + USState + zipcode), [streetAddress, USState, zipcode])
 
+  //geocodeFetch function finds Lat Lng of input address and sets the positiion state to the results
   useEffect(() => {
     (async function geocodeFetch() {
       if(address.length > 1){ // Don't fetch if there isn't an address
-        const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`)
-        const data = await response.json()
-        console.log("data", data)
-        if(data.results.length > 0){ //Don't set position if the results come back empty
-          setPosition(data.results[0].geometry.location)
-        }
+        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`)
+        console.log(response)
+        // //const data = await response.json()
+        // console.log("data", data)
+        // //if(data.status === 'OK'){ //Don't set position if the results come back empty
+        //   setPosition(data.results[0].geometry.location)
+        // }
       }
     })()
-  },[address])
-
-
+  },[address, markerCreated])
 
   const createMarker = (e) => {
     e.preventDefault()
-    console.log("address in create marker", address)
     const newMarker = { position: position }
     setMarkerCreated(!markerCreated)
-    return markers.push(newMarker)
+    markers.push(newMarker)
+    return markers
   }
 
   const createSale = async(e) => {
@@ -102,7 +96,7 @@ function CreateSalePage() {
           <h2>Sale Info</h2>
           <p>Give us some information about your sale. Put an interesting title, provide an address for the sale, and tell us what kind of sale it is (yard sale, garage sale, etc.).</p>
         </div>
-        <label for="title">Sale Title</label>
+        <label htmlFor="title">Sale Title</label>
           <input
             className="input"
             type="text"
@@ -111,9 +105,9 @@ function CreateSalePage() {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-          <label for="street-address">Street Address</label>
+          <label htmlFor="street-address">Street Address</label>
           <input className="input" id="street-address" placeholder="Street Address" onChange={(e) => setStreetAddress(e.target.value)}/>
-          <label for="state">State</label>
+          <label htmlFor="state">State</label>
           <select id="state" placeholder="State" onChange={(e) => setUSState(e.target.value)}>
             <option disabled selected>Select a state</option>
             <option value="AL">Alabama</option>
@@ -168,27 +162,22 @@ function CreateSalePage() {
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
           </select>
-          <label for="zipcode">Zip Code</label>
+          <label htmlFor="zipcode">Zip Code</label>
           <input className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
           <button id="change-address" onClick={(e) => createMarker(e)} >Find me on the map!</button>
-          <label for="type-of-sale">Type of Sale</label>
+          <label htmlFor="type-of-sale">Type of Sale</label>
           <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-            {allCategories?.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
+            {allCategories?.map(category => <option key={category} value={allCategories.indexOf(category) + 1}>{category}</option>)}
           </select>
-          <label for="date">Pick a Date</label>
+          <label htmlFor="date">Pick a Date</label>
           <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
-          <label for="image-upload">Upload an Image</label>
+          <label htmlFor="image-upload">Upload an Image</label>
           <input className="input" placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
         <button type="submit">Create Sale</button>
       </form>
-      <GMap
-      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAUuttUcvB5zK4NoPHdCEq_WNqDitykc5Y"
-      markers={markers}
-      position={position}
-      zoom={13}
-      loadingElement={<div style={{ height: `100%`, width: '50%' }} />}
-      containerElement={<div style={{ height: `400px`, width: '50%'}} />}
-      mapElement={<div id="map" style={{ height: `90vh`}} />} />
+      <div id="map-div">
+        <GoogleMapComponent />
+      </div>
     </div>
   </div>
   );
