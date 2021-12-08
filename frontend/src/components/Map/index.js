@@ -17,11 +17,11 @@ function GoogleMapComponent(props) {
     <GoogleMap
     mapContainerStyle={containerStyle}
     center={props.center}
-    zoom={12}
+    zoom={13}
 
     >
     {props?.markers?.map(
-        coords => <Marker position={coords} />
+        marker => <Marker position={marker.position} />
     )}
       </GoogleMap>
   ) : <></>
