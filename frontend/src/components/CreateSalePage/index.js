@@ -20,7 +20,6 @@ function CreateSalePage() {
   const [zipcode, setZipcode] = useState("")
   const [position, setPosition] = useState({})
   const [markerCreated, setMarkerCreated] = useState(false)
-  const apiKey = "AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
   const markers = []
   const allCategories = ["Yard Sale", "Garage Sale", "Estate Sale", "Moving Sale", "Flea Market"]
 
@@ -29,21 +28,18 @@ function CreateSalePage() {
   // Set the address for the geocodeFetch function
   useEffect(() => setAddress(streetAddress + USState + zipcode), [streetAddress, USState, zipcode])
 
-  //geocodeFetch function finds Lat Lng of input address and sets the positiion state to the results
   useEffect(() => {
     (async function geocodeFetch() {
-      if(address.length > 1){ // Don't fetch if there isn't an address
-        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`)
-        console.log(response)
-        // //const data = await response.json()
-        // console.log("data", data)
-        // //if(data.status === 'OK'){ //Don't set position if the results come back empty
-        //   setPosition(data.results[0].geometry.location)
-        // }
+      const geocodeResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ`)
+      const data = await geocodeResponse.json()
+      if(data.status === 'OK'){
+        setPosition(data.results[0].geometry.location)
+      } else {
+        setPosition({ lat: 39.4562, lng: -77.9639 } )
       }
-    })()
-  },[address, markerCreated])
 
+    })()
+  }, [address])
   const createMarker = (e) => {
     e.preventDefault()
     const newMarker = { position: position }
@@ -89,9 +85,6 @@ function CreateSalePage() {
       </div>
     <div id="main-content">
       <form id="create-event-form" onSubmit={createSale}>
-        <ul>
-          {errors?.map((error, idx) => <li key={idx}>{error}</li>)}
-        </ul>
         <div id="create-event-form-header">
           <h2>Sale Info</h2>
           <p>Give us some information about your sale. Put an interesting title, provide an address for the sale, and tell us what kind of sale it is (yard sale, garage sale, etc.).</p>
@@ -167,7 +160,7 @@ function CreateSalePage() {
           <button id="change-address" onClick={(e) => createMarker(e)} >Find me on the map!</button>
           <label htmlFor="type-of-sale">Type of Sale</label>
           <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-            {allCategories?.map(category => <option key={category} value={allCategories.indexOf(category) + 1}>{category}</option>)}
+            {allCategories?.map(category => <option value={allCategories.indexOf(category) + 1}>{category}</option>)}
           </select>
           <label htmlFor="date">Pick a Date</label>
           <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
@@ -175,9 +168,7 @@ function CreateSalePage() {
           <input className="input" placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
         <button type="submit">Create Sale</button>
       </form>
-      <div id="map-div">
-        <GoogleMapComponent />
-      </div>
+      <GoogleMapComponent center={position} markers={markers}/>
     </div>
   </div>
   );

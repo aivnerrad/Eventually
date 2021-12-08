@@ -71,3 +71,8 @@ select {
 #address-finder {
   width: 100%;
 }
+
+#map-div {
+  height: 400px;
+  width: 400px;
+}
