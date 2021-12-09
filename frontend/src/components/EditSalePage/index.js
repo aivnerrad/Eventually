@@ -25,14 +25,14 @@ function EditSaleForm() {
   const [markers, setMarkers] = useState()
   const allCategories = ["Yard Sale", "Garage Sale", "Estate Sale", "Moving Sale", "Flea Market"]
 
-  useEffect(() => setAddress(streetAddress + USState + zipcode), [streetAddress, USState, zipcode])
+  useEffect(() => setAddress(streetAddress + ", " + USState + ", " + zipcode), [streetAddress, USState, zipcode])
 
   useEffect(() => {
     window.scrollTo(0,0)
     async function saleFetch(){
       const response = await csrfFetch(`/api/sales/${numberId}`)
       const data = await response.json();
-      console.log(data.currentSale.streetAddress.split(","))
+      console.log("sale fetch response.json()", data)
       setTitle(data.currentSale.title)
       setImageUrl(data.currentSale.imageUrl)
       setStreetAddress(data.currentSale.streetAddress.split(",")[0])
@@ -41,7 +41,7 @@ function EditSaleForm() {
       setAddress(data.currentSale.streetAddress)
     }
     saleFetch()
-  }, [numberId, address])
+  }, [numberId])
 
   useEffect(() => {
 
@@ -88,6 +88,12 @@ function EditSaleForm() {
 
     return history.push(`/sales/${numberId}`)
   };
+
+  const optionsDropdown = document.getElementsByTagName('option');
+  console.log("USState", USState)
+  console.log("optionsDropdown", optionsDropdown)
+  console.log("option filter", Array.from(optionsDropdown).map(option => option.innerText === USState))
+
 
   return (
     <div>
@@ -164,7 +170,7 @@ function EditSaleForm() {
             <option value="Wyoming">Wyoming</option>
           </select>
           <label htmlFor="zipcode">Zip Code</label>
-          <input className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" value={zipcode} onChange={(e) => setZipcode(e.target.value)}/>
+          <input className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
           <button id="change-address" onClick={(e) => createMarker(e)} >Find me on the map!</button>
         <label>
           Edit Category

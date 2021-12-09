@@ -21,7 +21,7 @@ router.get(
 
 //Single Sale
 router.get(
-  '/:id',
+  '/:id(\\d+)',
   asyncHandler(async (req, res) => {
     const id = req.params.id
     const allSales = await Sale.findAll({
