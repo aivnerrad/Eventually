@@ -96,8 +96,9 @@ const styles = [
 ]
 
 const containerStyle =  {
-  width: '45%',
-  height: '500px'
+  width: '49.9%',
+  height: '450px',
+  paddingBottom: '20px'
 };
 
 const mapOptions = {
