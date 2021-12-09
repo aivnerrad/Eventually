@@ -104,7 +104,7 @@ function CreateSalePage() {
           <label htmlFor="state">State</label>
           <select id="state" placeholder="State" onChange={(e) => setUSState(e.target.value)}>
             <option disabled selected>Select a state</option>
-            <option value="Alabam">Alabama</option>
+            <option value="Alabama">Alabama</option>
             <option value="Alaska">Alaska</option>
             <option value="Arizona">Arizona</option>
             <option value="Arkansas">Arkansas</option>
