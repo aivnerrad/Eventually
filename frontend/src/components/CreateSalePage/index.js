@@ -85,7 +85,7 @@ function CreateSalePage() {
         </div>
       </div>
     <div id="main-content">
-      <form id="create-event-form" onSubmit={createSale}>
+      <form className="event-form" onSubmit={createSale}>
         <div id="create-event-form-header">
           <h2>Sale Info</h2>
           <p>Give us some information about your sale. Put an interesting title, provide an address for the sale, and tell us what kind of sale it is (yard sale, garage sale, etc.).</p>

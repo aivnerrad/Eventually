@@ -96,8 +96,10 @@ function EditSaleForm() {
 
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+  <div id="edit-sale-page">
+    <div className="blurry-background" style={{backgroundImage: "url(" + imageUrl + ")"}}></div>
+    <div id="overlapping-div">
+      <form className="event-form" onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
@@ -190,6 +192,7 @@ function EditSaleForm() {
       </form>
       <GoogleMapComponent center={position} markers={markers}/>
     </div>
+  </div>
   );
 }
 export default EditSaleForm;
