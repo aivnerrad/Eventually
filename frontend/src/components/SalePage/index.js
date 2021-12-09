@@ -133,7 +133,7 @@ console.log("SALE PAGE MARKERS ARRAY",markers)
     }
   return (
   <div id="sale-page">
-    <div id="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
+    <div className="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
     <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
     <div id="sale-page-info">
       <p><strong>About this sale</strong></p>
