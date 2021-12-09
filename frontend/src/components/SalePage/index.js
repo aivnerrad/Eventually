@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { csrfFetch } from "../../store/csrf";
 import { NavLink } from "react-router-dom";
 import GMap from "../Map";
+import { GoogleMap, Marker } from "@react-google-maps/api";
+import GoogleMapComponent from "../Map";
 
 const SalePage = () => {
   const currentUser = useSelector((state) => state.session.user);
@@ -21,16 +23,16 @@ const SalePage = () => {
 
   useEffect(() => {
     async function getSale() {
-      const salesResponse = await fetch(`/api/sales/${id}`);
+      const salesResponse = await fetch(`/api/sales/${saleId}`);
       const salesData = await salesResponse.json();
       setCurrentSale(salesData.currentSale)
       return salesData
     }
     async function getAllAttendees() {
-        const response = await csrfFetch(`/api/sales/${saleId}/attendees`);
-        const data = await response.json()
-        setAttendees(data)
-        return data
+      const response = await csrfFetch(`/api/sales/${saleId}/attendees`);
+      const data = await response.json()
+      setAttendees(data)
+      return data
     }
     getSale()
     getAllAttendees()
@@ -50,11 +52,7 @@ const SalePage = () => {
         }
     })()
   },[currentSale])
-  useEffect(() => {
-    console.log("markerPosition", markerPosition)
-    if(Object.keys(markerPosition).length === 2) markers.push({position: markerPosition})
-  }, [markerPosition, currentSale, attending])
-console.log("SALE PAGE MARKERS ARRAY",markers)
+
   const handleDelete = async(e) => {
     e.preventDefault()
     let alert = window.prompt("Are you sure you want to delete this sale? If so, type yes in the box below.")
@@ -144,6 +142,7 @@ console.log("SALE PAGE MARKERS ARRAY",markers)
       {attendees.length < 1 && <p>Nobody is going to this sale yet. You should go!</p>}
       {theRightButtons}
     </div>
+    <GoogleMapComponent center={markerPosition} markers={[{position: markerPosition}]}/>
   </div>
   )
 }
