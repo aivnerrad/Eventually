@@ -4,8 +4,6 @@ import { useParams, useHistory } from "react-router";
 import { useEffect, useState } from "react";
 import { csrfFetch } from "../../store/csrf";
 import { NavLink } from "react-router-dom";
-import GMap from "../Map";
-import { GoogleMap, Marker } from "@react-google-maps/api";
 import GoogleMapComponent from "../Map";
 
 const SalePage = () => {
@@ -19,7 +17,6 @@ const SalePage = () => {
   const [markerPosition, setMarkerPosition] = useState({})
   const apiKey = "AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ"
   const week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-  const markers = [];
 
   useEffect(() => {
     async function getSale() {

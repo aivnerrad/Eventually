@@ -2,7 +2,10 @@ const express = require('express');
 const asyncHandler = require('express-async-handler')
 const { Sale, Category, Attendee } = require('../../db/models');
 const router = express.Router();
-
+const {
+  singleMulterUpload,
+  singlePublicFileUpload
+} = require("../../awsS3");
 //Get all sales from DB
 router.get(
   '/',
@@ -41,20 +44,22 @@ router.get(
 // Create Sale and Post to DB
 router.post(
   '/',
+  singleMulterUpload("image"),
   asyncHandler(async (req, res, next) => {
+    console.log("REQ.FILE ------->", req.file)
+    const saleImageUrl = await singlePublicFileUpload(req.file);
+    console.log("SALE IMG URL ----->>>", saleImageUrl)
     const { hostId,
       categoryId,
       streetAddress,
       title,
-      date,
-      imageUrl } = req.body;
-    console.log("req.body ----->>", req.body)
+      date } = req.body;
     const sale = await Sale.create({ hostId,
       categoryId,
       streetAddress,
       title,
       date,
-      imageUrl })
+      saleImageUrl })
     return res.json(sale);
   }))
 //Update a Sale in the DB
