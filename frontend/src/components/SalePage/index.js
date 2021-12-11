@@ -40,9 +40,7 @@ const SalePage = () => {
     (async function geocodeFetch() {
       if(currentSale?.streetAddress?.length > 1){ // Don't fetch if there isn't an address
           const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${currentSale.streetAddress}&key=${apiKey}`)
-          console.log("response ------>>", response)
           const data = await response.json()
-          console.log("data", data)
           if(data.status === 'OK'){ //Don't set position if the results come back empty
             setMarkerPosition(data.results[0].geometry.location)
           }

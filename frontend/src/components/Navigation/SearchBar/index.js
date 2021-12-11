@@ -19,9 +19,7 @@ function SearchBar() {
 
   useEffect(() => {
     async function searchSales(searchInput) {
-      console.log("SEARCH INPUT ----->", searchInput)
       setSearchResults(allSales.filter(sale => sale.title.toLowerCase().includes(searchInput.toLowerCase())))
-      console.log("SEARCH RESULTS ----->", searchResults)
     }
     searchSales(searchInput)
   }, [searchInput])

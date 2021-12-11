@@ -8,7 +8,7 @@ import "./EditSalePage.css";
 
 function EditSaleForm() {
   const sessionUser = useSelector((state) => state.session.user)
-  const [categoryId, setCategoryId] = useState(1)
+  const [categoryId, setCategoryId] = useState(null)
   const [title, setTitle] = useState("")
   const [date, setDate] = useState(new Date())
   const [imageUrl, setImageUrl] = useState("")
@@ -46,11 +46,9 @@ function EditSaleForm() {
   useEffect(() => {
 
     async function geocodeFetch() {
-      console.log(address)
       if(address.length > 1){ // Don't fetch if there isn't an address
         const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ`)
         const data = await response.json()
-        console.log("data", data)
         if(data.status === 'OK'){ //Don't set position if the results come back empty
           setPosition(data.results[0].geometry.location)
         }
@@ -88,12 +86,6 @@ function EditSaleForm() {
 
     return history.push(`/sales/${numberId}`)
   };
-
-  const optionsDropdown = document.getElementsByTagName('option');
-  console.log("USState", USState)
-  console.log("optionsDropdown", optionsDropdown)
-  console.log("option filter", Array.from(optionsDropdown).map(option => option.innerText === USState))
-
 
   return (
   <div id="edit-sale-page">
@@ -177,7 +169,7 @@ function EditSaleForm() {
         <label>
           Edit Category
           <select value={Number(categoryId)} onChange={(e) => setCategoryId(e.target.value)}>
-            {allCategories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
+            {allCategories.map(category => <option value={allCategories.indexOf(category) + 1}>{category}</option>)}
           </select>
         </label>
         <label>

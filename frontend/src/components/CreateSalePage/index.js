@@ -42,7 +42,6 @@ function CreateSalePage() {
   }, [address, markerCreated])
   const createMarker = (e) => {
     e.preventDefault()
-    console.log("Position", position)
     const newMarker = { 'position': position }
     setMarkerCreated(!markerCreated)
     setMarkers([newMarker])
@@ -66,7 +65,7 @@ function CreateSalePage() {
     formData.append("date", date)
     if(image) formData.append("image", image)
     for (var key of formData.entries()) {
-      console.log(key[0] + ', ' + key[1]);
+      console.log("formData entries ---->>", key[0] + ', ' + key[1]);
   }
   const response = await csrfFetch(`/api/sales`, {
     method: "POST",
@@ -84,8 +83,6 @@ function CreateSalePage() {
     }
   };
 
-
-  console.log("Map Markers", markers)
   return (
     <div id="create-event-page">
       <div id="create-event-navbar">
