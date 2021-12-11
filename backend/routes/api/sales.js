@@ -24,7 +24,7 @@ router.get(
 
 //Single Sale
 router.get(
-  '/:id(\\d+)',
+  '/:id',
   asyncHandler(async (req, res) => {
     const id = req.params.id
     const allSales = await Sale.findAll({
@@ -59,12 +59,12 @@ router.post(
       streetAddress,
       title,
       date,
-      saleImageUrl })
+      imageUrl: saleImageUrl })
     return res.json(sale);
   }))
 //Update a Sale in the DB
 router.patch(
-  '/:id(\\d+)',
+  '/:id',
   asyncHandler(async (req, res) => {
     const id = req.params.id
     const {  hostId,
@@ -85,7 +85,7 @@ router.patch(
 
 //Delete Sale From DB
 router.delete(
-  '/:id(\\d+)',
+  '/:id',
   asyncHandler(async (req, res) => {
     const id = req.params.id;
     const sale = await Sale.findByPk(id);
@@ -106,7 +106,7 @@ router.delete(
   }),
 );
 
-router.get('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
+router.get('/:id/attendees', asyncHandler(async(req, res) => {
   const saleId = req.params.id
   const attendees = await Attendee.findAll({
     where: {
@@ -116,7 +116,7 @@ router.get('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
   return res.json(attendees)
 }))
 
-router.post('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
+router.post('/:id/attendees', asyncHandler(async(req, res) => {
   const { userId, saleId } = req.body
   const currentlyAttending = await Attendee.findAll({
     where: {
@@ -143,7 +143,7 @@ router.post('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
   }
 }))
 
-router.delete('/:id(\\d+)/attendees', asyncHandler(async(req, res) => {
+router.delete('/:id/attendees', asyncHandler(async(req, res) => {
   const { userId, saleId } = req.body
   const like = await Attendee.findOne({
     where: {

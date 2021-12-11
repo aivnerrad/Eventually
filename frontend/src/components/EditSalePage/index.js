@@ -8,10 +8,10 @@ import "./EditSalePage.css";
 
 function EditSaleForm() {
   const sessionUser = useSelector((state) => state.session.user)
-  const [categoryId, setCategoryId] = useState(1)
+  const [categoryId, setCategoryId] = useState(null)
   const [title, setTitle] = useState("")
   const [date, setDate] = useState(new Date())
-  const [imageUrl, setImageUrl] = useState("")
+  const [image, setImage] = useState("")
   const [errors, setErrors] = useState([])
   const [address, setAddress] = useState("")
   const [streetAddress, setStreetAddress] = useState("")
@@ -34,7 +34,7 @@ function EditSaleForm() {
       const data = await response.json();
       console.log("sale fetch response.json()", data)
       setTitle(data.currentSale.title)
-      setImageUrl(data.currentSale.imageUrl)
+      setImage(data.currentSale.imageUrl)
       setStreetAddress(data.currentSale.streetAddress.split(",")[0])
       setUSState(data.currentSale.streetAddress.split(",")[1])
       setZipcode(data.currentSale.streetAddress.split(",")[2])
@@ -46,11 +46,9 @@ function EditSaleForm() {
   useEffect(() => {
 
     async function geocodeFetch() {
-      console.log(address)
       if(address.length > 1){ // Don't fetch if there isn't an address
         const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ`)
         const data = await response.json()
-        console.log("data", data)
         if(data.status === 'OK'){ //Don't set position if the results come back empty
           setPosition(data.results[0].geometry.location)
         }
@@ -75,7 +73,7 @@ function EditSaleForm() {
         categoryId,
         title,
         date,
-        imageUrl
+        image
       })
     })
     if(response.ok){
@@ -89,15 +87,15 @@ function EditSaleForm() {
     return history.push(`/sales/${numberId}`)
   };
 
-  const optionsDropdown = document.getElementsByTagName('option');
-  console.log("USState", USState)
-  console.log("optionsDropdown", optionsDropdown)
-  console.log("option filter", Array.from(optionsDropdown).map(option => option.innerText === USState))
-
+  const updateFile = (e) => {
+    const file = e.target.files[0];
+    console.log("FILE -------->", file)
+    if (file) setImage(file);
+  };
 
   return (
   <div id="edit-sale-page">
-    <div className="blurry-background" style={{backgroundImage: "url(" + imageUrl + ")"}}></div>
+    <div className="blurry-background" style={{backgroundImage: "url(" + image + ")"}}></div>
     <div id="overlapping-div">
       <form className="event-form" onSubmit={handleSubmit}>
         <ul>
@@ -177,18 +175,17 @@ function EditSaleForm() {
         <label>
           Edit Category
           <select value={Number(categoryId)} onChange={(e) => setCategoryId(e.target.value)}>
-            {allCategories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
+            {allCategories.map(category => <option value={allCategories.indexOf(category) + 1}>{category}</option>)}
           </select>
         </label>
         <label>
           Edit Date
           <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
         </label>
-        <label>
-          Edit Image
-          <input className="input" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
-        </label>
-        <button type="submit">Edit Sale</button>
+        <label htmlFor="image-upload">Upload an Image
+            <input type="file" onChange={updateFile} />
+          </label>
+        <button className="submit-button" type="submit">Edit Sale</button>
       </form>
       <GoogleMapComponent center={position} markers={markers}/>
     </div>
