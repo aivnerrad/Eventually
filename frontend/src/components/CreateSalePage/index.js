@@ -12,7 +12,7 @@ function CreateSalePage() {
   const [categoryId, setCategoryId] = useState(1)
   const [title, setTitle] = useState("")
   const [date, setDate] = useState(new Date())
-  const [imageUrl, setImageUrl] = useState("")
+  const [image, setImage] = useState(null)
   const [errors, setErrors] = useState([])
   const [address, setAddress] = useState("")
   const [streetAddress, setStreetAddress] = useState("")
@@ -49,20 +49,32 @@ function CreateSalePage() {
 
   }
 
+  const updateFile = (e) => {
+    const file = e.target.files[0];
+    console.log("FILE -------->", file)
+    if (file) setImage(file);
+  };
+
   const createSale = async(e) => {
     if (!sessionUser) history.push("/signin");
     e.preventDefault();
-    const response = await csrfFetch("/api/sales", {
-      method: "POST",
-      body: JSON.stringify({
-        hostId: sessionUser.id,
-        streetAddress: address,
-        categoryId,
-        title,
-        date,
-        imageUrl
-      })
-    })
+    const formData = new FormData();
+    formData.append("hostId", sessionUser.id)
+    formData.append("streetAddress", address)
+    formData.append("categoryId", categoryId)
+    formData.append("title", title)
+    formData.append("date", date)
+    if(image) formData.append("image", image)
+    for (var key of formData.entries()) {
+      console.log(key[0] + ', ' + key[1]);
+  }
+  const response = await csrfFetch(`/api/sales`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    body: formData,
+  });
     if(response.ok){
       history.push("/")
       window.alert("Sale Created Successfully")
@@ -90,7 +102,7 @@ function CreateSalePage() {
           <h2>Sale Info</h2>
           <p>Give us some information about your sale. Put an interesting title, provide an address for the sale, and tell us what kind of sale it is (yard sale, garage sale, etc.).</p>
         </div>
-        <label htmlFor="title">Sale Title</label>
+        <label htmlFor="title">Sale Title
           <input
             className="input"
             type="text"
@@ -99,9 +111,11 @@ function CreateSalePage() {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-          <label htmlFor="street-address">Street Address</label>
+          </label>
+          <label htmlFor="street-address">Street Address
           <input className="input" id="street-address" placeholder="Street Address" onChange={(e) => setStreetAddress(e.target.value)}/>
-          <label htmlFor="state">State</label>
+          </label>
+          <label htmlFor="state">State
           <select id="state" placeholder="State" onChange={(e) => setUSState(e.target.value)}>
             <option disabled selected>Select a state</option>
             <option value="Alabama">Alabama</option>
@@ -156,17 +170,22 @@ function CreateSalePage() {
             <option value="Wisconsin">Wisconsin</option>
             <option value="Wyoming">Wyoming</option>
           </select>
-          <label htmlFor="zipcode">Zip Code</label>
+          </label>
+          <label htmlFor="zipcode">Zip Code
           <input className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
+          </label>
           <button id="change-address" onClick={(e) => createMarker(e)} >Find me on the map!</button>
-          <label htmlFor="type-of-sale">Type of Sale</label>
+          <label htmlFor="type-of-sale">Type of Sale
           <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
             {allCategories?.map(category => <option value={allCategories.indexOf(category) + 1}>{category}</option>)}
           </select>
-          <label htmlFor="date">Pick a Date</label>
+          </label>
+          <label htmlFor="date">Pick a Date
           <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
-          <label htmlFor="image-upload">Upload an Image</label>
-          <input className="input" placeholder="Image URL" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
+          </label>
+          <label htmlFor="image-upload">Upload an Image
+            <input type="file" onChange={updateFile} />
+          </label>
         <button type="submit">Create Sale</button>
       </form>
       <GoogleMapComponent center={position} markers={markers}/>
