@@ -8,7 +8,7 @@ import GoogleMapComponent from "../Map";
 
 const SalePage = () => {
   const currentUser = useSelector((state) => state.session.user);
-  const [currentSale, setCurrentSale] = useState({})
+  const [currentSale, setCurrentSale] = useState(null)
   const [attendees, setAttendees] = useState([])
   const [attending, setAttending] = useState(false)
   const { id } = useParams();
@@ -23,6 +23,7 @@ const SalePage = () => {
       const salesResponse = await fetch(`/api/sales/${saleId}`);
       const salesData = await salesResponse.json();
       setCurrentSale(salesData.currentSale)
+      console.log("currentSale ----->>", currentSale )
       return salesData
     }
     async function getAllAttendees() {
@@ -34,7 +35,7 @@ const SalePage = () => {
     getSale()
     getAllAttendees()
 
-  }, [attending, saleId])
+  }, [attending, id])
   useEffect(() => window.scrollTo(0,0), [])
   useEffect(() => {
     (async function geocodeFetch() {
@@ -91,7 +92,7 @@ const SalePage = () => {
   }
 
   let theRightButtons;
-  if (currentUser && currentUser.id === currentSale.hostId) {
+  if ((currentUser && currentSale)  && currentUser.id === currentSale?.hostId) {
     theRightButtons = (
       <div id="sale-owner-buttons-div">
         <NavLink to={`/sales/${currentSale.id}/edit`}>Edit Sale</NavLink>
@@ -124,13 +125,16 @@ const SalePage = () => {
         </>
       )
     }
+    console.log("currentSale------>>", currentSale)
   return (
-  <div id="sale-page">
-    <div className="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
-    <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
-    <div id="sale-page-info">
-      <p><strong>About this sale</strong></p>
-      <p> {currentSale.title} is on {week[new Date(currentSale.date).getDay()]} {new Date(currentSale.date).toLocaleString('en-US')}.</p>
+    <>
+    {currentSale &&
+    <div id="sale-page">
+      <div className="blurry-background" style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
+      <div id="sale-page-image"  style={{backgroundImage: "url(" + currentSale.imageUrl + ")"}}></div>
+      <div id="sale-page-info">
+        <p><strong>About this sale</strong></p>
+        <p> {currentSale.title} is on {week[new Date(currentSale.date).getDay()]} {new Date(currentSale.date).toLocaleString('en-US')}.</p>
       <p>{currentSale.streetAddress}</p>
       {attendees.length > 1 && <p> There are currently {attendees.length} people going to this sale!</p>}
       {attendees.length === 1 && <p> Only {attendees.length} person has said they are going to this sale so far!</p>}
@@ -138,7 +142,8 @@ const SalePage = () => {
       {theRightButtons}
     </div>
     <GoogleMapComponent center={markerPosition} markers={[{position: markerPosition}]}/>
-  </div>
+  </div>}
+    </>
   )
 }
 

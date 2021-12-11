@@ -22,3 +22,7 @@ label {
   position: absolute;
   z-index: 2;
 }
+
+.submit-button {
+  background-color: #d1410c;
+}

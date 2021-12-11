@@ -11,7 +11,7 @@ function EditSaleForm() {
   const [categoryId, setCategoryId] = useState(null)
   const [title, setTitle] = useState("")
   const [date, setDate] = useState(new Date())
-  const [imageUrl, setImageUrl] = useState("")
+  const [image, setImage] = useState("")
   const [errors, setErrors] = useState([])
   const [address, setAddress] = useState("")
   const [streetAddress, setStreetAddress] = useState("")
@@ -34,7 +34,7 @@ function EditSaleForm() {
       const data = await response.json();
       console.log("sale fetch response.json()", data)
       setTitle(data.currentSale.title)
-      setImageUrl(data.currentSale.imageUrl)
+      setImage(data.currentSale.imageUrl)
       setStreetAddress(data.currentSale.streetAddress.split(",")[0])
       setUSState(data.currentSale.streetAddress.split(",")[1])
       setZipcode(data.currentSale.streetAddress.split(",")[2])
@@ -73,7 +73,7 @@ function EditSaleForm() {
         categoryId,
         title,
         date,
-        imageUrl
+        image
       })
     })
     if(response.ok){
@@ -87,9 +87,15 @@ function EditSaleForm() {
     return history.push(`/sales/${numberId}`)
   };
 
+  const updateFile = (e) => {
+    const file = e.target.files[0];
+    console.log("FILE -------->", file)
+    if (file) setImage(file);
+  };
+
   return (
   <div id="edit-sale-page">
-    <div className="blurry-background" style={{backgroundImage: "url(" + imageUrl + ")"}}></div>
+    <div className="blurry-background" style={{backgroundImage: "url(" + image + ")"}}></div>
     <div id="overlapping-div">
       <form className="event-form" onSubmit={handleSubmit}>
         <ul>
@@ -176,11 +182,10 @@ function EditSaleForm() {
           Edit Date
           <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
         </label>
-        <label>
-          Edit Image
-          <input className="input" type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
-        </label>
-        <button type="submit">Edit Sale</button>
+        <label htmlFor="image-upload">Upload an Image
+            <input type="file" onChange={updateFile} />
+          </label>
+        <button className="submit-button" type="submit">Edit Sale</button>
       </form>
       <GoogleMapComponent center={position} markers={markers}/>
     </div>

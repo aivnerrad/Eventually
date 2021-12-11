@@ -183,7 +183,7 @@ function CreateSalePage() {
           <label htmlFor="image-upload">Upload an Image
             <input type="file" onChange={updateFile} />
           </label>
-        <button type="submit">Create Sale</button>
+        <button className="submit-button" type="submit">Create Sale</button>
       </form>
       <GoogleMapComponent center={position} markers={markers}/>
     </div>
