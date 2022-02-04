@@ -46,9 +46,7 @@ router.post(
   '/',
   singleMulterUpload("image"),
   asyncHandler(async (req, res, next) => {
-    console.log("REQ.FILE ------->", req.file)
     const saleImageUrl = await singlePublicFileUpload(req.file);
-    console.log("SALE IMG URL ----->>>", saleImageUrl)
     const { hostId,
       categoryId,
       streetAddress,
@@ -78,7 +76,7 @@ router.patch(
         id
       }
     })
-    const newSale = await salesArray[0].update({ hostId, category, title, date, imageUrl})
+    const newSale = await salesArray[0].update({ hostId, categoryId, title, date, imageUrl})
     return res.json(newSale);
   }),
 );

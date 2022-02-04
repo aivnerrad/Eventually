@@ -50,7 +50,6 @@ function CreateSalePage() {
 
   const updateFile = (e) => {
     const file = e.target.files[0];
-    console.log("FILE -------->", file)
     if (file) setImage(file);
   };
 
@@ -64,16 +63,13 @@ function CreateSalePage() {
     formData.append("title", title)
     formData.append("date", date)
     if(image) formData.append("image", image)
-    for (var key of formData.entries()) {
-      console.log("formData entries ---->>", key[0] + ', ' + key[1]);
-  }
-  const response = await csrfFetch(`/api/sales`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    body: formData,
-  });
+    const response = await csrfFetch(`/api/sales`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: formData,
+    });
     if(response.ok){
       history.push("/")
       window.alert("Sale Created Successfully")
