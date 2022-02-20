@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import "./CreateEventNavBar.css"
 const CreateEventNavBar = (props) => {
   return(
     <div className="create-event-navbar">

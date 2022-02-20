@@ -15,55 +15,17 @@
   text-align: center;
 }
 
-
-.create-event-navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #39364f;
-  min-height: 4.25em;
-}
-
-.create-event-navbar-logo{
-  margin: 0 3em;
-  font-size: 1.25rem;
-  color: white;
-}
-
-.create-event-profile-circle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #3659e3;
-  margin: 0 3em;
-  width: 3em;
-  height: 3em;
-  border-radius: 50%;
-  color: white;
-  font-weight: bold;
-  font-size: 1em;
-}
-
-#main-content {
+.main-content {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-select {
-   width: 50%;
-   height: 50px;
+.create-sale-input {
+   width: 17.25em;
+   min-height: 3.5em;
    border: .5px solid #dedede;
-   margin: 5px;
-   padding: 5px;
-   border-radius: 5px;
-}
-
-#address-finder {
-  width: 100%;
-}
-
-#map-div {
-  height: 400px;
-  width: 400px;
+   margin: .3em;
+   padding: .3em;
+   border-radius: .25em;
 }
