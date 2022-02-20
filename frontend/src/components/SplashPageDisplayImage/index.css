@@ -1,17 +1,13 @@
 #splash-div{
-  height: 400px;
+  min-height: 400px;
   background-image: url("https://www.visitcolumbiacountyga.com/wp-content/uploads/2019/03/yard-sale.jpg");
   background-position: center;
   background-size: 100%;
   display: flex;
   align-items: center;
-  width: 100%;
-  margin: 3px;
+  margin: 3px 0;
 }
 
-#top-image-div {
-  width: 100%;
-}
 
 #intro-text {
   color: #fff;
@@ -20,6 +16,5 @@
   align-items: flex-end;
   flex-direction: column;
   justify-content: flex-end;
-  width: 90%;
 
 }
