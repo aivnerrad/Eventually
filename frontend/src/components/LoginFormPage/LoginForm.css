@@ -28,34 +28,6 @@ label {
   color: #1e0a3c;
 }
 
-.input, button {
-  width: 50%;
-  height: 55px;
-  border: 1px solid #dedede;
-  background-color: #f6fafa;
-  margin: 6px;
-  border-radius: 5px;
-
-}
-
-.input:hover {
-  border: 1px solid #aaaaaa;
-  transition-duration: .3s;
-
-}
-
-input:focus{
-  transition-duration: .3s;
-  border: 2px solid rgb(91, 91, 255);
-  border-radius: 5px;
-  outline: none;
-}
-
-button:hover{
- cursor: pointer;
- border: 1px solid #aaaaaa;
- transition-duration: .3s;
-}
 
 #login-button{
   background-color: #d1410c;

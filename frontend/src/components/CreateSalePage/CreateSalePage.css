@@ -4,12 +4,10 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 50%;
-  height: 100%;
-  padding: 50px 0px;
+  max-width: 50%;
 }
 
-label {
+.input-label {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,62 +15,18 @@ label {
   text-align: center;
 }
 
-#create-event-page {
-  height: 100%;
-  width: 100%;
-}
-
-#create-event-navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background-color: #39364f;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-#create-event-navbar-logo{
-  margin: 0 40px;
-  color: white;
-}
-
-
-#create-event-profile-circle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #3659e3;
-  margin: 0 40px;
-  width: 40px;
-  height: 40px;
-  border-radius: 25px;
-  color: white;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-#main-content {
+.main-content {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 5em;
 }
 
-select {
-   width: 50%;
-   height: 50px;
+.create-sale-input {
+   width: 17.25em;
+   min-height: 3.5em;
    border: .5px solid #dedede;
-   margin: 5px;
-   padding: 5px;
-   border-radius: 5px;
-}
-
-#address-finder {
-  width: 100%;
-}
-
-#map-div {
-  height: 400px;
-  width: 400px;
+   margin: .3em;
+   padding: .3em;
+   border-radius: .25em;
 }

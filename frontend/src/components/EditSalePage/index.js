@@ -94,101 +94,86 @@ function EditSaleForm() {
   };
 
   return (
-  <div id="edit-sale-page">
-    <div className="blurry-background" style={{backgroundImage: "url(" + image + ")"}}></div>
-    <div id="overlapping-div">
-      <form className="event-form" onSubmit={handleSubmit}>
-        <ul>
-          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-        </ul>
-        <Logo />
-        <label>
-          Edit Title
-          <input
-            className="input"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </label>
-        <label htmlFor="street-address">Street Address</label>
-          <input className="input" id="street-address" placeholder="Street Address" value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)}/>
-          <label htmlFor="state">State</label>
-          <select id="state" placeholder="State" onChange={(e) => setUSState(e.target.value)}>
-            <option disabled selected>Select a state</option>
-            <option value="Alabama">Alabama</option>
-            <option value="Alaska">Alaska</option>
-            <option value="Arizona">Arizona</option>
-            <option value="Arkansas">Arkansas</option>
-            <option value="California">California</option>
-            <option value="Colorado">Colorado</option>
-            <option value="Connecticut">Connecticut</option>
-            <option value="Delaware">Delaware</option>
-            <option value="Washington D.C.">District Of Columbia</option>
-            <option value="Florida">Florida</option>
-            <option value="Georgia">Georgia</option>
-            <option value="Hawaii">Hawaii</option>
-            <option value="Idaho">Idaho</option>
-            <option value="Illinois">Illinois</option>
-            <option value="Indiana">Indiana</option>
-            <option value="Iowa">Iowa</option>
-            <option value="Kansas">Kansas</option>
-            <option value="Kentucky">Kentucky</option>
-            <option value="Louisiana">Louisiana</option>
-            <option value="Maine">Maine</option>
-            <option value="Maryland">Maryland</option>
-            <option value="Massachusetts">Massachusetts</option>
-            <option value="Michigan">Michigan</option>
-            <option value="Minnesota">Minnesota</option>
-            <option value="Mississippi">Mississippi</option>
-            <option value="Missouri">Missouri</option>
-            <option value="Montana">Montana</option>
-            <option value="Nebraska">Nebraska</option>
-            <option value="Nevada">Nevada</option>
-            <option value="New Hampshire">New Hampshire</option>
-            <option value="New Jersey">New Jersey</option>
-            <option value="New Mexico">New Mexico</option>
-            <option value="New York">New York</option>
-            <option value="North Carolina">North Carolina</option>
-            <option value="North Dakota">North Dakota</option>
-            <option value="Ohio">Ohio</option>
-            <option value="Oklahoma">Oklahoma</option>
-            <option value="Oregon">Oregon</option>
-            <option value="Pennsylvania">Pennsylvania</option>
-            <option value="Rhode Island">Rhode Island</option>
-            <option value="South Carolina">South Carolina</option>
-            <option value="South Dakota">South Dakota</option>
-            <option value="Tennessee">Tennessee</option>
-            <option value="Texas">Texas</option>
-            <option value="Utah">Utah</option>
-            <option value="Vermont">Vermont</option>
-            <option value="Virginia">Virginia</option>
-            <option value="Washington">Washington</option>
-            <option value="West Virginia">West Virginia</option>
-            <option value="Wisconsin">Wisconsin</option>
-            <option value="Wyoming">Wyoming</option>
-          </select>
-          <label htmlFor="zipcode">Zip Code</label>
-          <input className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
-          <button id="change-address" onClick={(e) => createMarker(e)} >Find me on the map!</button>
-        <label>
-          Edit Category
-          <select value={Number(categoryId)} onChange={(e) => setCategoryId(e.target.value)}>
-            {allCategories.map(category => <option value={allCategories.indexOf(category) + 1}>{category}</option>)}
-          </select>
-        </label>
-        <label>
-          Edit Date
-          <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
-        </label>
-        <label htmlFor="image-upload">Upload an Image
-            <input type="file" onChange={updateFile} />
-          </label>
-        <button className="submit-button" type="submit">Edit Sale</button>
-      </form>
-      <GoogleMapComponent center={position} markers={markers}/>
-    </div>
+  <div className="edit-sale-page">
+    <form className="edit-event-form" onSubmit={handleSubmit}>
+      <ul>
+        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+      </ul>
+      <h2>Sale Info</h2>
+      <p>Edit the details of your sale.</p>
+      <label htmlFor="edit-title">Edit Title</label>
+      <input id="edit-title" name="edit-title" className="input" type="text" value={title} onChange={(e) => setTitle(e.target.value)} required/>
+      <label htmlFor="street-address">Street Address</label>
+      <input id="street-address" name="street-address" className="input" placeholder="Street Address" value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)}/>
+      <label htmlFor="state-dropdown">State</label>
+      <select id="state-dropdown" name="state-dropdown" className="dropdown" onChange={(e) => setUSState(e.target.value)}>
+        <option disabled selected>Select a state</option>
+        <option value="Alabama">Alabama</option>
+        <option value="Alaska">Alaska</option>
+        <option value="Arizona">Arizona</option>
+        <option value="Arkansas">Arkansas</option>
+        <option value="California">California</option>
+        <option value="Colorado">Colorado</option>
+        <option value="Connecticut">Connecticut</option>
+        <option value="Delaware">Delaware</option>
+        <option value="Washington D.C.">District Of Columbia</option>
+        <option value="Florida">Florida</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Hawaii">Hawaii</option>
+        <option value="Idaho">Idaho</option>
+        <option value="Illinois">Illinois</option>
+        <option value="Indiana">Indiana</option>
+        <option value="Iowa">Iowa</option>
+        <option value="Kansas">Kansas</option>
+        <option value="Kentucky">Kentucky</option>
+        <option value="Louisiana">Louisiana</option>
+        <option value="Maine">Maine</option>
+        <option value="Maryland">Maryland</option>
+        <option value="Massachusetts">Massachusetts</option>
+        <option value="Michigan">Michigan</option>
+        <option value="Minnesota">Minnesota</option>
+        <option value="Mississippi">Mississippi</option>
+        <option value="Missouri">Missouri</option>
+        <option value="Montana">Montana</option>
+        <option value="Nebraska">Nebraska</option>
+        <option value="Nevada">Nevada</option>
+        <option value="New Hampshire">New Hampshire</option>
+        <option value="New Jersey">New Jersey</option>
+        <option value="New Mexico">New Mexico</option>
+        <option value="New York">New York</option>
+        <option value="North Carolina">North Carolina</option>
+        <option value="North Dakota">North Dakota</option>
+        <option value="Ohio">Ohio</option>
+        <option value="Oklahoma">Oklahoma</option>
+        <option value="Oregon">Oregon</option>
+        <option value="Pennsylvania">Pennsylvania</option>
+        <option value="Rhode Island">Rhode Island</option>
+        <option value="South Carolina">South Carolina</option>
+        <option value="South Dakota">South Dakota</option>
+        <option value="Tennessee">Tennessee</option>
+        <option value="Texas">Texas</option>
+        <option value="Utah">Utah</option>
+        <option value="Vermont">Vermont</option>
+        <option value="Virginia">Virginia</option>
+        <option value="Washington">Washington</option>
+        <option value="West Virginia">West Virginia</option>
+        <option value="Wisconsin">Wisconsin</option>
+        <option value="Wyoming">Wyoming</option>
+      </select>
+      <label htmlFor="zipcode">Zip Code</label>
+      <input id="zipcode" name="zipcode" className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
+      <button className="button marker-button" onClick={(e) => createMarker(e)} >Move the marker for your sale</button>
+      <label htmlFor="edit-sale-type">Edit Category</label>
+      <select id="edit-sale-type" name="edit-sale-type" className="dropdown" value={Number(categoryId)} onChange={(e) => setCategoryId(e.target.value)}>
+        {allCategories.map(category => <option value={allCategories.indexOf(category) + 1}>{category}</option>)}
+      </select>
+      <label  htmlFor="edit-sale-date" >Edit Date</label>
+      <input id="edit-sale-date" name="edit-sale-date" className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+      <label  htmlFor="image-upload">Upload an Image</label>
+      <input id="image-upload" name="image-upload" type="file" onChange={updateFile}/>
+      <button className="button submit-button" type="submit">Edit Sale</button>
+    </form>
+    <GoogleMapComponent center={position} markers={markers}/>
   </div>
   );
 }

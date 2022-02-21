@@ -1,22 +1,56 @@
-html {
-  height: 100%;
-}
-
 body {
   margin: 0;
-  font-family: Neue Plak, Roboto, Helvetica, Tahoma, Arial, sans-serif;
 }
-
-#root {
+#root{
+  font-family: Neue Plak, Roboto, Helvetica, Tahoma, Arial, sans-serif;
   display: flex;
-  height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #fafafa;
-  margin: 0;
+  min-width: 100%;
+  min-height: 100vh;
 }
 
 a {
   text-decoration: none;
+}
+div {
+  width: 100%;
+}
+
+.input {
+  width: 17.25em;
+  min-height: 3.5em;
+  border: .1em solid #ccc;
+  background-color: #f6fafa;
+  margin: .1em;
+  border-radius: .25em;
+}
+
+.input:hover {
+  border: .1em solid #aaa;
+  transition-duration: .3s;
+}
+
+.input:focus{
+  transition-duration: .3s;
+  border: .1em solid rgb(91, 91, 255);
+  border-radius: .25em;
+  outline: none;
+}
+.dropdown, .button{
+  width: 17.75em;
+  min-height: 3.5em;
+  border: .1em solid #ccc;
+  border-radius: .25em;
+  outline: none;
+}
+
+.button{
+  margin: 1em;
+}
+.submit-button{
+  background-color: #d1410c;
+  color: white;
 }
