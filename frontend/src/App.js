@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
@@ -10,10 +10,12 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage"
 import CreateSalePage from "./components/CreateSalePage";
 import EditSalePage from "./components/EditSalePage"
+import CreateEventNavBar from "./components/CreateEventNavBar";
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const sessionUser = useSelector((state) => state.session.user)
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
   }, [dispatch]);
@@ -32,6 +34,7 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route exact path="/create-event">
+            <CreateEventNavBar user={sessionUser}/>
             <CreateSalePage />
           </Route>
           <Route exact path="/sales/:id">
@@ -39,7 +42,7 @@ function App() {
             <SalePage />
           </Route>
           <Route path="/sales/:id/edit">
-            <Navigation isLoaded={isLoaded} />
+            <CreateEventNavBar user={sessionUser}/>
             <EditSalePage />
           </Route>
         </Switch>

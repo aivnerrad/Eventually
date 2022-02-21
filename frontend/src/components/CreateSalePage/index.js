@@ -80,17 +80,18 @@ function CreateSalePage() {
   };
 
   return (
-    <div>
-    <CreateEventNavBar user={sessionUser} />
     <div className="main-content">
       <form className="event-form" onSubmit={createSale}>
+        <ul>
+          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+        </ul>
         <div className="create-event-form-header">
           <h2>Sale Info</h2>
           <p>Give us some information about your sale. Put an interesting title, provide an address for the sale, and tell us what kind of sale it is (yard sale, garage sale, etc.).</p>
         </div>
         <label className="input-label" htmlFor="title">Sale Title
           <input
-            className="create-sale-input"
+            className="input"
             type="text"
             value={title}
             placeholder="Sale Title"
@@ -99,10 +100,10 @@ function CreateSalePage() {
           />
           </label>
           <label className="input-label" htmlFor="street-address">Street Address
-          <input className="create-sale-input" placeholder="Street Address" onChange={(e) => setStreetAddress(e.target.value)}/>
+          <input className="input" placeholder="Street Address" onChange={(e) => setStreetAddress(e.target.value)}/>
           </label>
           <label className="input-label" htmlFor="state">State
-          <select className="create-sale-input" placeholder="State" onChange={(e) => setUSState(e.target.value)}>
+          <select className="dropdown" placeholder="State" onChange={(e) => setUSState(e.target.value)}>
             <option disabled selected>Select a state</option>
             <option value="Alabama">Alabama</option>
             <option value="Alaska">Alaska</option>
@@ -158,25 +159,24 @@ function CreateSalePage() {
           </select>
           </label>
           <label className="input-label" htmlFor="zipcode">Zip Code
-          <input className="create-sale-input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
+          <input className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
           </label>
-          <button className="create-sale-input" onClick={(e) => createMarker(e)} >Find me on the map!</button>
+          <button className="button marker-button" onClick={(e) => createMarker(e)} >Place a marker on the map</button>
           <label className="input-label" htmlFor="type-of-sale">Type of Sale
-          <select className="create-sale-input" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+          <select className="dropdown" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
             {allCategories?.map(category => <option value={allCategories.indexOf(category) + 1}>{category}</option>)}
           </select>
           </label>
           <label className="input-label" htmlFor="date">Pick a Date
-          <input className="create-sale-input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+          <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
           </label>
           <label className="input-label" htmlFor="image-upload">Upload an Image
             <input type="file" onChange={updateFile} />
           </label>
-        <button className="submit-button" type="submit">Create Sale</button>
+        <button className="button submit-button" type="submit">Create Sale</button>
       </form>
       <GoogleMapComponent center={position} markers={markers}/>
     </div>
-  </div>
   );
 }
 export default CreateSalePage;

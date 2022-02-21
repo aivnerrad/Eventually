@@ -1,28 +1,12 @@
-label {
+.edit-sale-page {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  width: 100%;
+  margin-bottom: 5em;
 }
-
-#edit-sale-page {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-#overlapping-div {
-  display: flex;
-  align-items: center;
-  width: 90%;
-  top: 10%;
-  background-position: center;
-  position: absolute;
-  z-index: 2;
+.edit-event-form{
+  width: 50%;
 }
 
 .submit-button {
-  background-color: #d1410c;
+  
 }
