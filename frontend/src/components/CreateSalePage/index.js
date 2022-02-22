@@ -75,7 +75,7 @@ function CreateSalePage() {
   };
   return (
     <div className="main-content">
-      <form className="event-form" onSubmit={createSale}>
+      <form className="form" onSubmit={createSale}>
         <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>

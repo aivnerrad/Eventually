@@ -50,6 +50,10 @@ div {
 .button{
   margin: 1em;
 }
+.button:hover{
+  filter:brightness(1.1);
+  transition-duration: .3s;
+}
 .submit-button{
   background-color: #d1410c;
   color: white;
@@ -57,4 +61,20 @@ div {
 
 .input-label{
   margin: .5em;
+  font-weight: 600;
+}
+
+.main-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5em;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 50%;
 }

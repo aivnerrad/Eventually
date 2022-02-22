@@ -87,8 +87,8 @@ function EditSaleForm() {
   };
 
   return (
-  <div className="edit-sale-page">
-    <form className="edit-event-form" onSubmit={handleSubmit}>
+  <div className="main-content">
+    <form className="form edit-event-form" onSubmit={handleSubmit}>
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
