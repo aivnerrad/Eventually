@@ -101,13 +101,13 @@ function EditSaleForm() {
       </ul>
       <h2>Sale Info</h2>
       <p>Edit the details of your sale.</p>
-      <label htmlFor="edit-title">Edit Title</label>
+      <label className="input-label" htmlFor="edit-title">Edit Title</label>
       <input id="edit-title" name="edit-title" className="input" type="text" value={title} onChange={(e) => setTitle(e.target.value)} required/>
-      <label htmlFor="street-address">Street Address</label>
+      <label className="input-label" htmlFor="street-address">Street Address</label>
       <input id="street-address" name="street-address" className="input" placeholder="Street Address" value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)}/>
-      <label htmlFor="state-dropdown">State</label>
+      <label className="input-label" htmlFor="state-dropdown">State</label>
       <select id="state-dropdown" name="state-dropdown" className="dropdown" onChange={(e) => setUSState(e.target.value)}>
-        <option disabled selected>Select a state</option>
+        <option disabled defaultValue={"Select a state"}></option>
         <option value="Alabama">Alabama</option>
         <option value="Alaska">Alaska</option>
         <option value="Arizona">Arizona</option>
@@ -160,16 +160,17 @@ function EditSaleForm() {
         <option value="Wisconsin">Wisconsin</option>
         <option value="Wyoming">Wyoming</option>
       </select>
-      <label htmlFor="zipcode">Zip Code</label>
+      <label className="input-label" htmlFor="zipcode">Zip Code</label>
       <input id="zipcode" name="zipcode" className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
       <button className="button marker-button" onClick={(e) => createMarker(e)} >Move the marker for your sale</button>
-      <label htmlFor="edit-sale-type">Edit Category</label>
+      <label className="input-label" htmlFor="edit-sale-type">Edit Category</label>
       <select id="edit-sale-type" name="edit-sale-type" className="dropdown" value={Number(categoryId)} onChange={(e) => setCategoryId(e.target.value)}>
         {allCategories.map(category => <option value={allCategories.indexOf(category) + 1}>{category}</option>)}
       </select>
-      <label  htmlFor="edit-sale-date" >Edit Date</label>
+      <label className="input-label" htmlFor="edit-sale-date" >Edit Date</label>
       <input id="edit-sale-date" name="edit-sale-date" className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
-      <label  htmlFor="image-upload">Upload an Image</label>
+      <label className="input-label" htmlFor="image-upload">Upload an Image</label>
+      {image && <div style={{"backgroundImage" : "url(" + image + ")"}}></div>}
       <input id="image-upload" name="image-upload" type="file" onChange={updateFile}/>
       <button className="button submit-button" type="submit">Edit Sale</button>
     </form>

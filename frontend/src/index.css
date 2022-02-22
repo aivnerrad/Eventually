@@ -54,3 +54,7 @@ div {
   background-color: #d1410c;
   color: white;
 }
+
+.input-label{
+  margin: .5em;
+}
