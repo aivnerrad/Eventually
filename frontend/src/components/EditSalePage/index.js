@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import Logo from "../Logo/Logo";
 import { csrfFetch } from "../../store/csrf";
 import GoogleMapComponent from "../Map";
 import "./EditSalePage.css";
@@ -35,25 +34,22 @@ function EditSaleForm() {
       console.log("sale fetch response.json()", data)
       setTitle(data.currentSale.title)
       setImage(data.currentSale.imageUrl)
-      setStreetAddress(data.currentSale.streetAddress.split(",")[0])
-      setUSState(data.currentSale.streetAddress.split(",")[1])
-      setZipcode(data.currentSale.streetAddress.split(",")[2])
+      setStreetAddress(data.currentSale.streetAddress.split(", ")[0])
+      setUSState(data.currentSale.streetAddress.split(", ")[1])
+      setZipcode(data.currentSale.streetAddress.split(", ")[2])
       setAddress(data.currentSale.streetAddress)
     }
     saleFetch()
   }, [numberId])
 
   useEffect(() => {
-
     async function geocodeFetch() {
-      if(address.length > 1){ // Don't fetch if there isn't an address
-        const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ`)
-        const data = await response.json()
-        if(data.status === 'OK'){ //Don't set position if the results come back empty
-          setPosition(data.results[0].geometry.location)
-        }
+      if(!address.length) return // Don't fetch if there isn't an address
+      const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ`)
+      const data = await response.json()
+      if(data.status !== 'OK') return //Don't set position if the results come back empty
+      setPosition(data.results[0].geometry.location)
       }
-    }
     geocodeFetch()
   }, [address])
   const createMarker = (e) => {
@@ -76,23 +72,21 @@ function EditSaleForm() {
         image
       })
     })
-    if(response.ok){
-      history.push("/")
-      window.alert("Sale Updated Successfully")
-    }else {
-      window.alert("Sale Not Updated")
+    if(!response.ok){
       setErrors(response.errors)
+      window.alert("Sale Not Updated")
+      return;
     }
-
+    history.push("/")
+    window.alert("Sale Updated Successfully")
     return history.push(`/sales/${numberId}`)
   };
 
   const updateFile = (e) => {
     const file = e.target.files[0];
-    console.log("FILE -------->", file)
     if (file) setImage(file);
   };
-
+  console.log({USState})
   return (
   <div className="edit-sale-page">
     <form className="edit-event-form" onSubmit={handleSubmit}>
@@ -106,8 +100,8 @@ function EditSaleForm() {
       <label className="input-label" htmlFor="street-address">Street Address</label>
       <input id="street-address" name="street-address" className="input" placeholder="Street Address" value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)}/>
       <label className="input-label" htmlFor="state-dropdown">State</label>
-      <select id="state-dropdown" name="state-dropdown" className="dropdown" onChange={(e) => setUSState(e.target.value)}>
-        <option disabled defaultValue={"Select a state"}></option>
+      <select id="state-dropdown" name="state-dropdown" className="dropdown" value={USState} onChange={(e) => setUSState(e.target.value)}>
+        <option disabled>Select a state</option>
         <option value="Alabama">Alabama</option>
         <option value="Alaska">Alaska</option>
         <option value="Arizona">Arizona</option>

@@ -4,7 +4,6 @@ import { useHistory } from "react-router";
 import { csrfFetch } from "../../store/csrf";
 import "./CreateSalePage.css";
 import GoogleMapComponent from "../Map"
-import CreateEventNavBar from "../CreateEventNavBar";
 
 function CreateSalePage() {
   const sessionUser = useSelector((state) => state.session.user)
@@ -40,12 +39,12 @@ function CreateSalePage() {
 
     })()
   }, [address, markerCreated])
+
   const createMarker = (e) => {
     e.preventDefault()
     const newMarker = { 'position': position }
     setMarkerCreated(!markerCreated)
     setMarkers([newMarker])
-
   }
 
   const updateFile = (e) => {
@@ -63,6 +62,7 @@ function CreateSalePage() {
     formData.append("title", title)
     formData.append("date", date)
     if(image) formData.append("image", image)
+
     const response = await csrfFetch(`/api/sales`, {
       method: "POST",
       headers: {
@@ -78,7 +78,6 @@ function CreateSalePage() {
       setErrors(response.errors)
     }
   };
-  console.log({USState})
   return (
     <div className="main-content">
       <form className="event-form" onSubmit={createSale}>
@@ -90,12 +89,12 @@ function CreateSalePage() {
           <p>Give us some information about your sale. Put an interesting title, provide an address for the sale, and tell us what kind of sale it is (yard sale, garage sale, etc.).</p>
         </div>
         <label className="input-label" htmlFor="title">Sale Title </label>
-        <input className="input" type="text" value={title} placeholder="Sale Title" onChange={(e) => setTitle(e.target.value)} required/>
+        <input id="title" name="title" className="input" type="text" value={title} placeholder="Sale Title" onChange={(e) => setTitle(e.target.value)} required/>
         <label className="input-label" htmlFor="street-address">Street Address</label>
-        <input className="input" placeholder="Street Address" onChange={(e) => setStreetAddress(e.target.value)}/>
+        <input id="street-address" name="street-address" className="input" placeholder="Street Address" onChange={(e) => setStreetAddress(e.target.value)}/>
         <label className="input-label" htmlFor="state">State </label>
-        <select className="dropdown" placeholder="State" onChange={(e) => setUSState(e.target.value)}>
-          <option disabled value={"Select a state"}>Select a state</option>
+        <select id="state" name="state" className="dropdown" defaultValue="Select a state" onChange={(e) => setUSState(e.target.value)}>
+          <option disabled>Select a state</option>
           <option value="Alabama">Alabama</option>
           <option value="Alaska">Alaska</option>
           <option value="Arizona">Arizona</option>
@@ -149,16 +148,16 @@ function CreateSalePage() {
           <option value="Wyoming">Wyoming</option>
         </select>
         <label className="input-label" htmlFor="zipcode">Zip Code</label>
-        <input className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
+        <input id="zipcode" name="zipcode" className="input" type="text" pattern="[0-9]*" placeholder="Zip Code" onChange={(e) => setZipcode(e.target.value)}/>
         <button className="button marker-button" onClick={(e) => createMarker(e)} >Place a marker on the map</button>
         <label className="input-label" htmlFor="type-of-sale">Type of Sale</label>
-        <select className="dropdown" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+        <select id="type-of-sale" name="type-of-sale" className="dropdown" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
           {allCategories?.map(category => <option value={allCategories.indexOf(category) + 1}>{category}</option>)}
         </select>
         <label className="input-label" htmlFor="date">Pick a Date </label>
-        <input className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+        <input id="date" name="date" className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
         <label className="input-label" htmlFor="image-upload">Upload an Image</label>
-        <input type="file" onChange={updateFile} />
+        <input id="image-upload" name="image-upload" type="file" onChange={updateFile} />
         <button className="button submit-button" type="submit">Create Sale</button>
       </form>
       <GoogleMapComponent center={position} markers={markers}/>
