@@ -31,12 +31,7 @@ function CreateSalePage() {
     (async function geocodeFetch() {
       const geocodeResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ`)
       const data = await geocodeResponse.json()
-      if(data.status === 'OK'){
-        setPosition(data.results[0].geometry.location)
-      } else {
-        setPosition({ lat: 39.4562, lng: -77.9639 } )
-      }
-
+      data.status === 'OK' ? setPosition(data.results[0].geometry.location) : setPosition({ lat: 39.4562, lng: -77.9639 } )
     })()
   }, [address, markerCreated])
 

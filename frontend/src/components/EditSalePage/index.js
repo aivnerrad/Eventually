@@ -44,10 +44,10 @@ function EditSaleForm() {
 
   useEffect(() => {
     async function geocodeFetch() {
-      if(!address.length) return // Don't fetch if there isn't an address
+      if(!address.length) return new Error("No input address") // Don't fetch if there isn't an address
       const response = await csrfFetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyCO6reNBQBx40kM_O0zam9OhwYlWYFcejQ`)
       const data = await response.json()
-      if(data.status !== 'OK') return //Don't set position if the results come back empty
+      if(data.status !== 'OK') return new Error("Cannot find input address")//Don't set position if the results come back empty
       setPosition(data.results[0].geometry.location)
       }
     geocodeFetch()
@@ -77,7 +77,6 @@ function EditSaleForm() {
       window.alert("Sale Not Updated")
       return;
     }
-    history.push("/")
     window.alert("Sale Updated Successfully")
     return history.push(`/sales/${numberId}`)
   };
@@ -86,7 +85,7 @@ function EditSaleForm() {
     const file = e.target.files[0];
     if (file) setImage(file);
   };
-  console.log({USState})
+
   return (
   <div className="edit-sale-page">
     <form className="edit-event-form" onSubmit={handleSubmit}>
